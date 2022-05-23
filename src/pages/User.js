@@ -220,7 +220,7 @@ export default function User() {
 
 
         <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Total Users" total={714000} icon={'bx:group'} />
+            <AppWidgetSummary title="Total Users" total={DATA.length} icon={'bx:group'} />
         </Grid>
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
