@@ -97,6 +97,10 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
 
     
   }
+
+  const handeChangeN =(e)=>{
+    setnairavalue(e.target.value)
+  }
   return (
     <div>
       <Modal
@@ -151,7 +155,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
                     label="Naira Amount"
                     value={nairavalue|| ''}
                     style={{marginTop:20}}
-                    onChange={handeChange}
+                    onChange={handeChangeN}
                     type="number"
                   />  
 
