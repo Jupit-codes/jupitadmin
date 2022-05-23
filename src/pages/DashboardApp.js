@@ -31,7 +31,7 @@ export default function DashboardApp() {
   const theme = useTheme();
   const navigate = useNavigate()
   useEffect(()=>{
-      if(reactLocalStorage.getObject('admin').changepassword){
+      if(!reactLocalStorage.getObject('admin').changepassword){
         Swal.fire({
           title: 'Message!',
           text:`Welcome ${reactLocalStorage.getObject('admin').username}`,
