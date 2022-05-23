@@ -98,6 +98,9 @@ const updatepassword = async ()=>{
       setpassword('')
       setconfirmpassword('')
       setdisablebtn(false);
+        reactLocalStorage.remove('admin');
+        reactLocalStorage.setObject('admin',res.data.data)
+     
       Swal.fire({
         title: 'Success Callback!',
         text: res.data.message,
