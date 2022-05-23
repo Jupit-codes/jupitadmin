@@ -119,7 +119,7 @@ export default function User() {
       },
     })
     .then((res)=>{
-      console.log(res.data)
+      console.log('ok',res.data)
 
       setDATA(res.data.message);
       setLoader(false)
