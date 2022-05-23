@@ -96,7 +96,8 @@ const updatepassword = async ()=>{
     .then((res)=>{
       console.log(res.data)
       setpassword('')
-      disablebtn(false);
+      setconfirmpassword('')
+      setdisablebtn(false);
       Swal.fire({
         title: 'Success Callback!',
         text: res.data.message,
