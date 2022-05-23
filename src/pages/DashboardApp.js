@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { reactLocalStorage } from 'reactjs-localstorage';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -21,10 +23,24 @@ import {
 } from '../sections/@dashboard/app';
 
 
+
+
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
   const theme = useTheme();
+  const navigate = useNavigate()
+  useEffect(()=>{
+      if(reactLocalStorage.getObject('admin').changepassword){
+        Swal.fire({
+          title: 'Message!',
+          text:`Welcome ${reactLocalStorage.getObject('admin').username}`,
+          icon: 'success',
+          confirmButtonText: 'Click To Change Your Password'
+        });
+        navigate('/dashboard/changepassword');
+      }
+  },[])
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">

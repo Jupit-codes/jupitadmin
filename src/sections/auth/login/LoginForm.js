@@ -42,12 +42,7 @@ export default function LoginForm() {
         reactLocalStorage.set('token',res.data.token);
         reactLocalStorage.setObject('admin',res.data.docs) ;
         
-          Swal.fire({
-          title: 'Message!',
-          text: res.data.message,
-          icon: 'success',
-          confirmButtonText: 'ok'
-        });
+         
         navigate("dashboard/app", { replace: true });
       
       

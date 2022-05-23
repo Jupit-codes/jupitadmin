@@ -18,6 +18,7 @@ import DashboardApp from './pages/DashboardApp';
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardSidebar from './layouts/dashboard/DashboardSidebar';
 import SetRate from './pages/SetRate';
+import ChangePassword from './pages/changepassword'
 
 // ----------------------------------------------------------------------
 
@@ -103,6 +104,7 @@ export default function Router({redirectPath='/'}) {
             <Route path="setrate" element={<SetRate/>} />
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
+            <Route path="changepassword" element={<ChangePassword />} />
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
