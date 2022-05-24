@@ -34,6 +34,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   const [value, setValue] = React.useState(0);
   const [usdvalue, setusdvalue] = React.useState(0);
   const [nairavalue, setnairavalue] = React.useState(0);
+  const [solevalue,setsolevalue] = React.useState(0)
   const handleClose = () => modifyOpen(!statemodal);
   const BaseUrl = process.env.REACT_APP_ADMIN_URL
   const handleCreditWallet = async ()=>{
@@ -70,9 +71,9 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
     })
   }
 
-  const handeChange= (e)=>{
-    setValue(e.target.value)
-  }
+  // const handeChange= (e)=>{
+  //   setsolevalue(e.target.value)
+  // }
   const handeChangeNaira=(e)=>{
     setnairavalue(e.target.value);
     const newjupitrate = parseFloat(jupitrate);
@@ -84,22 +85,35 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   }
   const handeChangeBtc=(e)=>{
     
+    
   }
   const handeChangeUsd=(e)=>{
-    setusdvalue(e.target.value);
-    const newjupitrate = parseFloat(jupitrate);
-    const newmarketrate = parseFloat(marketrate);
-    const nairaequi = parseFloat(e.target.value) * newjupitrate;
-    setnairavalue(nairaequi);
-    const btcequi = parseFloat(e.target.value/newmarketrate).toFixed(8);
-    console.log(btcequi)
-    setValue(btcequi)
+    if(parseFloat(marketrate)){
+      setusdvalue(e.target.value);
+      const newjupitrate = parseFloat(jupitrate);
+      const newmarketrate = parseFloat(marketrate);
+      console.log(marketrate)
+      const nairaequi = parseFloat(e.target.value) * newjupitrate;
+      setnairavalue(nairaequi);
+      const btcequi = parseFloat(usdvalue/newmarketrate).toFixed(8);
+      console.log(btcequi)
+      setValue(btcequi)
+    }
+    else{
+      Swal.fire({
+        title: 'Merket Rate Error!',
+        text: 'Market Rate Not Available',
+        icon: 'success',
+        confirmButtonText: 'ok'
+      });
+      modifyOpen(!statemodal)
+    }
 
     
   }
 
   const handeChangeN =(e)=>{
-    setValue(e.target.value)
+    setsolevalue(e.target.value)
   }
   return (
     <div>
@@ -153,7 +167,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
                     required
                     id="outlined-required"
                     label="Naira Amount"
-                    value={value|| ''}
+                    value={solevalue|| ''}
                     style={{marginTop:20}}
                     onChange={handeChangeN}
                     type="number"
