@@ -133,10 +133,12 @@ export default function User() {
   const [jupitbtcbuyrate,setjupitbtcbuyrate] = useState(0);
   const [jupitusdtbuyrate,setjupitusdtbuyrate] = useState(0);
 
-  const [refresh,setrefresh] = useState()
+  const [refresh,setrefresh] = useState(false)
 
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  
+
   const { id } = useParams();
   const getAllUserDetails = async ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;

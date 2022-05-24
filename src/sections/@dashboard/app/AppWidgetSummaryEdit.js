@@ -38,20 +38,27 @@ AppWidgetSummaryEdit.propTypes = {
 export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemarket,livemarketdata,jupitrate, total, icon, edit,userid, color = 'primary', sx, ...other }) {
 
     const [openmodal,setOpenModal] = useState(false);
-    const [completed,setcompleted] = useState(false)
+    const [completed,setcompleted] = useState(null)
     
     const handleClick = ()=>{
         setOpenModal(true);
+        
     }
-    useEffect(()=>{
+  
     
-        refreshPage(!refresh)
-    },[completed])
+
+    
+
+
+
+   
+
+    
 
   return (
       <>
       
-    {openmodal &&<Modal statemodal={openmodal} modifyOpen={setOpenModal} modalTitle={title} userid={userid} marketrate={livemarketdata} jupitrate={jupitrate} page={setcompleted}/>}
+    {openmodal &&<Modal statemodal={openmodal} modifyOpen={setOpenModal} modalTitle={title} userid={userid} marketrate={livemarketdata} jupitrate={jupitrate} page={refreshPage} pagerefresh={refresh}/>}
     <Card
       sx={{
         py: 5,
@@ -77,7 +84,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h4">{title === 'Naira Wallet Balance' ? fShortenNumber(total) : total}</Typography>
+      <Typography variant="h4">{title === 'Naira Wallet Balancexx' ? fShortenNumber(total) : total}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

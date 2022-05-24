@@ -28,7 +28,7 @@ const style = {
 
 
 
-export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,marketrate,jupitrate,page}) {
+export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,marketrate,jupitrate,page,pagerefresh}) {
   const [open, setOpen] = React.useState(false);
   const [disablebtn,setdisablebtn] = React.useState(false)
   const [value, setValue] = React.useState(0);
@@ -60,7 +60,8 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
           icon: 'success',
           confirmButtonText: 'ok'
         });
-        page(!page)
+        
+        page(!pagerefresh)
         modifyOpen(!statemodal)
         
       }
