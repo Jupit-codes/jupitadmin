@@ -210,11 +210,11 @@ export default function User() {
     })
     .then(res=>{
    
-    setmarketdata(res.data)
-    setbtcmarketprice(res.data.RAW.BTC.USD.PRICE);
-    setbtcmarketpricedisplay(res.data.DISPLAY.BTC.USD.PRICE)
-    setusdtmarketprice(res.data.RAW.USDT.USD.PRICE);
-    setusdtmarketpricedisplay(res.data.DISPLAY.USDT.USD.PRICE)
+      setmarketdata(res.data);
+      setbtcmarketprice(res.data.RAW.BTC.USD.PRICE);
+      setbtcmarketpricedisplay(res.data.DISPLAY.BTC.USD.PRICE);
+      setusdtmarketprice(res.data.RAW.USDT.USD.PRICE);
+      setusdtmarketpricedisplay(res.data.DISPLAY.USDT.USD.PRICE);
     
     })
     .catch(err=>{

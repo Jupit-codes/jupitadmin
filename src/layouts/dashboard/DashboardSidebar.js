@@ -100,7 +100,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           <Box
             component="img"
             src="/static/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
+            sx={{ width: 50, position: 'absolute', top: 0 }}
           />
 
           <Box sx={{ textAlign: 'center' }}>

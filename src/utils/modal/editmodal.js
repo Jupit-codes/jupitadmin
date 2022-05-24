@@ -60,7 +60,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
           icon: 'success',
           confirmButtonText: 'ok'
         });
-        page(true)
+        page(!page)
         modifyOpen(!statemodal)
         
       }
@@ -75,15 +75,51 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   //   setsolevalue(e.target.value)
   // }
   const handeChangeNaira=(e)=>{
-    setnairavalue(e.target.value);
-    const newjupitrate = parseFloat(jupitrate);
-    const newmarketrate = parseFloat(marketrate);
-    const usdequi = parseFloat(e.target.value) / newjupitrate
-    const btcequi = parseFloat(usdequi/newmarketrate).toFixed(8)
-    setusdvalue(usdequi);
-    setValue(btcequi)
+    if(parseFloat(marketrate)){
+      setnairavalue(e.target.value);
+      const newjupitrate = parseFloat(jupitrate);
+      const newmarketrate = parseFloat(marketrate);
+      const usdequi = parseFloat(e.target.value) / newjupitrate
+      const btcequi = parseFloat(usdequi/newmarketrate).toFixed(8)
+      setusdvalue(usdequi);
+      setValue(btcequi)
+    }
+    else{
+      Swal.fire({
+        title: 'Merket Rate Error!',
+        text: 'Market Rate Not Available',
+        icon: 'success',
+        confirmButtonText: 'ok'
+      });
+      modifyOpen(!statemodal)
+    }
+
+   
   }
   const handeChangeBtc=(e)=>{
+    if(parseFloat(marketrate)){
+      setValue(e.target.value);
+      
+      const newjupitrate = parseFloat(jupitrate);
+      const newmarketrate = parseFloat(marketrate);
+      
+
+      const usdequi = parseFloat(e.target.value) * newmarketrate
+      const nairaequi = parseFloat(usdequi) * newjupitrate
+      setusdvalue(usdequi);
+      setnairavalue(nairaequi)
+      
+
+    }
+    else{
+      Swal.fire({
+        title: 'Merket Rate Error!',
+        text: 'Market Rate Not Available',
+        icon: 'success',
+        confirmButtonText: 'ok'
+      });
+      modifyOpen(!statemodal)
+    }
     
     
   }
