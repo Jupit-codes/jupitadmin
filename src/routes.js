@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import UserProfile from './pages/userprofile'
 import DashboardApp from './pages/DashboardApp';
+import AllTransaction from './pages/alltransaction'
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardSidebar from './layouts/dashboard/DashboardSidebar';
 import SetRate from './pages/SetRate';
@@ -104,6 +105,7 @@ export default function Router({redirectPath='/'}) {
             <Route path="setrate" element={<SetRate/>} />
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
+            <Route path="alltransactions" element={<AllTransaction/>}/>
             <Route path="changepassword" element={<ChangePassword />} />
           </Route>
           <Route path="*" element={<NotFound />} />

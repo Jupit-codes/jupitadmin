@@ -21,6 +21,11 @@ const navConfig = [
     path: '/dashboard/setrate',
     icon: getIcon('icon-park-outline:set-off'),
   },
+  {
+    title: 'All Wallet Transactions',
+    path: '/dashboard/alltransactions',
+    icon: getIcon('icon-park-outline:transaction-order'),
+  },
   // {
   //   title: 'Asset Analysis',
   //   path: '/dashboard/products',
