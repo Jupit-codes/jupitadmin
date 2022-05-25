@@ -25,7 +25,7 @@ import {
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
 
-  import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+  import { UserListHead, UserListToolbar,UserMore } from '../sections/@dashboard/user';
   
   
   import SearchNotFound from '../components/SearchNotFound';
@@ -157,6 +157,7 @@ export default function FetchPending({userid}){
       .catch((err)=>{
           
             console.log(err.response);
+            setLoader('pls try again')
             Swal.fire({
                 title: 'oop!',
                 text: 'Fetch Error..try again',
@@ -224,7 +225,7 @@ export default function FetchPending({userid}){
                             <TableCell align="left">{dob}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
                             <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                                <Label variant="ghost" color={(status === 'Pending' && 'error') || 'success'}>
                                 {sentenceCase(status)}
                                 </Label>
                             </TableCell>
@@ -233,7 +234,7 @@ export default function FetchPending({userid}){
                             </TableCell>
                             <TableCell align="right">
                                 
-                                <UserMoreMenu userid={userid} />
+                                <UserMore userid={userid}  _id={_id}/>
                             </TableCell>
                             </TableRow>
                         );

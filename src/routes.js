@@ -21,6 +21,7 @@ import DashboardSidebar from './layouts/dashboard/DashboardSidebar';
 import SetRate from './pages/SetRate';
 import ChangePassword from './pages/changepassword'
 import AwaitingApproval from './pages/pending'
+import VerificationPortal from './pages/verifyIdcard'
 
 // ----------------------------------------------------------------------
 
@@ -108,6 +109,7 @@ export default function Router({redirectPath='/'}) {
             <Route path="blog" element={<Blog />} />
             <Route path="alltransactions" element={<AllTransaction/>}/>
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>
+            <Route path="user/idcard/verification/:id" element={<VerificationPortal/>}/>
             <Route path="changepassword" element={<ChangePassword />} />
           </Route>
           <Route path="*" element={<NotFound />} />

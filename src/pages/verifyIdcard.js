@@ -168,7 +168,7 @@ export default function Alltransaction() {
 
 
   return (
-    <Page title="Awaiting Approval">
+    <Page title="Idcard Verification">
       <Container>
 
 
