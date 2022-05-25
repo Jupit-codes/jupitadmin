@@ -170,17 +170,88 @@ export default function Alltransaction() {
   return (
     <Page title="Idcard Verification">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
-          <Typography variant="h4" gutterBottom>
-            Awaiting Approval
-          </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Test
-          </Button> */}
-        </Stack>
-        <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-           
-            <AwaitingApproval/>
+        
+        <Grid container spacing={3}>
+
+            <Grid item xs={12} md={6} lg={6}>
+                <AppWebsiteVisits
+                title="Chart Representaion"
+                subheader="Monthly Chart"
+                chartLabels={[
+                    '01/01/2003',
+                    '02/01/2003',
+                    '03/01/2003',
+                    '04/01/2003',
+                    '05/01/2003',
+                    '06/01/2003',
+                    '07/01/2003',
+                    '08/01/2003',
+                    '09/01/2003',
+                    '10/01/2003',
+                    '11/01/2003',
+                ]}
+                chartData={[
+                    {
+                    name: 'USDT',
+                    type: 'column',
+                    fill: 'solid',
+                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                    },
+                    {
+                    name: 'BTC',
+                    type: 'area',
+                    fill: 'gradient',
+                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                    },
+                    {
+                    name: 'Naira',
+                    type: 'line',
+                    fill: 'solid',
+                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                    },
+                ]}
+                />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={6}>
+                <AppWebsiteVisits
+                title="Chart Representaion"
+                subheader="Monthly Chart"
+                chartLabels={[
+                    '01/01/2003',
+                    '02/01/2003',
+                    '03/01/2003',
+                    '04/01/2003',
+                    '05/01/2003',
+                    '06/01/2003',
+                    '07/01/2003',
+                    '08/01/2003',
+                    '09/01/2003',
+                    '10/01/2003',
+                    '11/01/2003',
+                ]}
+                chartData={[
+                    {
+                    name: 'USDT',
+                    type: 'column',
+                    fill: 'solid',
+                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                    },
+                    {
+                    name: 'BTC',
+                    type: 'area',
+                    fill: 'gradient',
+                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                    },
+                    {
+                    name: 'Naira',
+                    type: 'line',
+                    fill: 'solid',
+                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                    },
+                ]}
+                />
+            </Grid>
 
         </Grid>
 

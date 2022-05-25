@@ -217,8 +217,6 @@ export default function User() {
     <Page title="User">
       <Container>
 
-
-
         <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Total Users" total={DATA.length} icon={'bx:group'} />
         </Grid>
