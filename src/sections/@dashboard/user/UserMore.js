@@ -19,7 +19,7 @@ export default function UserMore({userid,_id}) {
      window.location=`/dashboard/user/${userid}`
   }
   const _handleUserVerification = ()=>{
-    window.location=`/user/idcard/verification/${_id}`
+    window.location=`/dashboard/user/idcard/verification/${_id}`
   }
   return (
     <>
