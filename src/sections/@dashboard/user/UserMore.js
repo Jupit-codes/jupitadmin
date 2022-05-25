@@ -3,11 +3,13 @@ import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
+import { reactLocalStorage } from 'reactjs-localstorage';
 import Iconify from '../../../components/Iconify';
 import EditModal from '../../../utils/modal/editmodal'
+
 // ----------------------------------------------------------------------
 
-export default function UserMore({userid,_id}) {
+export default function UserMore({userid,_id,data}) {
   const ref = useRef(null);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,8 @@ export default function UserMore({userid,_id}) {
      window.location=`/dashboard/user/${userid}`
   }
   const _handleUserVerification = ()=>{
-    window.location=`/dashboard/user/idcard/verification/${_id}`
+    reactLocalStorage.setObject('data',data);
+    window.location=`/dashboard/user/idcard/verification/${_id}/qsverx`
   }
   return (
     <>

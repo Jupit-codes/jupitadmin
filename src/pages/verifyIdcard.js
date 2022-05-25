@@ -21,7 +21,10 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Grid
+  Grid,
+  CardHeader,
+  CardContent,
+  TextField
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -53,118 +56,20 @@ import AwaitingApproval from './fetchpending'
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(array, (_user) => _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
-export default function Alltransaction() {
+export default function VerifyId() {
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
-    const [orderBy, setOrderBy] = useState('name');
-    const [order, setOrder] = useState('asc');
-    const [page, setPage] = useState(0);
-    const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selected, setSelected] = useState([]);
+    const [userData,setuserData]= useState([])
     
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = DATA.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - DATA.length) : 0;
-
-  // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-  const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
-    const getTransactionData = async ()=>{
-        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
-    await axios({
-    
-        url:`${BaseUrl}/admin/get/all/transactions`,
-        method:'GET',
-        headers:{
-          'Content-Type':'application/json',  
-          'Authorization': reactLocalStorage.get('token')
-        }
-      })
-      .then((res)=>{
-       console.log(res.data)
-       setDATA(res.data.message)
-  
-      })
-      .catch((err)=>{
-          
-            console.log(err.response)
-      })
-    }
-
-    useEffect(()=>{
-        getTransactionData()
+      useEffect(()=>{
+        
+        setuserData(reactLocalStorage.getObject('data'));
+        console.log(reactLocalStorage.getObject('data'))
+        console.log(userData)
     },[])
+
+
+    
 
 
   return (
@@ -172,85 +77,114 @@ export default function Alltransaction() {
       <Container>
         
         <Grid container spacing={3}>
-
+            
             <Grid item xs={12} md={6} lg={6}>
-                <AppWebsiteVisits
-                title="Chart Representaion"
-                subheader="Monthly Chart"
-                chartLabels={[
-                    '01/01/2003',
-                    '02/01/2003',
-                    '03/01/2003',
-                    '04/01/2003',
-                    '05/01/2003',
-                    '06/01/2003',
-                    '07/01/2003',
-                    '08/01/2003',
-                    '09/01/2003',
-                    '10/01/2003',
-                    '11/01/2003',
-                ]}
-                chartData={[
-                    {
-                    name: 'USDT',
-                    type: 'column',
-                    fill: 'solid',
-                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                    },
-                    {
-                    name: 'BTC',
-                    type: 'area',
-                    fill: 'gradient',
-                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                    },
-                    {
-                    name: 'Naira',
-                    type: 'line',
-                    fill: 'solid',
-                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                    },
-                ]}
-                />
+            {userData && 'Welcome'}
+                <Card  style={{marginTop:10}}>
+                    <CardHeader title="User Uploaded Details"/>
+                    
+                    <CardContent>
+                       
+                        {reactLocalStorage.getObject('data') && <img src={reactLocalStorage.getObject('data')[0].imagepath} alt="holdId" style={{borderRadius:5}}/> }
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                            <Typography variance="body1" align='left'  gutterBottom>
+                                <TextField
+                                        label="Firstname"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].firstname}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                            <Typography variance="body2" align='left'  gutterBottom>
+                                <TextField
+                                        label="Lastname"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].lastname}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                        
+                    
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                            <Typography variance="body1" align='left'  gutterBottom>
+                                <TextField
+                                        label="Card Type"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].cardtype}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                            <Typography variance="body2" align='left'  gutterBottom>
+                                <TextField
+                                        label="Card Number"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].cardnumber}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                        
+                    
+                        </Stack>
+
+                        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                            <Typography variance="body1" align='left'  gutterBottom>
+                                <TextField
+                                        label="Date Of Birth "
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].dob}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                            <Typography variance="body2" align='left'  gutterBottom>
+                                <TextField
+                                        label="Created"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: '20ch' }}
+                                        value={ reactLocalStorage.getObject('data')[0].updated}
+                                        variant='filled'
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        />
+                            </Typography>
+                        
+                    
+                        </Stack>
+                    
+                    </CardContent>
+            </Card>
             </Grid>
 
             <Grid item xs={12} md={6} lg={6}>
-                <AppWebsiteVisits
-                title="Chart Representaion"
-                subheader="Monthly Chart"
-                chartLabels={[
-                    '01/01/2003',
-                    '02/01/2003',
-                    '03/01/2003',
-                    '04/01/2003',
-                    '05/01/2003',
-                    '06/01/2003',
-                    '07/01/2003',
-                    '08/01/2003',
-                    '09/01/2003',
-                    '10/01/2003',
-                    '11/01/2003',
-                ]}
-                chartData={[
-                    {
-                    name: 'USDT',
-                    type: 'column',
-                    fill: 'solid',
-                    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                    },
-                    {
-                    name: 'BTC',
-                    type: 'area',
-                    fill: 'gradient',
-                    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                    },
-                    {
-                    name: 'Naira',
-                    type: 'line',
-                    fill: 'solid',
-                    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                    },
-                ]}
-                />
+                <Card  style={{marginTop:10}}>
+                    <CardHeader title="Verified Details"/>
+                    <CardContent>
+                        <h1>Senmatics</h1>
+                    </CardContent>
+
+                </Card>
             </Grid>
 
         </Grid>

@@ -234,7 +234,7 @@ export default function FetchPending({userid}){
                             </TableCell>
                             <TableCell align="right">
                                 
-                                <UserMore userid={userid}  _id={_id}/>
+                                <UserMore userid={userid}  _id={_id} data={DATA}/>
                             </TableCell>
                             </TableRow>
                         );
