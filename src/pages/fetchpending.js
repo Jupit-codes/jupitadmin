@@ -135,7 +135,7 @@ export default function FetchPending({userid}){
   const isUserNotFound = filteredUsers.length === 0;
     const getTransactionData = async ()=>{
         setLoader(true)
-        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+    const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
         url:`${BaseUrl}/admin/get/awaiting/approval`,

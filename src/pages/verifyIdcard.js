@@ -60,16 +60,46 @@ export default function VerifyId() {
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [userData,setuserData]= useState([])
+
+
+    const verifyme = async ()=>{
+
+        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+        await axios({
+        
+            url:`${BaseUrl}/admin/get/awaiting/approval`,
+            method:'POST',
+            headers:{
+            'Content-Type':'application/json',  
+            'Authorization': reactLocalStorage.get('token')
+            },
+            
+        })
+        .then((res)=>{
+        
+            setLoader(false)
+            setDATA(res.data.message)
+        })
+        .catch((err)=>{
+            
+                setLoader()
+                Swal.fire({
+                    title: 'oop!',
+                    text: 'Fetch Error..try again',
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                });
+                
+        })
+    }
     
       useEffect(()=>{
         
         setuserData(reactLocalStorage.getObject('data'));
-        console.log(reactLocalStorage.getObject('data'))
-        console.log(userData)
+        verifyme();
     },[])
 
 
-    
 
 
   return (
