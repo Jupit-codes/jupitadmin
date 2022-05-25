@@ -26,6 +26,11 @@ const navConfig = [
     path: '/dashboard/alltransactions',
     icon: getIcon('icon-park-outline:transaction-order'),
   },
+  {
+    title: 'Awaiting Approval',
+    path: '/dashboard/awaiting/approval',
+    icon: getIcon('mdi:lan-pending'),
+  },
   // {
   //   title: 'Asset Analysis',
   //   path: '/dashboard/products',
