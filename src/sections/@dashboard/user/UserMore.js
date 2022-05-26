@@ -22,7 +22,7 @@ export default function UserMore({userid,_id,data}) {
   }
   const _handleUserVerification = ()=>{
     reactLocalStorage.setObject('data',data);
-    window.location=`/dashboard/user/idcard/verification/${_id}/qsverx`
+    window.location=`/dashboard/idcard/user/verification/`
   }
   return (
     <>

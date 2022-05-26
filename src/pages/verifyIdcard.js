@@ -61,9 +61,11 @@ export default function VerifyId() {
     const [fetched,setfetched] = useState();
     const [userData,setuserData]= useState([]);
     const [failedRequest,setFailedRequest] = useState(false)
+    const [reject,setReject] = useState(false)
 
     const verifyme = async ()=>{
         setLoader(true);
+        setReject(false);
         setFailedRequest(false);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
         await axios({
@@ -89,6 +91,7 @@ export default function VerifyId() {
             
                 setLoader(false);
                 setFailedRequest(true);
+                setReject(true);
                 console.log(err)
                 // Swal.fire({
                 //     title: 'oop!',
@@ -312,7 +315,14 @@ export default function VerifyId() {
                         {loader && <div className='myloader'>Verifying data...</div> }
                         {!loader && fetched && fetched && renderComponent()}
                         {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{verifyme()}}/></div>}
+                        {reject && 
+                            <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
+                                <Button variant="contained" className='red'>
+                                    Reject
+                                </Button>
                         
+                            </Stack>
+                    }
                     </CardContent>
 
                 </Card>

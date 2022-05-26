@@ -31,6 +31,16 @@ const navConfig = [
     path: '/dashboard/awaiting/approval',
     icon: getIcon('mdi:lan-pending'),
   },
+  {
+    title: 'GiftCard Sell Request',
+    path: '/dashboard/awaiting/approval',
+    icon: getIcon('ic:baseline-sell'),
+  },
+  {
+    title: 'GiftCard Buy Request',
+    path: '/dashboard/awaiting/approval',
+    icon: getIcon('icons8:buy'),
+  },
   // {
   //   title: 'Asset Analysis',
   //   path: '/dashboard/products',
