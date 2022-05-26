@@ -22,6 +22,7 @@ import SetRate from './pages/SetRate';
 import ChangePassword from './pages/changepassword'
 import AwaitingApproval from './pages/pending'
 import VerificationPortal from './pages/verifyIdcard'
+import GiftCardSell from './pages/fetchgiftcardsell'
 
 // ----------------------------------------------------------------------
 
@@ -111,6 +112,7 @@ export default function Router({redirectPath='/'}) {
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>
             <Route path="idcard/user/verification/" element={<VerificationPortal/>}/>
             <Route path="changepassword" element={<ChangePassword />} />
+            <Route path="giftcard/sell/transactions" element={<GiftCardSell />} />
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>

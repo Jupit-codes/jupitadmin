@@ -33,14 +33,12 @@ import {
   import Scrollbar from '../components/Scrollbar';
   
 const TABLE_HEAD = [
-    { id: 'Id', label: '_id', alignRight: false },
-    { id: 'Card Type', label: 'cardtype', alignRight: false },
-    { id: 'Card Number', label: 'cardnumber', alignRight: false },
-    { id: 'Firstname', label: 'firstname', alignRight: false },
-    { id: 'Lastname', label: 'lastname', alignRight: false },
-    { id: 'Date Of Birth', label: 'dob', alignRight: false },
-    { id: 'Userid', label: 'userid', alignRight: false },
-    { id: 'status', label: 'status', alignRight: false },
+    { id: 'Id', label: 'Id', alignRight: false },
+    { id: 'Userid', label: 'Userid', alignRight: false },
+    { id: 'Unique ID', label: 'Unique ID', alignRight: false },
+    { id: 'Country', label: 'Country', alignRight: false },
+    { id: 'Rate', label: 'Rate', alignRight: false },
+    { id: 'Total', label: 'Total', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -70,12 +68,12 @@ const TABLE_HEAD = [
       return a[1] - b[1];
     });
     if (query) {
-      return filter(array, (_user) => _user.cardtype.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      return filter(array, (_user) => _user.country.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     }
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function FetchPending({userid}){
+export default function FetchGiftCardSell({userid}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -195,8 +193,8 @@ export default function FetchPending({userid}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const {_id,cardtype,cardnumber,lastname,firstname,dob,imagepath,userid,status,updated } = row;
-                        const isItemSelected = selected.indexOf(cardtype) !== -1;
+                        const {_id,country,userid,unique_id,updated,rate,total } = row;
+                        const isItemSelected = selected.indexOf(country) !== -1;
     
                         return (
                             <TableRow
@@ -208,7 +206,7 @@ export default function FetchPending({userid}){
                             aria-checked={isItemSelected}
                             >
                             <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, cardtype)} />
+                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, country)} />
                             </TableCell>
                             <TableCell component="th" scope="row" padding="none">
                                 <Stack direction="row" alignItems="center" spacing={2}>
@@ -218,22 +216,15 @@ export default function FetchPending({userid}){
                                 </Typography>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left">{cardtype}</TableCell>
-                            <TableCell align="left">{cardnumber}</TableCell>
-                            <TableCell align="left">{firstname}</TableCell>
-                            <TableCell align="left">{lastname}</TableCell>
-                            <TableCell align="left">{dob}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
-                            <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'Pending' && 'error') || 'success'}>
-                                {sentenceCase(status)}
-                                </Label>
-                            </TableCell>
+                            <TableCell align="left">{country}</TableCell>
+                            <TableCell align="left">{unique_id}</TableCell>
+                            <TableCell align="left">{total}</TableCell>
+                            <TableCell align="left">{rate}</TableCell>
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
                             <TableCell align="right">
-                                
                                 <UserMore userid={userid}  _id={_id} data={DATA}/>
                             </TableCell>
                             </TableRow>

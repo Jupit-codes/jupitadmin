@@ -34,13 +34,13 @@ import {
   
 const TABLE_HEAD = [
     { id: 'Id', label: '_id', alignRight: false },
-    { id: 'Card Type', label: 'cardtype', alignRight: false },
-    { id: 'Card Number', label: 'cardnumber', alignRight: false },
-    { id: 'Firstname', label: 'firstname', alignRight: false },
-    { id: 'Lastname', label: 'lastname', alignRight: false },
-    { id: 'Date Of Birth', label: 'dob', alignRight: false },
-    { id: 'Userid', label: 'userid', alignRight: false },
-    { id: 'status', label: 'status', alignRight: false },
+    { id: 'Card Type', label: 'CardType', alignRight: false },
+    { id: 'Card Number', label: 'CardNumber', alignRight: false },
+    { id: 'Firstname', label: 'FirstName', alignRight: false },
+    { id: 'Lastname', label: 'Lastname', alignRight: false },
+    { id: 'Date Of Birth', label: 'Date Of Birth', alignRight: false },
+    { id: 'Userid', label: 'Userid', alignRight: false },
+    { id: 'status', label: 'Status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   

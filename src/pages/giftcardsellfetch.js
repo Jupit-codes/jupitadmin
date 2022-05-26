@@ -140,31 +140,7 @@ export default function Alltransaction() {
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-    const getTransactionData = async ()=>{
-        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
-    await axios({
     
-        url:`${BaseUrl}/admin/fetch/giftcard/sell`,
-        method:'GET',
-        headers:{
-          'Content-Type':'application/json',  
-          'Authorization': reactLocalStorage.get('token')
-        }
-      })
-      .then((res)=>{
-       console.log(res.data)
-       setDATA(res.data.message)
-  
-      })
-      .catch((err)=>{
-          
-            console.log(err.response)
-      })
-    }
-
-    useEffect(()=>{
-        getTransactionData()
-    },[])
 
 
   return (
