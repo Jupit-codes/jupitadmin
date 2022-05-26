@@ -58,48 +58,146 @@ import AwaitingApproval from './fetchpending'
 
 export default function VerifyId() {
     const [loader,setLoader] = useState(false);
-    const [DATA,setDATA] = useState([]);
-    const [userData,setuserData]= useState([])
-
+    const [fetched,setfetched] = useState();
+    const [userData,setuserData]= useState([]);
+    const [failedRequest,setFailedRequest] = useState(false)
 
     const verifyme = async ()=>{
-
+        setLoader(true);
+        setFailedRequest(false);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
         await axios({
         
-            url:`${BaseUrl}/admin/get/awaiting/approval`,
+            url:`${BaseUrl}/admin/verify/idcard`,
             method:'POST',
             headers:{
             'Content-Type':'application/json',  
             'Authorization': reactLocalStorage.get('token')
             },
+            data:JSON.stringify({_id:reactLocalStorage.getObject('data')[0]._id})
             
         })
         .then((res)=>{
         
             setLoader(false)
-            setDATA(res.data.message)
+            console.log(res.data.message);
+            
+            setfetched(res.data.message)
+            
         })
         .catch((err)=>{
             
-                setLoader()
-                Swal.fire({
-                    title: 'oop!',
-                    text: 'Fetch Error..try again',
-                    icon: 'error',
-                    confirmButtonText: 'ok'
-                });
+                setLoader(false);
+                setFailedRequest(true);
+                console.log(err)
+                // Swal.fire({
+                //     title: 'oop!',
+                //     text: 'Fetch Error..try again',
+                //     icon: 'error',
+                //     confirmButtonText: 'ok'
+                // });
                 
         })
     }
     
       useEffect(()=>{
         
-        setuserData(reactLocalStorage.getObject('data'));
         verifyme();
     },[])
 
+    const renderComponent = ()=>{
 
+         
+        return fetched.response ? <>
+
+                    <img src={`data:image/jpeg;base64,${fetched.response.photo}`}  alt="retrievedImg"/>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variance="body1" align='left'  gutterBottom>
+                            <TextField
+                                    label="Firstname"
+                                    id="outlined-start-adornment"
+                                    sx={{ m: 1, width: '20ch' }}
+                                    value={ fetched.response.first_name}
+                                    variant='filled'
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    />
+                        </Typography>
+                        <Typography variance="body2" align='left'  gutterBottom>
+                            <TextField
+                                    label="Lastname"
+                                    id="outlined-start-adornment"
+                                    sx={{ m: 1, width: '20ch' }}
+                                    value={fetched.response.last_name}
+                                    variant='filled'
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    />
+                        </Typography>
+        
+    
+                    </Stack>
+    
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                        <Typography variance="body1" align='left'  gutterBottom>
+                            <TextField
+                                    label="Date Of Birth"
+                                    id="outlined-start-adornment"
+                                    sx={{ m: 1, width: '20ch' }}
+                                    value={ fetched.response.dob}
+                                    variant='filled'
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    />
+                        </Typography>
+                        <Typography variance="body2" align='left'  gutterBottom>
+                            <TextField
+                                    label="Phonenumber"
+                                    id="outlined-start-adornment"
+                                    sx={{ m: 1, width: '20ch' }}
+                                    value={ fetched.response.mobile}
+                                    variant='filled'
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    />
+                        </Typography>
+        
+    
+                    </Stack>
+                    <Button variant="contained" fullWidth disabled  className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
+                        FaceMatch:{fetched.faceMatch.verdict}
+                    </Button>
+                    <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
+                        <Button variant="contained">
+                            Approved
+                        </Button>
+                        <Button variant="contained"  className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
+                            Reject
+                        </Button>
+                    </Stack>
+                    
+                
+                </>
+                 : <>
+                 {fetched.description}
+                 <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
+                        <Button variant="contained" disabled>
+                            Approved
+                        </Button>
+                        <Button variant="contained"  className= 'red' >
+                            Reject
+                        </Button>
+                    </Stack>
+                 
+                 </>
+        
+ 
+        
+    }
 
 
   return (
@@ -109,7 +207,7 @@ export default function VerifyId() {
         <Grid container spacing={3}>
             
             <Grid item xs={12} md={6} lg={6}>
-            {userData && 'Welcome'}
+            {userData && ''}
                 <Card  style={{marginTop:10}}>
                     <CardHeader title="User Uploaded Details"/>
                     
@@ -211,7 +309,10 @@ export default function VerifyId() {
                 <Card  style={{marginTop:10}}>
                     <CardHeader title="Verified Details"/>
                     <CardContent>
-                        <h1>Senmatics</h1>
+                        {loader && <div className='myloader'>Verifying data...</div> }
+                        {!loader && fetched && fetched && renderComponent()}
+                        {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{verifyme()}}/></div>}
+                        
                     </CardContent>
 
                 </Card>

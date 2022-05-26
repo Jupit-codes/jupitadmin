@@ -37,8 +37,13 @@
 .myloader{
     padding:40px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.red{
+  background-color:#ff0000
 }
 
 .modalBig{
