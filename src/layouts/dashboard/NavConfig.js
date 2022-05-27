@@ -33,7 +33,7 @@ const navConfig = [
   },
   {
     title: 'GiftCard Sell Request',
-    path: '/dashboard/awaiting/approval',
+    path: '/dashboard/giftcard/sell/transactions',
     icon: getIcon('ic:baseline-sell'),
   },
   {

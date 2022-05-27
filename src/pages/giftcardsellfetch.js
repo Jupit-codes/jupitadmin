@@ -146,8 +146,6 @@ export default function Alltransaction() {
   return (
     <Page title="GiftCard Sell">
       <Container>
-
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
             GiftCard Sell Portal
@@ -157,7 +155,9 @@ export default function Alltransaction() {
           </Button> */}
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-           
+            <Typography variant="h4" gutterBottom>
+                GiftCard Sell Portal
+            </Typography>
             <GiftCardSell/>
 
         </Grid>

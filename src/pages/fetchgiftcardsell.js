@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
+
 import {
     Card,
     CardContent,
@@ -24,21 +25,23 @@ import {
   import { filter } from 'lodash';
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
+ 
+  import Iconify from '../components/Iconify';
+  import { UserListHead, UserListToolbar,UserMore,GiftCardMore } from '../sections/@dashboard/user';
 
-  import { UserListHead, UserListToolbar,UserMore } from '../sections/@dashboard/user';
-  
-  
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
+
   
 const TABLE_HEAD = [
     { id: 'Id', label: 'Id', alignRight: false },
     { id: 'Userid', label: 'Userid', alignRight: false },
-    { id: 'Unique ID', label: 'Unique ID', alignRight: false },
+    {id:'GiftCard',label:'GiftCard',alignRight:false},
     { id: 'Country', label: 'Country', alignRight: false },
-    { id: 'Rate', label: 'Rate', alignRight: false },
-    { id: 'Total', label: 'Total', alignRight: false },
+    { id: 'Total', label: 'Total(USD)', alignRight: false },
+    { id: 'Total', label: 'Total(Naira)', alignRight: false },
+    { id: 'Status', label: 'Status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -82,6 +85,7 @@ export default function FetchGiftCardSell({userid}){
     const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState([]);
+  const [failedRequest,setFailedRequest] = useState(false)
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -131,8 +135,10 @@ export default function FetchGiftCardSell({userid}){
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
+
     const getTransactionData = async ()=>{
         setLoader(true)
+        setFailedRequest(false);
     const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -154,20 +160,17 @@ export default function FetchGiftCardSell({userid}){
       })
       .catch((err)=>{
           
-            console.log(err.response);
-            setLoader('pls try again')
-            Swal.fire({
-                title: 'oop!',
-                text: 'Fetch Error..try again',
-                icon: 'error',
-                confirmButtonText: 'ok'
-              });
+            console.log(err);
+            setLoader(false);
+            setFailedRequest(true);
+
+            
             
       })
     }
 
     useEffect(()=>{
-        getTransactionData()
+        getTransactionData();
     },[])
 
     return (
@@ -175,6 +178,7 @@ export default function FetchGiftCardSell({userid}){
         <>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
+            {!loader && failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{getTransactionData()}}/></div>}
             {!loader && 
                 <>
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
@@ -193,7 +197,7 @@ export default function FetchGiftCardSell({userid}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const {_id,country,userid,unique_id,updated,rate,total } = row;
+                        const {_id,country,userid,unique_id,updated,total,status,cardname,amount_in_usd } = row;
                         const isItemSelected = selected.indexOf(country) !== -1;
     
                         return (
@@ -217,15 +221,21 @@ export default function FetchGiftCardSell({userid}){
                                 </Stack>
                             </TableCell>
                             <TableCell align="left">{userid}</TableCell>
+                            <TableCell align="left">{cardname}</TableCell>
                             <TableCell align="left">{country}</TableCell>
-                            <TableCell align="left">{unique_id}</TableCell>
+                            <TableCell align="left">{amount_in_usd}</TableCell>
                             <TableCell align="left">{total}</TableCell>
-                            <TableCell align="left">{rate}</TableCell>
+                            <TableCell align="left">
+                                <Label variant="ghost" >
+                                {status}
+                                </Label>
+                            </TableCell>
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
                             <TableCell align="right">
-                                <UserMore userid={userid}  _id={_id} data={DATA}/>
+                                {/* <UserMore userid={userid}  unique_id={unique_id} data={DATA}/> */}
+                                <GiftCardMore userid={userid} unique_id={unique_id} data={DATA}/>
                             </TableCell>
                             </TableRow>
                         );
