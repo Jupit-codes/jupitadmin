@@ -82,7 +82,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Alltransaction() {
+export default function GiftcardSell() {
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -150,14 +150,12 @@ export default function Alltransaction() {
           <Typography variant="h4" gutterBottom>
             GiftCard Sell Portal
           </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Test
-          </Button> */}
+          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
+            Export
+          </Button>
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-            <Typography variant="h4" gutterBottom>
-                GiftCard Sell Portal
-            </Typography>
+            
             <GiftCardSell/>
 
         </Grid>
