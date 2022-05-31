@@ -16,9 +16,9 @@ export default function GiftCardMore({userid,unique_id,data}) {
   const [stateModal,setStateModal] = useState(false)
 
    
-  const _handleUserVerification = ()=>{
-    reactLocalStorage.setObject('data',data);
-    window.location=`/dashboard/idcard/user/verification/`
+  const _handleGiftcardUploads = ()=>{
+  
+    window.location=`/dashboard/giftcard/sell/cardupload/${unique_id}`
   }
   return (
     <>
@@ -42,7 +42,7 @@ export default function GiftCardMore({userid,unique_id,data}) {
           <ListItemIcon>
             <Iconify icon="material-symbols:domain-verification-outline" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Details" primaryTypographyProps={{ variant: 'body2' }} onClick={()=>_handleUserVerification()} />
+          <ListItemText primary="Details" primaryTypographyProps={{ variant: 'body2' }} onClick={()=>_handleGiftcardUploads()} />
         </MenuItem>
 
        

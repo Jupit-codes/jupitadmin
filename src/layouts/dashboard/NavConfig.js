@@ -37,9 +37,9 @@ const navConfig = [
     icon: getIcon('ic:baseline-sell'),
   },
   {
-    title: 'GiftCard Buy Request',
+    title: 'Staff Management',
     path: '/dashboard/awaiting/approval',
-    icon: getIcon('icons8:buy'),
+    icon: getIcon('fa-solid:users-cog'),
   },
   // {
   //   title: 'Asset Analysis',

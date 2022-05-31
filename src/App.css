@@ -59,3 +59,26 @@
     opacity: 0.5;
 
 }
+.uploadDiv{
+  display: flex;
+  flex-wrap: wrap;
+  height: 50vh;
+ 
+  justify-content: space-between;
+  
+}
+.uploadDiv >div{
+  flex:1 1 calc(50% - 20px);
+  margin:10px;
+  height: 50vh;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadDiv >div>img{
+  width:500px;
+  height: 300px;
+}
