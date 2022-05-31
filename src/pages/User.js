@@ -119,38 +119,14 @@ export default function User() {
       },
     })
     .then((res)=>{
-      console.log('ok',res.data)
-
+      
+      console.log(res.data.message)
       setDATA(res.data.message);
       setLoader(false)
     })
     .catch((err)=>{
       
-      if(err.response){
-        if(err.response.status === 403){
-          console.log(err.response.data.message);
-          Swal.fire({
-            title: 'Message!',
-            text: err.response.data.message,
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
-          navigate('/',{replace:true})
-          return false;
-          
-        }
-        console.log(err)
-      }
-      else{
-        console.log(err)
-      }
-      
-      // Swal.fire({
-      //   title: 'Message!',
-      //   text: err.response.message,
-      //   icon: 'error',
-      //   confirmButtonText: 'ok'
-      // });
+      console.log(err)
 
     })
   }
@@ -212,7 +188,7 @@ export default function User() {
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-
+  
   return (
     <Page title="User">
       <Container>
@@ -261,8 +237,8 @@ export default function User() {
         </Stack>
 
         <Card>
-          {loader && <div className='myloader'>loading data...</div>}
-          {!loader && 
+        {loader && <div className='myloader'>loading data...</div>}
+          {!loader && DATA &&
             <>
              <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
@@ -280,7 +256,7 @@ export default function User() {
                    />
                    <TableBody>
                      { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                       const { id, username, email, phonenumber, status, avatarUrl, isVerified,_id } = row;
+                       const { id, username, email, phonenumber, Status, avatarUrl,_id } = row;
                        const isItemSelected = selected.indexOf(username) !== -1;
    
                        return (
@@ -305,10 +281,10 @@ export default function User() {
                            </TableCell>
                            <TableCell align="left">{email}</TableCell>
                            <TableCell align="left">{phonenumber}</TableCell>
-                           <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                           <TableCell align="left">{Status}</TableCell>
                            <TableCell align="left">
-                             <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                               {sentenceCase(status)}
+                             <Label variant="ghost" color={(Status === 'banned' && 'error') || 'success'}>
+                               {Status}
                              </Label>
                            </TableCell>
    
