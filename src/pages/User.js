@@ -91,7 +91,7 @@ export default function User() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [loader, setLoader] = useState(true);
-
+  const [refreshing,setrefreshing] = useState(false)
  
 
   const [DATA,setDATA] = useState([]);
@@ -105,12 +105,13 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
- 
+  const [failedRequest,setfailedRequest] = useState(false)
 
-  const getAllUsers = async ()=>{
+  const getAllUsers =  ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
-
-    await axios({
+    setrefreshing(true)
+    setfailedRequest(false)
+     axios({
       url:`${BaseUrl}/admin/get/all/users`,
       method:'GET',
       headers:{
@@ -119,13 +120,14 @@ export default function User() {
       },
     })
     .then((res)=>{
-      
+      setrefreshing(false)
       console.log(res.data.message)
       setDATA(res.data.message);
       setLoader(false)
     })
     .catch((err)=>{
-      
+      setrefreshing(false)
+      setfailedRequest(true)
       console.log(err)
 
     })
@@ -194,7 +196,9 @@ export default function User() {
       <Container>
 
         <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Total Users" total={DATA.length} icon={'bx:group'} />
+            <AppWidgetSummary title={refreshing ? 'Refreshing Data' : 'Total Users'} total={DATA.length} icon={'bx:group'} />
+            
+            {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{getAllUsers()}}/></div>}
         </Grid>
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
@@ -237,7 +241,8 @@ export default function User() {
         </Stack>
 
         <Card>
-        {loader && <div className='myloader'>loading data...</div>}
+          {loader && <div className='myloader'>loading data...</div>}
+          {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{getAllUsers()}}/></div>}
           {!loader && DATA &&
             <>
              <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
@@ -262,7 +267,7 @@ export default function User() {
                        return (
                          <TableRow
                            hover
-                           key={id}
+                           key={_id}
                            tabIndex={-1}
                            role="checkbox"
                            selected={isItemSelected}
