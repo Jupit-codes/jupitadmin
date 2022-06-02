@@ -7642,6 +7642,11 @@
     "react-fast-compare" "^3.2.0"
     "shallowequal" "^1.1.0"
 
+"react-idle-timer@^5.2.0":
+  "integrity" "sha512-Q8UQ9n8jGhgtB3xN6U212nmkaqZP6FToWsUT1g1HIl/TqJQP1AnW44+tblu4BEhTukI3fGhrhXjtexz9I6pSpg=="
+  "resolved" "https://registry.npmjs.org/react-idle-timer/-/react-idle-timer-5.2.0.tgz"
+  "version" "5.2.0"
+
 "react-is@^16.13.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
