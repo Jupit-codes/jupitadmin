@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Outlet, useRoutes,Routes,Route } from 'react-router-dom';
 // layouts
 import { styled } from '@mui/material/styles';
 import {reactLocalStorage} from 'reactjs-localstorage';
+import {useIdleTimer} from 'react-idle-timer';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
+import LoadAuthorization from './utils/Reauthorization'
 //
+
 import ProtectedRoutes from './ProtectedRoute';
 import Blog from './pages/Blog';
 import User from './pages/User';
@@ -52,16 +55,75 @@ export default function Router({redirectPath='/'}) {
     }
   }));
 
+  const onIdle =()=>{
+    console.log('User is idle')
+  }
+
+  const onActive = ()=>{
+    console.log('user is active')
+  }
+  
+  const timeout = 5000
+  const [remaining, setRemaining] = useState(timeout)
+  const [elapsed, setElapsed] = useState(0)
+  const [lastActive, setLastActive] = useState(+new Date())
+  const [isIdle, setIsIdle] = useState(false)
+  const [modalHandeler,setmodalHandler] = useState(false)
+
+  const handleOnActive = () => {
+
+    
+      if(!modalHandeler){
+        reset();
+        setIsIdle(false);
+        
+        
+      }
+    
+    
+  }
+  const handleOnIdle = () =>{
+    
+    
+    setIsIdle(true)
+    setmodalHandler(true)
+    
+  } 
+  
+
+  const {
+    reset,
+    pause,
+    resume,
+    getRemainingTime,
+    getLastActiveTime,
+    getElapsedTime
+  } = useIdleTimer({
+    timeout,
+    onActive: handleOnActive,
+    onIdle: handleOnIdle
+  })
+
+  useEffect(()=>{
+    
+    
+    
+  },[])
+  
   const ProtectedRoute = () => {
+
     if (!reactLocalStorage.get('token')) {
       
       return <Navigate to={redirectPath} replace />;
     }
+
     
     return <RootStyle>
+              {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
               <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
               <MainStyle>
+                
                 <Outlet />
               </MainStyle>
             </RootStyle>

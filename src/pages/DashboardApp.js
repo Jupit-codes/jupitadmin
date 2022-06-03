@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate ,useOutletContext} from 'react-router-dom';
+import IdleStateLoader from '../utils/Reauthorization'
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -27,9 +28,12 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function DashboardApp() {
+export default function DashboardApp(state) {
+  
   const theme = useTheme();
   const navigate = useNavigate()
+  const [IdleState,setIdleState] = useState(false)
+  console.log(state)
   useEffect(()=>{
       if(!reactLocalStorage.getObject('admin').changepassword){
         Swal.fire({
@@ -41,8 +45,11 @@ export default function DashboardApp() {
         navigate('/dashboard/changepassword');
       }
   },[])
+  
+  
   return (
     <Page title="Dashboard">
+     
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi {reactLocalStorage.getObject('admin').username}!, Welcome back
