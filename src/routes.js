@@ -30,7 +30,7 @@ import GiftCardUpload from './pages/Giftcarduploads'
 
 // ----------------------------------------------------------------------
 
-export default function Router({redirectPath='/'}) {
+export default function Router({redirectPath='/login'}) {
   const [open, setOpen] = useState(false);
  
   const APP_BAR_MOBILE = 64;
@@ -109,6 +109,19 @@ export default function Router({redirectPath='/'}) {
     
     
   },[])
+
+  const ProtectLogin = () => {
+
+
+    if (reactLocalStorage.get('token') && reactLocalStorage.get('admin') ) {
+      
+      return <Navigate to='/dashboard/app' replace />;
+    }
+
+   
+    return <Outlet/>
+      
+  }
   
   const ProtectedRoute = () => {
 
@@ -116,8 +129,9 @@ export default function Router({redirectPath='/'}) {
       
       return <Navigate to={redirectPath} replace />;
     }
-
     
+
+
     return <RootStyle>
               {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
@@ -159,8 +173,8 @@ export default function Router({redirectPath='/'}) {
 
   return <Routes>
         
-          <Route path="/" element={<LogoOnlyLayout />} >
-            <Route path="/" element={<Login />} />
+          <Route path="/" element={<ProtectLogin><LogoOnlyLayout /></ProtectLogin>} >
+            <Route path="/login" element={<Login />} />
             <Route path="register" element={<Register/>} />
           </Route>
           

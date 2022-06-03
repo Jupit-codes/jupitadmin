@@ -40,12 +40,12 @@ export default function LoginForm() {
         console.log(res.data)
         setSubmitting(false);
         reactLocalStorage.set('token',res.data.token);
-        reactLocalStorage.setObject('admin',res.data.docs) ;
+        reactLocalStorage.setObject('admin',res.data.document) ;
         const minutesToAdd=30;
         const currentDate = new Date();
         const futureDate = new Date(currentDate.getTime() + minutesToAdd*60000);
             
-        navigate("dashboard/app", { replace: true, state: futureDate  });
+        navigate("/dashboard/app", { replace: true, state: futureDate  });
       
       
     })
