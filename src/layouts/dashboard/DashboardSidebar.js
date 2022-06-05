@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -43,10 +43,10 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar,check }) {
   const { pathname } = useLocation();
+  const [passwordChecker,setpasswordChecker] = useState(false)
   const navigate = useNavigate
-
   const isDesktop = useResponsive('up', 'lg');
 
   const handlelogout = ()=>{
@@ -56,6 +56,20 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
    
 
   }
+  
+  useEffect(()=>{
+    
+     if(typeof check !== "undefined"){
+       
+       setpasswordChecker(check)
+     }
+
+    setpasswordChecker(reactLocalStorage.getObject('admin').changepassword)
+    console.log(reactLocalStorage.getObject('admin').changepassword)
+  },[])
+
+ 
+
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -91,7 +105,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={navConfig} />
+      {passwordChecker && <NavSection navConfig={navConfig} />}
 
       <Box sx={{ flexGrow: 1 }} />
 

@@ -34,23 +34,6 @@ export default function DashboardApp(state) {
   const navigate = useNavigate()
   const [IdleState,setIdleState] = useState(false)
   console.log(state)
-  useEffect(()=>{
-      if(reactLocalStorage.getObject('admin')){
-          if(!reactLocalStorage.getObject('admin').changepassword){
-            Swal.fire({
-              title: 'Message!',
-              text:`Welcome ${reactLocalStorage.getObject('admin').username}`,
-              icon: 'success',
-              confirmButtonText: 'Click To Change Your Password'
-            });
-            navigate('/dashboard/changepassword');
-          }
-      }
-      else{
-        navigate('/',{replace:true})
-      }
-      
-  },[])
   
   
   return (

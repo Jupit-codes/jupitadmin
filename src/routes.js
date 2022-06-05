@@ -69,7 +69,7 @@ export default function Router({redirectPath='/login'}) {
   const [lastActive, setLastActive] = useState(+new Date())
   const [isIdle, setIsIdle] = useState(false)
   const [modalHandeler,setmodalHandler] = useState(false)
-
+  const [passwordChecker,setpasswordChecker] = useState();
   const handleOnActive = () => {
 
     
@@ -83,7 +83,6 @@ export default function Router({redirectPath='/login'}) {
     
   }
   const handleOnIdle = () =>{
-    
     
     setIsIdle(true)
     setmodalHandler(true)
@@ -129,13 +128,15 @@ export default function Router({redirectPath='/login'}) {
       
       return <Navigate to={redirectPath} replace />;
     }
+
+   
     
 
 
     return <RootStyle>
-              {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>}
-              <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-              <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+              {/* {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>} */}
+              <DashboardNavbar onOpenSidebar={() => setOpen(true)}  check={passwordChecker} />
+              <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} check={passwordChecker} />
               <MainStyle>
                 
                 <Outlet />
@@ -175,7 +176,7 @@ export default function Router({redirectPath='/login'}) {
         
           <Route path="/" element={<ProtectLogin><LogoOnlyLayout /></ProtectLogin>} >
             <Route path="/login" element={<Login />} />
-            <Route path="register" element={<Register/>} />
+            <Route path="/create/super/admin/" element={<Register/>} />
           </Route>
           
           <Route path="dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
@@ -188,7 +189,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="alltransactions" element={<AllTransaction/>}/>
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>
             <Route path="idcard/user/verification/" element={<VerificationPortal/>}/>
-            <Route path="changepassword" element={<ChangePassword />} />
+            <Route path="changepassword" element={<ChangePassword  update={setpasswordChecker}/>} />
             <Route path="giftcard/sell/transactions" element={<GiftCardSell />} />
             <Route path='giftcard/sell/cardupload/:id' element={<GiftCardUpload/>} />
           </Route>

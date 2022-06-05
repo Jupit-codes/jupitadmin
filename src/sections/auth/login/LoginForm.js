@@ -44,8 +44,15 @@ export default function LoginForm() {
         const minutesToAdd=30;
         const currentDate = new Date();
         const futureDate = new Date(currentDate.getTime() + minutesToAdd*60000);
+
+        if(res.data.document.changepassword){
+          navigate("/dashboard/app", { replace: true});
+        }
+        else{
+          navigate('/dashboard/changepassword',{replace:true});
+        }
             
-        navigate("/dashboard/app", { replace: true, state: futureDate  });
+        
       
       
     })

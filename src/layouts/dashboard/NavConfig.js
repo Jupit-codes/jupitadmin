@@ -1,4 +1,5 @@
 // component
+
 import Iconify from '../../components/Iconify';
 
 // ----------------------------------------------------------------------
@@ -10,62 +11,44 @@ const navConfig = [
     title: 'dashboard',
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),
+    roles:[1]
   },
   {
     title: 'User Management',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
+    roles:[1,2]
   },
   {
     title: 'Initialise Rate',
     path: '/dashboard/setrate',
     icon: getIcon('icon-park-outline:set-off'),
+    roles:[1]
   },
   {
     title: 'All Wallet Transactions',
     path: '/dashboard/alltransactions',
     icon: getIcon('icon-park-outline:transaction-order'),
+    roles:[2]
   },
   {
     title: 'Awaiting Approval',
     path: '/dashboard/awaiting/approval',
     icon: getIcon('mdi:lan-pending'),
+    roles:[1]
   },
   {
     title: 'GiftCard Sell Request',
     path: '/dashboard/giftcard/sell/transactions',
     icon: getIcon('ic:baseline-sell'),
+    roles:[1]
   },
   {
     title: 'Staff Management',
     path: '/dashboard/awaiting/approval',
     icon: getIcon('fa-solid:users-cog'),
+    roles:[1,2]
   },
-  // {
-  //   title: 'Asset Analysis',
-  //   path: '/dashboard/products',
-  //   icon: getIcon('eva:shopping-bag-fill'),
-  // },
-  // {
-  //   title: 'blog',
-  //   path: '/dashboard/blog',
-  //   icon: getIcon('eva:file-text-fill'),
-  // },
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: getIcon('eva:lock-fill'),
-  // },
-  // {
-  //   title: 'register',
-  //   path: '/register',
-  //   icon: getIcon('eva:person-add-fill'),
-  // },
-  // {
-  //   title: 'Not found',
-  //   path: '/404',
-  //   icon: getIcon('eva:alert-triangle-fill'),
-  // },
 ];
 
 export default navConfig;

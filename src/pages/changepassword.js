@@ -27,9 +27,10 @@ import {
 
 
 
+
 // ----------------------------------------------------------------------
 
-export default function SetRate() {
+export default function Changepassword({update}) {
     const navigate = useNavigate()
 const [password,setpassword] = useState('');
 const [confirmpassword,setconfirmpassword] = useState('');
@@ -99,14 +100,17 @@ const updatepassword = async ()=>{
       setconfirmpassword('')
       setdisablebtn(false);
         reactLocalStorage.remove('admin');
-        reactLocalStorage.setObject('admin',res.data.data)
+        reactLocalStorage.setObject('admin',res.data.data);
      
+      update(true);
+      navigate('/dashboard/app',{replace:true})
       Swal.fire({
         title: 'Success Callback!',
         text: res.data.message,
         icon: 'success',
         confirmButtonText: 'ok'
       });
+      
     })
     .catch((err)=>{
      

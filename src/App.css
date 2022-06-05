@@ -100,3 +100,11 @@
 .myform{
   width: 50%;
 }
+
+.show{
+  display:block;
+}
+
+.hide{
+  display: none;
+}

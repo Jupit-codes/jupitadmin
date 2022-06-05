@@ -4,6 +4,7 @@ import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
+import { reactLocalStorage } from 'reactjs-localstorage';
 //
 import Iconify from './Iconify';
 
@@ -141,15 +142,28 @@ NavSection.propTypes = {
 
 export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
-  console.log('navConfig',navConfig)
+  
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
+
+  const renderSideBar = ()=>{
+    
+      return navConfig.map((item)=>{
+        if(item.roles.includes(reactLocalStorage.getObject('admin').roleid)){
+          return <NavItem key={item.title} item={item} active={match} />
+        }
+        return true;
+        
+    
+     
+    })
+  }
 
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
-        ))}
+     
+          {renderSideBar()}
+
       </List>
     </Box>
   );
