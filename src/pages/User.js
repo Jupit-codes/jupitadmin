@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
+import { Link as RouterLink, Navigate,useNavigate,useOutletContext } from 'react-router-dom';
 // material
 import {
   Card,
@@ -92,7 +92,11 @@ export default function User() {
   const [page, setPage] = useState(0);
   const [loader, setLoader] = useState(true);
   const [refreshing,setrefreshing] = useState(false)
- 
+
+
+ const [appstate] = useOutletContext();
+
+ console.log('appstate',appstate)
 
   const [DATA,setDATA] = useState([]);
 

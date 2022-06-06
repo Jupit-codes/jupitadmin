@@ -64,7 +64,7 @@ export default function Router({redirectPath='/login'}) {
     console.log('user is active')
   }
   
-  const timeout = 5000
+  const timeout = 3000;
   const [remaining, setRemaining] = useState(timeout)
   const [elapsed, setElapsed] = useState(0)
   const [lastActive, setLastActive] = useState(+new Date())
@@ -72,21 +72,14 @@ export default function Router({redirectPath='/login'}) {
   const [modalHandeler,setmodalHandler] = useState(false)
   const [passwordChecker,setpasswordChecker] = useState();
   const handleOnActive = () => {
-
     
-      if(!modalHandeler){
-        reset();
-        setIsIdle(false);
-        
-        
-      }
-    
+    setIsIdle(false)
     
   }
   const handleOnIdle = () =>{
-    
+   
     setIsIdle(true)
-    setmodalHandler(true)
+    // setmodalHandler(true)
     
   } 
   
@@ -104,11 +97,7 @@ export default function Router({redirectPath='/login'}) {
     onIdle: handleOnIdle
   })
 
-  useEffect(()=>{
-    
-    
-    
-  },[])
+ 
 
   const ProtectLogin = () => {
 
@@ -125,7 +114,7 @@ export default function Router({redirectPath='/login'}) {
   
   const ProtectedRoute = () => {
 
-    if (!reactLocalStorage.get('token')) {
+    if (!reactLocalStorage.get('token') && !reactLocalStorage.getObject('admin')) {
       
       return <Navigate to={redirectPath} replace />;
     }
@@ -133,45 +122,20 @@ export default function Router({redirectPath='/login'}) {
    
     
 
-
+    const appstate=isIdle
     return <RootStyle>
               {/* {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>} */}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)}  check={passwordChecker} />
               <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} check={passwordChecker} />
               <MainStyle>
                 
-                <Outlet />
+                <Outlet context={[appstate]}  />
               </MainStyle>
             </RootStyle>
 
   //  return <Outlet/>;
   };
 
-
-  // return useRoutes([
-  //   {
-  //     path: '/dashboard',
-  //     element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
-  //     children: [
-  //       { path: 'app', element: <DashboardApp />  },
-  //       { path: 'user', element: <User/> },
-  //       { path: 'products', element: <Products /> },
-  //       { path: 'blog', element: <Blog /> },
-  //     ],
-  //   },
-  //   {
-  //     path: '/',
-  //     element: <LogoOnlyLayout />,
-  //     children: [
-  //       // { path: 'db', element:<ProtectedRoute><Navigate to="dashboard/app" /></ProtectedRoute>  },
-  //       { path: '/', element: <Login /> },
-  //       { path: 'register', element: <Register /> },
-  //       { path: '404', element: <NotFound /> },
-  //       { path: '*', element: <Navigate to="/404" /> },
-  //     ],
-  //   },
-  //   { path: '*', element: <Navigate to="/404" replace /> },
-  // ]);
 
   return <Routes>
         
@@ -180,8 +144,8 @@ export default function Router({redirectPath='/login'}) {
             <Route path="/create/super/admin/" element={<Register/>} />
           </Route>
           
-          <Route path="dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-            <Route path="app" element={<DashboardApp />} />
+          <Route path="dashboard" element={<ProtectedRoute><DashboardLayout   /></ProtectedRoute>}>
+            <Route path="app" element={<DashboardApp  />} />
             <Route path="user" element={<User/>} />
             <Route path="user/:id" element={<UserProfile/>} />
             <Route path="setrate" element={<SetRate/>} />

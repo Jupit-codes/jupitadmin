@@ -90,7 +90,7 @@ export default function Staff() {
       
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-            <AllStaff/>
+            <AllStaff reload={modal} />
           </Grid>
 
       </Container>

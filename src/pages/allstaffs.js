@@ -25,8 +25,8 @@ import {
   import { filter } from 'lodash';
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
-
-  import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+  import PleaseWait from '../utils/modal/Pleasewait'
+  import { UserListHead, UserListToolbar, UserMoreMenu,StaffMore } from '../sections/@dashboard/user';
   
   
   import SearchNotFound from '../components/SearchNotFound';
@@ -74,7 +74,7 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function Transaction({userid}){
+export default function Transaction({reload}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('username');
@@ -83,6 +83,8 @@ export default function Transaction({userid}){
     const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState([]);
+  const [reloadStaff,setreloadStaff] = useState(false);
+  const [pleasewait,setpleasewait] = useState(false)
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -133,6 +135,7 @@ export default function Transaction({userid}){
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
     const getTransactionData = async ()=>{
+        setLoader(true)
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -145,11 +148,15 @@ export default function Transaction({userid}){
       })
       .then((res)=>{
        console.log(res.data)
+       setreloadStaff(false)
+       setLoader(false);
        setDATA(res.data)
   
       })
       .catch((err)=>{
-          
+            setreloadStaff(false)
+            setLoader(false);
+            alert(err.response.data)
             console.log(err.response)
       })
     }
@@ -158,11 +165,22 @@ export default function Transaction({userid}){
         getTransactionData()
     },[])
 
+    useEffect(()=>{
+        console.log(reload)
+        if(!reload){
+            getTransactionData()
+        }
+        if(reloadStaff){
+            getTransactionData()
+        }
+    },[reload,reloadStaff])
+
     return (
         
         <>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
+            {pleasewait && <PleaseWait open={pleasewait} close={setpleasewait}/> }
             {!loader && 
                 <>
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
@@ -219,7 +237,7 @@ export default function Transaction({userid}){
                             </TableCell>
                             <TableCell align="right">
                                 
-                                <UserMoreMenu userid={_id} />
+                                <StaffMore userid={_id} update={setreloadStaff} loader = {setpleasewait} status={status} />
                             </TableCell>
                             </TableRow>
                         );
