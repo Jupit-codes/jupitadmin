@@ -45,7 +45,7 @@ const navConfig = [
   },
   {
     title: 'Staff Management',
-    path: '/dashboard/awaiting/approval',
+    path: '/dashboard/get/all/staffs',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,2]
   },

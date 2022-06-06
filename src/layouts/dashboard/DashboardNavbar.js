@@ -49,9 +49,9 @@ export default function DashboardNavbar({ onOpenSidebar,check }) {
 
   
   useEffect(()=>{
-    console.log('Checked',check)
+
      if(typeof check !== "undefined"){
-       console.log('here')
+     
        setpasswordChecker(check)
      }
 

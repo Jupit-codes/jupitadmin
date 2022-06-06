@@ -27,6 +27,7 @@ import AwaitingApproval from './pages/pending'
 import VerificationPortal from './pages/verifyIdcard'
 import GiftCardSell from './pages/giftcardsellfetch'
 import GiftCardUpload from './pages/Giftcarduploads'
+import AllStaff from './pages/staff'
 
 // ----------------------------------------------------------------------
 
@@ -192,6 +193,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="changepassword" element={<ChangePassword  update={setpasswordChecker}/>} />
             <Route path="giftcard/sell/transactions" element={<GiftCardSell />} />
             <Route path='giftcard/sell/cardupload/:id' element={<GiftCardUpload/>} />
+            <Route path='get/all/staffs' element={<AllStaff/>} />
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
