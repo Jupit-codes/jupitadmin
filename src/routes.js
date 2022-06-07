@@ -101,6 +101,9 @@ export default function Router({redirectPath='/login'}) {
     onIdle: handleOnIdle
   })
 
+  useEffect(()=>{
+
+  },[isIdle])
  
 
   const ProtectLogin = () => {
@@ -118,7 +121,7 @@ export default function Router({redirectPath='/login'}) {
   
   const ProtectedRoute = () => {
 
-    if (!reactLocalStorage.get('token') && !reactLocalStorage.getObject('admin')) {
+    if (!reactLocalStorage.get('token') || !reactLocalStorage.getObject('admin')) {
       
       return <Navigate to={redirectPath} replace />;
     }

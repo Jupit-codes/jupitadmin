@@ -49,9 +49,11 @@ const Index = ({closeModal,modifyIdle})=>{
         data:JSON.stringify({username:reactLocalStorage.getObject('admin').username,password})
         })
         .then((res)=>{
-        console.log(res.data)
-            closeModal(false);
-             modifyIdle(false)
+        
+            reactLocalStorage.set('token',res.data.token);
+            reactLocalStorage.setObject('admin',res.data.document) ;
+                closeModal(false);
+                modifyIdle(false)
 
         })
         .catch((err)=>{
