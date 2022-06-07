@@ -21,7 +21,7 @@ import {
     getAccordionSummaryUtilityClass
   } from '@mui/material';
     import { useEffect, useState } from 'react';
-    import { useNavigate } from 'react-router-dom';
+    import { Navigate, useNavigate } from 'react-router-dom';
     import { reactLocalStorage } from 'reactjs-localstorage';
     import Swal from 'sweetalert2';
     import axios from 'axios';
@@ -67,11 +67,12 @@ const Index = ({closeModal,modifyIdle})=>{
                     icon: 'error',
                     confirmButtonText: 'ok'
                 });
-                
+                navigate('/login',{replace:true})
                 return false;
                 
                 }
-                console.log(err)
+                alert(err.response.data.message)
+                
             }
             else{
                 console.log(err)
@@ -99,7 +100,7 @@ const Index = ({closeModal,modifyIdle})=>{
                 <CardHeader title="Login"/>
                     
                     <CardContent>
-                        <TextField fullWidth label="Password" id="fullWidth"  type="password" value={password || ''} onChange={()=>{handleChange()}}  />
+                        <TextField fullWidth label="Password" id="fullWidth"  type="password" value={password || ''} onChange={handleChange}  />
                         <Button variant="outlined"  to="#" color="secondary" onClick={()=>{loginChecker()}} startIcon={<Iconify icon="entypo:login"/> }  disabled={DisableBtn} style={{marginTop:5,marginBottom:20}} >
                             {btn} 
                         </Button>

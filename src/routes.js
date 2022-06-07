@@ -106,7 +106,7 @@ export default function Router({redirectPath='/login'}) {
   const ProtectLogin = () => {
 
 
-    if (reactLocalStorage.get('token') && reactLocalStorage.get('admin') ) {
+    if (reactLocalStorage.get('token') && reactLocalStorage.getObject('admin') ) {
       
       return <Navigate to='/dashboard/app' replace />;
     }
