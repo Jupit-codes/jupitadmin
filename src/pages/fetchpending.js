@@ -24,13 +24,14 @@ import {
   import { filter } from 'lodash';
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
-
+  import { useNavigate } from "react-router-dom";
   import { UserListHead, UserListToolbar,UserMore } from '../sections/@dashboard/user';
   
   
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
+
   
 const TABLE_HEAD = [
     { id: 'Id', label: '_id', alignRight: false },
@@ -84,6 +85,7 @@ export default function FetchPending({userid}){
     const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState([]);
+  const navigate = useNavigate()
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -156,14 +158,39 @@ export default function FetchPending({userid}){
       })
       .catch((err)=>{
           
-            console.log(err.response);
-            setLoader('pls try again')
-            Swal.fire({
-                title: 'oop!',
-                text: 'Fetch Error..try again',
+            
+            setLoader('pls try again');
+            if(err.response){
+              if(err.response.status === 403){
+              //   console.log(err.response.data.message);
+                Swal.fire({
+                  title: 'Message!',
+                  text: err.response.data.message,
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+                navigate('/',{replace:true})
+                return false;
+                
+              }
+    
+              Swal.fire({
+                title: 'Message!',
+                text: err.response.data,
                 icon: 'error',
                 confirmButtonText: 'ok'
               });
+             
+            }
+            else{
+              Swal.fire({
+                title: 'Message!',
+                text: 'No Connection',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+            }
+            
             
       })
     }

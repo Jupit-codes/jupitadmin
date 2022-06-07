@@ -215,7 +215,36 @@ const Index=()=>{
       })
       .catch((err)=>{
         setdisableBTN(false)
-            console.log(err.response);
+        if(err.response){
+            if(err.response.status === 403){
+            //   console.log(err.response.data.message);
+              Swal.fire({
+                title: 'Message!',
+                text: err.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+              navigate('/',{replace:true})
+              return false;
+              
+            }
+  
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+           
+          }
+          else{
+            Swal.fire({
+              title: 'Message!',
+              text: 'No Connection',
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+          }
            
            
             

@@ -443,10 +443,9 @@ const updateBtcBuy = async ()=>{
       });
     })
     .catch((err)=>{
-     
       if(err.response){
         if(err.response.status === 403){
-          console.log(err.response.data.message);
+        //   console.log(err.response.data.message);
           Swal.fire({
             title: 'Message!',
             text: err.response.data.message,
@@ -457,21 +456,24 @@ const updateBtcBuy = async ()=>{
           return false;
           
         }
-        
-            toast.error(err.response.data,'Failed Callback');
-    
-        console.log(err)
+
+        Swal.fire({
+          title: 'Message!',
+          text: err.response.data,
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
+       
       }
       else{
-        console.log(err)
+        Swal.fire({
+          title: 'Message!',
+          text: 'No Connection',
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
       }
       
-      // Swal.fire({
-      //   title: 'Message!',
-      //   text: err.response.message,
-      //   icon: 'error',
-      //   confirmButtonText: 'ok'
-      // });
 
     })
 }

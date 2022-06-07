@@ -60,26 +60,32 @@ const Index = ({closeModal,modifyIdle})=>{
         
             setbtn('Login');
             setDisableBtn(false)
+            console.log(err.response.data);
             if(err.response){
                 if(err.response.status === 403){
             
-                Swal.fire({
+                  Swal.fire({
                     title: 'Message!',
                     text: err.response.data.message,
                     icon: 'error',
                     confirmButtonText: 'ok'
-                });
-                navigate('/login',{replace:true})
-                return false;
-                
+                  });
+                  navigate('/',{replace:true})
+                  return false;
+                  
                 }
-                alert(err.response.data.message)
-                
-            }
-            else{
-                console.log(err)
-            }
         
+                alert(err.response.data.message)
+               
+              }
+              else{
+                Swal.fire({
+                  title: 'Message!',
+                  text: 'No Connection',
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+              }
         
         })
 

@@ -133,22 +133,39 @@ export default function User() {
       setrefreshing(false)
       setfailedRequest(true)
       console.log(err)
-      
       if(err.response){
         if(err.response.status === 403){
-    
-        Swal.fire({
+        //   console.log(err.response.data.message);
+          Swal.fire({
             title: 'Message!',
             text: err.response.data.message,
             icon: 'error',
             confirmButtonText: 'ok'
-        });
-        navigate('/login',{replace:true})
-        return false;
-        
+          });
+          navigate('/',{replace:true})
+          return false;
+          
         }
-        console.log(err)
-    }
+
+        Swal.fire({
+          title: 'Message!',
+          text: err.response.data,
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
+       
+      }
+      else{
+        Swal.fire({
+          title: 'Message!',
+          text: 'No Connection',
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
+      }
+      
+      
+    
 
     })
   }

@@ -147,18 +147,23 @@ export default function User() {
           return false;
           
         }
-        console.log(err)
+
+        Swal.fire({
+          title: 'Message!',
+          text: err.response.data,
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
+       
       }
       else{
-        console.log(err)
+        Swal.fire({
+          title: 'Message!',
+          text: 'No Connection',
+          icon: 'error',
+          confirmButtonText: 'ok'
+        });
       }
-      
-      // Swal.fire({
-      //   title: 'Message!',
-      //   text: err.response.message,
-      //   icon: 'error',
-      //   confirmButtonText: 'ok'
-      // });
 
     })
   }

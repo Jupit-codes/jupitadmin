@@ -62,7 +62,7 @@ export default function VerifyId() {
     const [userData,setuserData]= useState([]);
     const [failedRequest,setFailedRequest] = useState(false)
     const [reject,setReject] = useState(false)
-
+    const navigate = useNavigate();
     const verifyme = async ()=>{
         setLoader(true);
         setReject(false);
@@ -93,12 +93,36 @@ export default function VerifyId() {
                 setFailedRequest(true);
                 setReject(true);
                 console.log(err)
-                // Swal.fire({
-                //     title: 'oop!',
-                //     text: 'Fetch Error..try again',
-                //     icon: 'error',
-                //     confirmButtonText: 'ok'
-                // });
+                if(err.response){
+                    if(err.response.status === 403){
+                    //   console.log(err.response.data.message);
+                      Swal.fire({
+                        title: 'Message!',
+                        text: err.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                      });
+                      navigate('/',{replace:true})
+                      return false;
+                      
+                    }
+          
+                    Swal.fire({
+                      title: 'Message!',
+                      text: err.response.data,
+                      icon: 'error',
+                      confirmButtonText: 'ok'
+                    });
+                   
+                  }
+                  else{
+                    Swal.fire({
+                      title: 'Message!',
+                      text: 'No Connection',
+                      icon: 'error',
+                      confirmButtonText: 'ok'
+                    });
+                  }
                 
         })
     }

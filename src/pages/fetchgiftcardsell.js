@@ -25,13 +25,14 @@ import {
   import { filter } from 'lodash';
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
- 
+  import { useNavigate } from "react-router-dom";
   import Iconify from '../components/Iconify';
   import { UserListHead, UserListToolbar,UserMore,GiftCardMore } from '../sections/@dashboard/user';
 
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
+
 
   
 const TABLE_HEAD = [
@@ -83,15 +84,15 @@ export default function FetchGiftCardSell({userid}){
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selected, setSelected] = useState([]);
-  const [failedRequest,setFailedRequest] = useState(false)
-    
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [selected, setSelected] = useState([]);
+    const [failedRequest,setFailedRequest] = useState(false)
+    const navigate = useNavigate()
+    const handleRequestSort = (event, property) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+    };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -163,6 +164,36 @@ export default function FetchGiftCardSell({userid}){
             console.log(err);
             setLoader(false);
             setFailedRequest(true);
+            if(err.response){
+              if(err.response.status === 403){
+              //   console.log(err.response.data.message);
+                Swal.fire({
+                  title: 'Message!',
+                  text: err.response.data.message,
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+                navigate('/',{replace:true})
+                return false;
+                
+              }
+    
+              Swal.fire({
+                title: 'Message!',
+                text: err.response.data,
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+             
+            }
+            else{
+              Swal.fire({
+                title: 'Message!',
+                text: 'No Connection',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+            }
 
             
             
