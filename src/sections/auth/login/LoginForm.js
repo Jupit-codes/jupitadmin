@@ -41,9 +41,7 @@ export default function LoginForm() {
         setSubmitting(false);
         reactLocalStorage.set('token',res.data.token);
         reactLocalStorage.setObject('admin',res.data.document) ;
-        const minutesToAdd=30;
-        const currentDate = new Date();
-        const futureDate = new Date(currentDate.getTime() + minutesToAdd*60000);
+       
 
         if(res.data.document.changepassword){
           navigate("/dashboard/app", { replace: true});
@@ -68,7 +66,7 @@ export default function LoginForm() {
               icon: 'error',
               confirmButtonText: 'ok'
             });
-            navigate('/',{replace:true})
+            navigate('/login',{replace:true})
             return false;
             
           }
