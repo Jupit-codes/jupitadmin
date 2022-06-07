@@ -156,8 +156,7 @@ export default function Transaction({reload}){
       .catch((err)=>{
             setreloadStaff(false)
             setLoader(false);
-            alert(err.response.data)
-            console.log(err.response)
+            
             if(err.response){
               if(err.response.status === 403){
               //   console.log(err.response.data.message);

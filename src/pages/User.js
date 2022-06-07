@@ -96,7 +96,7 @@ export default function User() {
 
  const [appstate] = useOutletContext();
 
- console.log('appstate',appstate)
+
 
   const [DATA,setDATA] = useState([]);
 

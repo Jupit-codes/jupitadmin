@@ -71,6 +71,7 @@ export default function Router({redirectPath='/login'}) {
   const [elapsed, setElapsed] = useState(0);
   const [lastActive, setLastActive] = useState(+new Date());
   const [isIdle, setIsIdle] = useState(false);
+  const [sessionExpired, setsessionExpired] = useState(false);
   const [modalHandeler,setmodalHandler] = useState(false);
   const [passwordChecker,setpasswordChecker] = useState();
   const handleOnActive = () => {
@@ -130,30 +131,25 @@ export default function Router({redirectPath='/login'}) {
      reactLocalStorage.clear();
      navigate('/login',{replace:true})
    }
-    const currentDate = new Date().toLocaleString();
-    const  today = new Date();
-    
-    const x = today.setHours(today.getHours() - 1);
-    console.log("x",x);
+  
+    const today = new Date();
+    // const x = today.setHours(today.getHours() - 1);
+    console.log("xxxx",today);
 
-    const date = new Date(x);
-    console.log("date",date)
-
-    const curTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} `
-    console.log("yyy",curTime)
-
+ 
     const rurTime = reactLocalStorage.getObject('admin').reauthorization;
-   
-    
-    // if(curTime > rurTime){
-    //   console.log('Reauthorise')
-    // }
 
-   
-        
+    const daterurTime = new Date(rurTime).getTime();
+    const todayCurl= new Date(today).getTime()
+    
+    if(todayCurl > daterurTime){
+      console.log('Session Expired');
+      setsessionExpired(true);
+    }
+    
     const appstate=isIdle
     return <RootStyle>
-              {/* {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>} */}
+              {sessionExpired && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setsessionExpired}/>}
               {isIdle && byebye()}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)}  check={passwordChecker} />
               <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} check={passwordChecker} />
