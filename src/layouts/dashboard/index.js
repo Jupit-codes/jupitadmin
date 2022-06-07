@@ -37,6 +37,7 @@ export default function DashboardLayout({Appstate}) {
 
   return (
     <RootStyle>
+      
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>

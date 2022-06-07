@@ -74,11 +74,15 @@ export default function Router({redirectPath='/login'}) {
   const handleOnActive = () => {
     
     setIsIdle(false)
+    if(!modalHandeler){
+      reset()
+    }
     
   }
   const handleOnIdle = () =>{
    
     setIsIdle(true)
+    pause()
     // setmodalHandler(true)
     
   } 
@@ -124,7 +128,7 @@ export default function Router({redirectPath='/login'}) {
 
     const appstate=isIdle
     return <RootStyle>
-              {/* {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>} */}
+              {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)}  check={passwordChecker} />
               <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} check={passwordChecker} />
               <MainStyle>
