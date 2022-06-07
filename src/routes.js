@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Navigate, Outlet, useRoutes,Routes,Route } from 'react-router-dom';
+import { Navigate, Outlet, useRoutes,Routes,Route,useNavigate } from 'react-router-dom';
 // layouts
 import { styled } from '@mui/material/styles';
 import {reactLocalStorage} from 'reactjs-localstorage';
+
 import {useIdleTimer} from 'react-idle-timer';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
@@ -29,11 +30,12 @@ import GiftCardSell from './pages/giftcardsellfetch'
 import GiftCardUpload from './pages/Giftcarduploads'
 import AllStaff from './pages/staff'
 
+
 // ----------------------------------------------------------------------
 
 export default function Router({redirectPath='/login'}) {
   const [open, setOpen] = useState(false);
- 
+  const navigate = useNavigate()
   const APP_BAR_MOBILE = 64;
   const APP_BAR_DESKTOP = 92;
 
@@ -64,25 +66,23 @@ export default function Router({redirectPath='/login'}) {
     console.log('user is active')
   }
   
-  const timeout = 3000;
-  const [remaining, setRemaining] = useState(timeout)
-  const [elapsed, setElapsed] = useState(0)
-  const [lastActive, setLastActive] = useState(+new Date())
-  const [isIdle, setIsIdle] = useState(false)
-  const [modalHandeler,setmodalHandler] = useState(false)
+  const timeout = 5 * 60 * 1000;
+  const [remaining, setRemaining] = useState(timeout);
+  const [elapsed, setElapsed] = useState(0);
+  const [lastActive, setLastActive] = useState(+new Date());
+  const [isIdle, setIsIdle] = useState(false);
+  const [modalHandeler,setmodalHandler] = useState(false);
   const [passwordChecker,setpasswordChecker] = useState();
   const handleOnActive = () => {
     
     setIsIdle(false)
-    if(!modalHandeler){
-      reset()
-    }
+    
     
   }
   const handleOnIdle = () =>{
    
     setIsIdle(true)
-    pause()
+    reset();
     // setmodalHandler(true)
     
   } 
@@ -126,12 +126,35 @@ export default function Router({redirectPath='/login'}) {
       return <Navigate to={redirectPath} replace />;
     }
 
+   const byebye = ()=>{
+     reactLocalStorage.clear();
+     navigate('/login',{replace:true})
+   }
+    const currentDate = new Date().toLocaleString();
+    const  today = new Date();
+    
+    const x = today.setHours(today.getHours() - 1);
+    console.log("x",x);
+
+    const date = new Date(x);
+    console.log("date",date)
+
+    const curTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} `
+    console.log("yyy",curTime)
+
+    const rurTime = reactLocalStorage.getObject('admin').reauthorization;
    
     
+    // if(curTime > rurTime){
+    //   console.log('Reauthorise')
+    // }
 
+   
+        
     const appstate=isIdle
     return <RootStyle>
-              {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>}
+              {/* {isIdle && <LoadAuthorization closeModal={setmodalHandler} modifyIdle={setIsIdle}/>} */}
+              {isIdle && byebye()}
               <DashboardNavbar onOpenSidebar={() => setOpen(true)}  check={passwordChecker} />
               <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} check={passwordChecker} />
               <MainStyle>

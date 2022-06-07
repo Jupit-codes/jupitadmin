@@ -56,7 +56,7 @@ export default function DashboardNavbar({ onOpenSidebar,check }) {
      }
 
     setpasswordChecker(reactLocalStorage.getObject('admin').changepassword)
-    console.log(reactLocalStorage.getObject('admin').changepassword)
+   
   },[])
 
 
