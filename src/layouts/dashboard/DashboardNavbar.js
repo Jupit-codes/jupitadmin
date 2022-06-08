@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
@@ -11,6 +12,7 @@ import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
+import Dialog from '../../utils/dialog'
 
 
 
@@ -46,7 +48,9 @@ DashboardNavbar.propTypes = {
 
 export default function DashboardNavbar({ onOpenSidebar,check }) {
   const [passwordChecker,setpasswordChecker] = useState(false)
-
+  const [notification,setnotification] = useState(false)
+  const [dialogopen,setdialogopen] = useState(false);
+  
   
   useEffect(()=>{
 
@@ -59,9 +63,63 @@ export default function DashboardNavbar({ onOpenSidebar,check }) {
    
   },[])
 
+  useEffect(()=>{
+    if(reactLocalStorage.getObject('admin').roleid === 1){
+      NotificationCount();
+      const interval =  setInterval(()=>{
+           NotificationCount();
+       },10000);
+
+       return ()=>clearInterval(interval);
+    }
+  
+
+    
+
+},[])
+
+const NotificationCount = async ()=>{
+ 
+  await axios({
+      method: "GET",
+      url: `https://myjupit.herokuapp.com/admin/admit/staff`,
+      headers:{
+          'Content-Type':'application/json',
+          
+          'Authorization':reactLocalStorage.get('token')
+      },
+
+  })
+  .then((res)=>{
+      
+      setnotification(res.data)
+      if(res.data.length > 0){
+        setdialogopen(true)
+      }
+      console.log(res.data.length)
+      
+  })
+  .catch((err)=>{
+      console.log(err.response);
+
+      setnotification('Error');
+      if(err.response){
+          if(err.response.status === 403){
+              reactLocalStorage.clear();
+              window.location='/login'
+          }
+      }
+    
+      
+      
+  })
+}
+
+
 
   return (
     <RootStyle>
+      {dialogopen && <Dialog open={dialogopen} close={setdialogopen} data={notification}/>}
       <ToolbarStyle>
         <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}>
           <Iconify icon="eva:menu-2-fill" />

@@ -15,7 +15,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function LoginForm({auth,authstate}) {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,16 +39,22 @@ export default function LoginForm() {
     .then((res)=>{
         console.log(res.data)
         setSubmitting(false);
-        reactLocalStorage.set('token',res.data.token);
-        reactLocalStorage.setObject('admin',res.data.document) ;
-       
-
-        if(res.data.document.changepassword){
-          navigate("/dashboard/app", { replace: true});
+        if(res.data.document.roleid === 1){
+          reactLocalStorage.set('token',res.data.token);
+          reactLocalStorage.setObject('admin',res.data.document) ;
+         
+  
+          if(res.data.document.changepassword){
+            navigate("/dashboard/app", { replace: true});
+          }
+          else{
+            navigate('/dashboard/changepassword',{replace:true});
+          }
         }
         else{
-          navigate('/dashboard/changepassword',{replace:true});
+          auth(true)
         }
+        
             
         
       

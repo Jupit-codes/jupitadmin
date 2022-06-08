@@ -1,9 +1,10 @@
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
+
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
-
-
+import { useState } from 'react';
+import PleaseWait from '../utils/modal/AuthWait'
 // hooks
 
 import useResponsive from '../hooks/useResponsive';
@@ -14,6 +15,7 @@ import Logo from '../components/Logo';
 // sections
 import { LoginForm } from '../sections/auth/login';
 import AuthSocial from '../sections/auth/AuthSocial';
+
 
 // ----------------------------------------------------------------------
 
@@ -64,9 +66,11 @@ export default function Login() {
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
+  const [wait,setwait] = useState(false)
 
   return (
     <Page title="Admin Login">
+      {wait && <PleaseWait close={setwait} open={wait} />}
       <RootStyle>
         <HeaderStyle>
           <Logo />
@@ -93,7 +97,7 @@ export default function Login() {
 
             {/* <AuthSocial /> */}
 
-            <LoginForm />
+            <LoginForm  auth={setwait} authState={wait} />
 {/* 
             {!smUp && (
               <Typography variant="body2" align="center" sx={{ mt: 3 }}>

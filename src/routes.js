@@ -129,6 +129,7 @@ export default function Router({redirectPath='/login'}) {
 
    const byebye = ()=>{
      reactLocalStorage.clear();
+     setIsIdle(false)
      navigate('/login',{replace:true})
    }
   
@@ -145,6 +146,9 @@ export default function Router({redirectPath='/login'}) {
     if(todayCurl > daterurTime){
       console.log('Session Expired');
       setsessionExpired(true);
+    }
+    else{
+      setsessionExpired(false)
     }
     
     const appstate=isIdle

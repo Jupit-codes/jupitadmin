@@ -76,13 +76,14 @@ export default function Staff() {
 
   return (
     <Page title="Staff Management">
+        
         {modal && <StaffCreationModal closeModal={setmodal} modify={modal} />}
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
             Staff Portal
           </Typography>
-          <Button variant="contained" component={RouterLink} onClick={()=>setmodal(true)} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
+          <Button variant="contained" component={RouterLink} onClick={(e)=>{ e.preventDefault();setmodal(true)}} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
             Add New Staff
           </Button>
         </Stack>
@@ -90,7 +91,7 @@ export default function Staff() {
       
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-            <AllStaff reload={modal} />
+            <AllStaff  reload={modal} />
           </Grid>
 
       </Container>

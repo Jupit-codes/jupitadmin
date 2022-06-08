@@ -40,9 +40,7 @@ const [email,setemail] = useState('');
 const [role,setrole] = useState('');
 const [btn,setbtn] = useState('Create Staff');
 const [disablebtn,setdisablebtn] = useState(false)
-  const handleClose = () => {
-    closeModal(false)
-  }
+ 
 
   const handleUsername = (e) => {
     setusername(e.target.value)
@@ -130,12 +128,13 @@ const [disablebtn,setdisablebtn] = useState(false)
 
   }
 
+  
 
   return (
     <div>
       <Modal
-        open={statemodal}
-        onClose={handleClose}
+        open={modify}
+        onClose={closeModal(true)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         
