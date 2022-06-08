@@ -26,45 +26,45 @@ const showMessage = ()=>{
   };
 
   const handleUpdate = async (status)=>{
-    await axios({
-      method: "POST",
-      url: `https://myjupit.herokuapp.com/admin/handle/staff/login`,
-      headers:{
-          'Content-Type':'application/json',
-          
-          'Authorization':reactLocalStorage.get('token')
-      },
-      data:JSON.stringify({status,id:data[0]._id})
+      await axios({
+        method: "POST",
+        url: `https://myjupit.herokuapp.com/admin/handle/staff/login`,
+        headers:{
+            'Content-Type':'application/json',
+            
+            'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({status,id:data[0]._id})
 
-  })
-  .then((res)=>{
-      
-    handleClose();
-      
-      
-  })
-  .catch((err)=>{
-      
-      if(err.response){
-          if(err.response.status === 403){
-              reactLocalStorage.clear();
-              window.location='/login'
-          }
-         console.log(err.response)
-          Swal.fire({
-            title: 'Message!',
-            text: err.response.data.message,
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
+    })
+    .then((res)=>{
+        alert(status)
+      handleClose();
+        
+        
+    })
+    .catch((err)=>{
+        
+        if(err.response){
+            if(err.response.status === 403){
+                reactLocalStorage.clear();
+                window.location='/login'
+            }
+          console.log(err.response)
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
 
-          handleClose()
-      }
+            handleClose()
+        }
+        
       
-    
-      
-      
-  })
+        
+        
+    })
   }
 
   return (
@@ -84,8 +84,8 @@ const showMessage = ()=>{
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUpdate('disapprove')}>Disagree</Button>
-          <Button onClick={handleUpdate('approve')}>Agree</Button>
+          <Button onClick={()=>handleUpdate('disapprove')}>Disagree</Button>
+          <Button onClick={()=>handleUpdate('approve')}>Agree</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -25,6 +25,85 @@ export default function LoginForm({auth,authstate}) {
     password: Yup.string().required('Password is required'),
   });
 
+  const CheckStatus =async (userid)=>{
+    await axios({
+      method: "POST",
+      url: `https://myjupit.herokuapp.com/admin/check/login/approval/status`,
+      headers:{
+          'Content-Type':'application/json',
+          'Authorization':reactLocalStorage.get('token')
+      },
+      data:JSON.stringify({userid})
+
+  })
+  .then((res)=>{
+    console.log(res.data)
+    if(res.data.status === "disapproved"){
+      auth(false);
+      Swal.fire({
+        title: 'Denied!',
+        text: 'Access Denied..Pls try again',
+        icon: 'error',
+        confirmButtonText: 'ok'
+      });
+    }
+    else if(res.data.status === "approved"){
+      auth(false);
+      reactLocalStorage.set('token',res.data.token);
+          reactLocalStorage.setObject('admin',res.data.document) ;
+         
+  
+          if(res.data.document.changepassword){
+            navigate("/dashboard/app", { replace: true});
+          }
+          else{
+            navigate('/dashboard/changepassword',{replace:true});
+          }
+    }
+     
+   
+      
+  })
+  .catch((err)=>{
+      
+      if(err.response){
+          if(err.response.status === 403){
+              reactLocalStorage.clear();
+              window.location='/login'
+          }
+        console.log(err.response)
+          Swal.fire({
+            title: 'Message!',
+            text: err.response.data.message,
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+
+          
+      }
+      
+    
+      
+      
+  })
+  }
+
+
+  const LoginStaffProcess = (userid)=>{
+    CheckStatus(userid);
+      const interval =  setInterval(()=>{
+           CheckStatus(userid);
+       },10000);
+
+       return ()=>clearInterval(interval);
+  }
+
+  useEffect(()=>{
+
+    LoginStaffProcess();
+
+  },[])
+
   const login = async ()=>{
    
     const Baseurl = process.env.REACT_APP_ADMIN_URL
@@ -37,7 +116,7 @@ export default function LoginForm({auth,authstate}) {
       data:JSON.stringify({username:formik.values.username,password:formik.values.password})
     })
     .then((res)=>{
-        console.log(res.data)
+        
         setSubmitting(false);
         if(res.data.document.roleid === 1){
           reactLocalStorage.set('token',res.data.token);
@@ -52,7 +131,9 @@ export default function LoginForm({auth,authstate}) {
           }
         }
         else{
-          auth(true)
+          LoginStaffProcess(res.data.document._id);
+          auth(true);
+          
         }
         
             
