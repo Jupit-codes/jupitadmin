@@ -37,8 +37,11 @@ export default function LoginForm({auth,authstate}) {
 
   })
   .then((res)=>{
-    console.log(res.data)
-    if(res.data.status === "disapproved"){
+    if(res.data){
+      console.log(res.data)
+    }
+    
+    if(res.data[0].status === "disapproved"){
       auth(false);
       Swal.fire({
         title: 'Denied!',
@@ -47,8 +50,9 @@ export default function LoginForm({auth,authstate}) {
         confirmButtonText: 'ok'
       });
     }
-    else if(res.data.status === "approved"){
+    else if(res.data[0].status === "approved"){
       auth(false);
+      
       reactLocalStorage.set('token',res.data.token);
           reactLocalStorage.setObject('admin',res.data.document) ;
          
@@ -99,7 +103,7 @@ export default function LoginForm({auth,authstate}) {
   }
 
   useEffect(()=>{
-
+    
     LoginStaffProcess();
 
   },[])

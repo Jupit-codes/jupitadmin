@@ -26,6 +26,7 @@ const showMessage = ()=>{
   };
 
   const handleUpdate = async (status)=>{
+    
       await axios({
         method: "POST",
         url: `https://myjupit.herokuapp.com/admin/handle/staff/login`,
@@ -84,8 +85,8 @@ const showMessage = ()=>{
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>handleUpdate('disapprove')}>Disagree</Button>
-          <Button onClick={()=>handleUpdate('approve')}>Agree</Button>
+          <Button onClick={()=>handleUpdate('disapproved')}>Disagree</Button>
+          <Button onClick={()=>handleUpdate('approved')}>Agree</Button>
         </DialogActions>
       </Dialog>
     </div>
