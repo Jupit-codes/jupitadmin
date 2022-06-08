@@ -28,13 +28,13 @@ const showMessage = ()=>{
   const handleUpdate = async (status)=>{
     await axios({
       method: "POST",
-      url: `https://myjupit.herokuapp.com/handle/staff/login`,
+      url: `https://myjupit.herokuapp.com/admin/handle/staff/login`,
       headers:{
           'Content-Type':'application/json',
           
           'Authorization':reactLocalStorage.get('token')
       },
-      data:JSON.stringify({status})
+      data:JSON.stringify({status,id:data[0]._id})
 
   })
   .then((res)=>{
@@ -50,7 +50,7 @@ const showMessage = ()=>{
               reactLocalStorage.clear();
               window.location='/login'
           }
-          handleClose()
+         console.log(err.response)
           Swal.fire({
             title: 'Message!',
             text: err.response.data.message,
