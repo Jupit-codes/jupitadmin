@@ -15,17 +15,23 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm({auth,authstate}) {
+export default function LoginForm({auth,authState}) {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  
+  const [userid,setuserid] = useState()
+  const [data,setdata] = useState()
+  const [token,settoken] = useState()
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
   });
 
-  const CheckStatus =async (userid)=>{
+  const CheckStatus =async (userid,data,token)=>{
+
+    console.log(userid);
     await axios({
       method: "POST",
       url: `https://myjupit.herokuapp.com/admin/check/login/approval/status`,
@@ -40,9 +46,11 @@ export default function LoginForm({auth,authstate}) {
     if(res.data){
       console.log(res.data)
     }
+    console.log(res.data)
     
     if(res.data[0].status === "disapproved"){
       auth(false);
+      
       Swal.fire({
         title: 'Denied!',
         text: 'Access Denied..Pls try again',
@@ -52,12 +60,11 @@ export default function LoginForm({auth,authstate}) {
     }
     else if(res.data[0].status === "approved"){
       auth(false);
-      
-      reactLocalStorage.set('token',res.data.token);
-          reactLocalStorage.setObject('admin',res.data.document) ;
-         
-  
-          if(res.data.document.changepassword){
+     
+      reactLocalStorage.set('token',token);
+          reactLocalStorage.setObject('admin',data) ;
+
+          if(data.changepassword){
             navigate("/dashboard/app", { replace: true});
           }
           else{
@@ -76,6 +83,7 @@ export default function LoginForm({auth,authstate}) {
               window.location='/login'
           }
         console.log(err.response)
+        
           Swal.fire({
             title: 'Message!',
             text: err.response.data.message,
@@ -93,20 +101,32 @@ export default function LoginForm({auth,authstate}) {
   }
 
 
-  const LoginStaffProcess = (userid)=>{
-    CheckStatus(userid);
-      const interval =  setInterval(()=>{
-           CheckStatus(userid);
-       },10000);
+  const LoginStaffProcess = (userid,data,token)=>{
+    
 
-       return ()=>clearInterval(interval);
+      
+     
+
+      
+
+    
+    
   }
 
   useEffect(()=>{
-    
-    LoginStaffProcess();
+    console.log(authState)
+    if(authState){
+      CheckStatus(userid,data,token);
+      const interval =  setInterval(()=>{
+       CheckStatus(userid,data,token);
+       },10000);
+  
+       return ()=>clearInterval(interval);
+    }
 
-  },[])
+  },[authState])
+
+ 
 
   const login = async ()=>{
    
@@ -135,7 +155,10 @@ export default function LoginForm({auth,authstate}) {
           }
         }
         else{
-          LoginStaffProcess(res.data.document._id);
+          setdata(res.data.document);
+          settoken(res.data.token)
+          setuserid(res.data.document._id)
+        
           auth(true);
           
         }

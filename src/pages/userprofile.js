@@ -78,11 +78,6 @@ export default function User() {
 
   const [DATA,setDATA] = useState([]);
 
- 
-
-  
-
-  
 
   const [btcmarketprice,setbtcmarketprice] = useState(0);
   const [btcmarketpricedisplay,setbtcmarketpricedisplay] = useState('');
@@ -96,7 +91,8 @@ export default function User() {
   const [jupitusdtbuyrate,setjupitusdtbuyrate] = useState(0);
 
   const [refresh,setrefresh] = useState(false)
-
+  const [fname,setfname] = useState('')
+  const [lname,setlname] = useState('')
   
   
 
@@ -121,13 +117,18 @@ export default function User() {
       setusdtbalance(res.data.detail.usdt_wallet[0].balance.$numberDecimal);
       setnairabalance(res.data.detail.naira_wallet[0].balance.$numberDecimal);
       setusername(res.data.detail.username);
+      setfname(res.data.detail.firstname);
+      setlname(res.data.detail.lastname)
       setemail(res.data.detail.email);
       setphonenumber(res.data.detail.phonenumber);
       setdoc(res.data.detail.updated);
       setbank(res.data.bank.bank_code);
       setaccountnumber(res.data.bank.account_number)
         settwofactor(res.data.twofactor);
+        
       setbigLoader(false);
+
+      console.log(res.data.twofactor)
 
       
 
@@ -228,9 +229,39 @@ export default function User() {
                     <Typography variant="h4" gutterBottom mb={5}>
 
                     <Button variant="outlined" component={RouterLink} to="#" color="error" startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
-                        {twofactor && twofactor.activated && 'Disable 2FA'}
-                        {!twofactor && 'Not Activated'}
+                        {twofactor && twofactor.activated ? 'Disable 2FA':'2FA not activated'}
+                        
                     </Button>
+                    </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                    <Typography   gutterBottom>
+                        <TextField
+                            label="Firstname"
+                            id="outlined-start-adornment"
+                            sx={{ m: 1, width: '30ch' }}
+                            
+                            value={fname || ''}
+                            variant='filled'
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            />
+                        </Typography>
+                    <Typography align='left' gutterBottom>
+                    <TextField
+                            label="Lastname"
+                            id="outlined-start-adornment"
+                            sx={{ m: 1, width: '30ch' }}
+                            
+                            value={lname || ''}
+                            variant='filled'
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            />
+                        
                     </Typography>
                 </Stack>
                     
@@ -336,9 +367,8 @@ export default function User() {
                   'KYC LEVEL 2',
                   'KYC LEVEL 3'
                  
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
+                ][index]
+                
               }))}
             />
           </Grid>

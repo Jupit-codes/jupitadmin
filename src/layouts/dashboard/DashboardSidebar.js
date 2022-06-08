@@ -96,8 +96,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar,check }
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {reactLocalStorage.getObject('admin').firstname}&nbsp;{reactLocalStorage.getObject('admin').lastname}
+      
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {reactLocalStorage.getObject('admin').role}
                 {account.role}
               </Typography>
             </Box>
