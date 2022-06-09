@@ -28,6 +28,7 @@ import OperationManagerDashboard from './Dashboard/operationmanager'
 import FinanceDashboard from './Dashboard/finance'
 import Giftcardagent from './Dashboard/giftcardagent'
 import Customercare from './Dashboard/customercare'
+import QualityAssurance from './Dashboard/qualityassurance'
 
 
 

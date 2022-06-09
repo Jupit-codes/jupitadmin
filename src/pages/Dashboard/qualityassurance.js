@@ -1,4 +1,7 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
+
+import { Grid, Container, Typography } from '@mui/material';
+
 const Index = ()=>{
 
     return (
