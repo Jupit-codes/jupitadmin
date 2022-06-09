@@ -101,6 +101,9 @@ export default function User() {
   const [refresh,setrefresh] = useState(false)
   const [fname,setfname] = useState('')
   const [lname,setlname] = useState('')
+  const [kyclevel1,setkyclevel1] = useState('');
+  const [kyclevel2,setkyclevel2] = useState('')
+  const [kyclevel3,setkyclevel3] = useState('')
   
   
 
@@ -118,7 +121,10 @@ export default function User() {
       data:JSON.stringify({id})
     })
     .then((res)=>{
-    //   console.log(res.data)
+      
+      setkyclevel1(res.data.kyc.level1[0].status);
+      setkyclevel2(res.data.kyc.level2[0].event_status);
+      setkyclevel3(res.data.kyc.level3[0].status);
       setjupitbtcbuyrate(res.data.rate[0].btc[0].buy);
       setjupitusdtbuyrate(res.data.rate[0].usdt[1].buy);
       setbtcbalance(res.data.detail.btc_wallet[0].balance.$numberDecimal);
@@ -136,7 +142,7 @@ export default function User() {
         
       setbigLoader(false);
 
-      console.log(res.data.twofactor)
+      // console.log(res.data.twofactor)
 
       
 
@@ -217,13 +223,13 @@ export default function User() {
       <Container>
 
       <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={4}>
                 <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
             </Grid>
 
@@ -232,7 +238,7 @@ export default function User() {
             <Card style={{padding:20}}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom mb={5}>
-                        User Profile Details<Iconify icon="eva:edit-2-fill"/>
+                        User Profile Details
                     </Typography>
                     <Typography variant="h4" gutterBottom mb={5}>
 
@@ -360,12 +366,30 @@ export default function User() {
                     </Typography>
                     
                 </Stack>
+
+                <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>
+                   
+                    <Typography variant="h4" gutterBottom mb={5}>
+
+                      <Button variant="outlined" component={RouterLink} to="#"  startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                          Edit Profile
+                          
+                      </Button>
+                    </Typography>
+                </Stack>
+               
                 
                 </Card>
                 
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-            <Card style={{padding:20,backgroundColor:'#000'}}>
+            <Card style={{padding:20}}>
+            
+              <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
+                  <Button variant="contained"  component={RouterLink} to="#" color='error' startIcon={<Iconify icon="clarity:export-line" />}>
+                      Deactivate User's Profile
+                  </Button>   
+                </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom mb={5}>
                         KYC (Know Your Client)
@@ -373,25 +397,26 @@ export default function User() {
                    
                 </Stack>
 
-                <Stack direction="row"  alignItems="flex-start" mb={2}>
-                  <Timeline>
+                <Stack direction="row"  alignItems="center" mb={2}>
+                
+                  <Timeline position="alternate">
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot color='success' />
+                        <TimelineDot color={kyclevel1 === "Verified" ? 'success': 'error'}/>
                         <TimelineConnector />
                       </TimelineSeparator>
                       <TimelineContent>KYC LEVEL 1</TimelineContent>
                     </TimelineItem>
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot color='success' />
+                        <TimelineDot color={kyclevel2 === "customeridentification.success" ? 'success': 'error'} />
                         <TimelineConnector />
                       </TimelineSeparator>
                       <TimelineContent>KYC LEVEL 2</TimelineContent>
                     </TimelineItem>
                     <TimelineItem>
                       <TimelineSeparator>
-                        <TimelineDot />
+                        <TimelineDot color={kyclevel3  ? 'success': 'error'} />
                       </TimelineSeparator>
                       <TimelineContent>KYC LEVEL 3</TimelineContent>
                     </TimelineItem>
@@ -413,14 +438,6 @@ export default function User() {
           </Grid>
 
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
-          <Typography variant="h4" gutterBottom>
-            User
-          </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Export To Excel
-          </Button>
-        </Stack>
 
         
       </Container>
