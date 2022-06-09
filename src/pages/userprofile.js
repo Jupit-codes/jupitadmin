@@ -224,12 +224,12 @@ export default function User() {
                 <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-                <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh}  refresh={refresh}/>
+                <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
             </Grid>
 
 
             <Grid item xs={12} md={6} lg={8}>
-                <Card style={{padding:20}}>
+            <Card style={{padding:20}}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom mb={5}>
                         User Profile Details<Iconify icon="eva:edit-2-fill"/>
@@ -363,32 +363,47 @@ export default function User() {
                 
                 </Card>
                 
-          </Grid>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+            <Card style={{padding:20,backgroundColor:'#000'}}>
+                <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
+                    <Typography variant="h4" gutterBottom mb={5}>
+                        KYC (Know Your Client)
+                    </Typography>
+                   
+                </Stack>
 
-          <Grid item xs={12} md={6} lg={4}>
-              <Timeline>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot />
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent>Eat</TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot />
-                    <TimelineConnector />
-                  </TimelineSeparator>
-                  <TimelineContent>Code</TimelineContent>
-                </TimelineItem>
-                <TimelineItem>
-                  <TimelineSeparator>
-                    <TimelineDot />
-                  </TimelineSeparator>
-                  <TimelineContent>Sleep</TimelineContent>
-                </TimelineItem>
-              </Timeline>
-          </Grid>
+                <Stack direction="row"  alignItems="flex-start" mb={2}>
+                  <Timeline>
+                    <TimelineItem>
+                      <TimelineSeparator>
+                        <TimelineDot color='success' />
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent>KYC LEVEL 1</TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineSeparator>
+                        <TimelineDot color='success' />
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent>KYC LEVEL 2</TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineSeparator>
+                        <TimelineDot />
+                      </TimelineSeparator>
+                      <TimelineContent>KYC LEVEL 3</TimelineContent>
+                    </TimelineItem>
+                </Timeline>
+                </Stack>
+
+                
+
+                </Card>
+            </Grid>
+
+         
         </Grid>
 
         

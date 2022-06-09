@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -20,7 +21,77 @@ import {
   AppConversionRates,
 } from '../../sections/@dashboard/app';
 
-const Index = ()=>{
+const Index =  ()=>{
+    const navigate = useNavigate();
+    const [data,setdata] = useState();
+    const [refresh,setrefresh] = useState(false);
+    const [userfetch,setuserfetch] = useState('');
+    const [withdrawal,setwithdrawal] = useState('');
+    const [deposit,setdeposit] = useState('');
+    const [transaction,setransaction] = useState('');
+
+    const Analyst = async ()=>{
+        setrefresh(true)
+        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+    await axios({
+    
+        url:`${BaseUrl}/admin/all/for/card`,
+        method:'GET',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization': reactLocalStorage.get('token')
+        }
+      })
+      .then((res)=>{
+          setrefresh(false)
+       console.log(res.data)
+       setuserfetch(res.data.allusers.length);
+       setdeposit(res.data.deposit.length)
+       setwithdrawal(res.data.withdrawal.length)
+       setransaction(res.data.transaction.length)
+     
+  
+      })
+      .catch((err)=>{
+            console.log(err);
+            setrefresh(false)
+            if(err.response){
+              if(err.response.status === 403){
+              //   console.log(err.response.data.message);
+                Swal.fire({
+                  title: 'Message!',
+                  text: err.response.data.message,
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+                navigate('/login',{replace:true})
+                return false;
+                
+              }
+    
+            //   Swal.fire({
+            //     title: 'Message!',
+            //     text: err.response.data,
+            //     icon: 'error',
+            //     confirmButtonText: 'ok'
+            //   });
+             
+            }
+            else{
+              Swal.fire({
+                title: 'Message!',
+                text: 'No Connection',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+            }
+      })
+    }
+
+
+    useEffect(()=>{
+        Analyst();
+    },[])
 
     return (
         <Container maxWidth="xl">
@@ -32,19 +103,19 @@ const Index = ()=>{
 
 
             <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+                        <AppWidgetSummary title="Transaction Count" total={refresh ? `refreshing` : transaction} icon={'ant-design:android-filled'} />
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+                        <AppWidgetSummary title="Users" total={refresh ? `refreshing` : userfetch} color="info" icon={'ant-design:apple-filled'} />
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title=" Total Deposit" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+                        <AppWidgetSummary title=" Total Deposit" total={refresh ? `refreshing` : deposit} color="warning" icon={'ant-design:windows-filled'} />
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title=" Total Withdrawal" total={234} color="error" icon={'ant-design:bug-filled'} />
+                        <AppWidgetSummary title=" Total Withdrawal" total={refresh ? `refreshing` : withdrawal} color="error" icon={'ant-design:bug-filled'} />
                     </Grid>
 
                     <Grid item xs={12} md={6} lg={8}>
