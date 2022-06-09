@@ -202,6 +202,7 @@ export default function Transaction({userid}){
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
+                
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>

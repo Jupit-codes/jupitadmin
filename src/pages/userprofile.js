@@ -559,6 +559,9 @@ export default function User() {
         
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
+              <Typography variant="h4" gutterBottom mb={5}>
+                        Trade Logs (USDT/BTC)
+              </Typography>
             <UserTransaction userid={id}/>
           </Grid>
 
