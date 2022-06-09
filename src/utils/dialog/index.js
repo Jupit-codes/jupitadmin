@@ -39,7 +39,7 @@ const showMessage = ()=>{
 
     })
     .then((res)=>{
-        alert(status)
+        
       handleClose();
         
         

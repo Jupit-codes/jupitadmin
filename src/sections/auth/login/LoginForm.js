@@ -176,7 +176,7 @@ export default function LoginForm({auth,authState}) {
           //   console.log(err.response.data.message);
             Swal.fire({
               title: 'Message!',
-              text: err.response.data.message,
+              text: err.response.data,
               icon: 'error',
               confirmButtonText: 'ok'
             });
@@ -187,7 +187,7 @@ export default function LoginForm({auth,authState}) {
 
           Swal.fire({
             title: 'Message!',
-            text: err.response.data.message,
+            text: err.response.data,
             icon: 'error',
             confirmButtonText: 'ok'
           });

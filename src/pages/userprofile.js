@@ -83,7 +83,7 @@ export default function User() {
   const[bank,setbank] = useState();
   const [accountnumber,setaccountnumber] = useState()
   const [twofactor,settwofactor] = useState();
-
+  const [status, setstatus] = useState('')
   const [DATA,setDATA] = useState([]);
 
 
@@ -104,13 +104,13 @@ export default function User() {
   const [kyclevel1,setkyclevel1] = useState('');
   const [kyclevel2,setkyclevel2] = useState('')
   const [kyclevel3,setkyclevel3] = useState('')
-  
-  
+  const [useractivate_deactivate,setuseractivate_deactivate] = useState(false)
+  const [twofactbtn,settwofactbtn] = useState(false)
 
   const { id } = useParams();
   const getAllUserDetails = async ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
-    
+  
     await axios({
       url:`${BaseUrl}/admin/get/all/users/id`,
       method:'POST',
@@ -130,6 +130,7 @@ export default function User() {
       setbtcbalance(res.data.detail.btc_wallet[0].balance.$numberDecimal);
       setusdtbalance(res.data.detail.usdt_wallet[0].balance.$numberDecimal);
       setnairabalance(res.data.detail.naira_wallet[0].balance.$numberDecimal);
+      setstatus(res.data.detail.Status)
       setusername(res.data.detail.username);
       setfname(res.data.detail.firstname);
       setlname(res.data.detail.lastname)
@@ -138,7 +139,7 @@ export default function User() {
       setdoc(res.data.detail.updated);
       setbank(res.data.bank.bank_code);
       setaccountnumber(res.data.bank.account_number)
-        settwofactor(res.data.twofactor);
+        settwofactor(res.data.detail.TWOFA);
         
       setbigLoader(false);
 
@@ -205,7 +206,131 @@ export default function User() {
     })
     }
 
+    const disabletwofactor = async(e)=>{
+      e.preventDefault();
     
+      settwofactbtn(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+    
+      await axios({
+        url:`${BaseUrl}/admin/deactivate/2fa`,
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({id})
+      })
+      .then((res)=>{
+        console.log(res.data)
+        twofactor(false);
+        settwofactbtn(false);
+        
+  
+      })
+      .catch((err)=>{
+        settwofactbtn(false);
+        console.log(err)
+        if(err.response){
+          if(err.response.status === 403){
+          //   console.log(err.response.data.message);
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+            navigate('/login',{replace:true})
+            return false;
+            
+          }
+  
+          Swal.fire({
+            title: 'Message!',
+            text: err.response.data,
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+         
+        }
+        else{
+          Swal.fire({
+            title: 'Message!',
+            text: 'No Connection',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+        }
+  
+      })
+    }
+
+    const handleActiveAccount = async (e,status)=>{
+      e.preventDefault();
+      let updatestatus = ""
+      if(status === "Active"){
+          updatestatus = "Non-Active";
+      }
+      else{
+        updatestatus = "Active";
+      }
+      setuseractivate_deactivate(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+    
+      await axios({
+        url:`${BaseUrl}/admin/deactivate/user/profile`,
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({id,updatestatus})
+      })
+      .then((res)=>{
+        console.log(res.data)
+        setstatus(updatestatus)
+        setuseractivate_deactivate(false);
+        
+  
+      })
+      .catch((err)=>{
+        setuseractivate_deactivate(false);
+        console.log(err.response)
+        if(err.response){
+          if(err.response.status === 403){
+          //   console.log(err.response.data.message);
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+            navigate('/login',{replace:true})
+            return false;
+            
+          }
+  
+          Swal.fire({
+            title: 'Message!',
+            text: err.response.data,
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+         
+        }
+        else{
+          Swal.fire({
+            title: 'Message!',
+            text: 'No Connection',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+        }
+  
+      })
+      
+
+    }
 
     useEffect(()=>{
         setbigLoader(true);
@@ -242,8 +367,8 @@ export default function User() {
                     </Typography>
                     <Typography variant="h4" gutterBottom mb={5}>
 
-                    <Button variant="outlined" component={RouterLink} to="#" color="error" startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
-                        {twofactor && twofactor.activated ? 'Disable 2FA':'2FA not activated'}
+                    <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                        {twofactor ? 'Disable 2FA':'2FA not activated'}
                         
                     </Button>
                     </Typography>
@@ -386,8 +511,8 @@ export default function User() {
             <Card style={{padding:20}}>
             
               <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
-                  <Button variant="contained"  component={RouterLink} to="#" color='error' startIcon={<Iconify icon="clarity:export-line" />}>
-                      Deactivate User's Profile
+                  <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                      {status === "Active" ? "Deactivate Account":"Active Account"}
                   </Button>   
                 </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
