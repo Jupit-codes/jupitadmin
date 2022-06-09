@@ -171,7 +171,7 @@ export default function Router({redirectPath='/login'}) {
         
           <Route path="/" element={<ProtectLogin><LogoOnlyLayout /></ProtectLogin>} >
             <Route path="/login" element={<Login />} />
-            <Route path="/create/super/admin/" element={<Register/>} />
+            <Route path="create/super/admin/" element={<Register/>} />
           </Route>
           
           <Route path="dashboard" element={<ProtectedRoute><DashboardLayout   /></ProtectedRoute>}>
