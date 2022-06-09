@@ -62,6 +62,27 @@ const Index = ()=>{
                         ]}
                         />
                     </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <AppConversionRates
+                        title="Transaction Volume"
+                        subheader="monthly"
+                        chartData={[
+                            { label: 'JAN', value: 400 },
+                            { label: 'FEB', value: 430 },
+                            { label: 'MAR', value: 540 },
+                            { label: 'APR', value: 448 },
+                            { label: 'MAY', value: 470 },
+                            { label: 'JUN', value: 580 },
+                            { label: 'JUL', value: 580 },
+                            { label: 'AUG', value: 580 },
+                            { label: 'SEPT', value: 580 },
+                            { label: 'OCT', value: 580 },
+                            { label: 'NOV', value: 580 },
+                            { label: 'DEC', value: 580 },
+                        
+                        ]}
+                        />
+                    </Grid>
             </Grid>
         </Container>
     )
