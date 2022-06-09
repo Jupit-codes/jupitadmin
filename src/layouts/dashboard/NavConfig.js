@@ -17,19 +17,19 @@ const navConfig = [
     title: 'User Management',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
-    roles:[1,2,5]
+    roles:[1,2,5,3,4]
   },
   {
     title: 'Initialise Rate',
     path: '/dashboard/setrate',
     icon: getIcon('icon-park-outline:set-off'),
-    roles:[1,2]
+    roles:[1,2,4]
   },
   {
     title: 'All Wallet Transactions',
     path: '/dashboard/alltransactions',
     icon: getIcon('icon-park-outline:transaction-order'),
-    roles:[2]
+    roles:[1,2,3,4]
   },
   {
     title: 'Awaiting Approval',
@@ -54,6 +54,18 @@ const navConfig = [
     path: '/dashboard/get/all/staffs',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1]
+  },
+  {
+    title: 'All Deposit',
+    path: '/dashboard/get/all/deposit',
+    icon: getIcon('fa-solid:users-cog'),
+    roles:[1,3]
+  },
+  {
+    title: 'All Withdrawal',
+    path: '/dashboard/get/all/deposit',
+    icon: getIcon('fa-solid:users-cog'),
+    roles:[1,3]
   },
 ];
 
