@@ -25,7 +25,9 @@ import {
 
 import SuperAdminDashboard from './Dashboard/superadmin'
 import OperationManagerDashboard from './Dashboard/operationmanager'
-
+import FinanceDashboard from './Dashboard/finance'
+import Giftcardagent from './Dashboard/giftcardagent'
+import Customercare from './Dashboard/customercare'
 
 
 
@@ -46,7 +48,14 @@ export default function DashboardApp(state) {
         
       case 2:
         return <OperationManagerDashboard/>
-        
+      case 3:
+        return <FinanceDashboard/>
+      case 4:
+        return <QualityAssurance/>
+      case 5:
+        return <Customercare/>
+      case 6:
+          return <Giftcardagent/>
       default:
 
     }
