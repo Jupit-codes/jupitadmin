@@ -17,13 +17,13 @@ const navConfig = [
     title: 'User Management',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
-    roles:[1,2]
+    roles:[1,2,5]
   },
   {
     title: 'Initialise Rate',
     path: '/dashboard/setrate',
     icon: getIcon('icon-park-outline:set-off'),
-    roles:[1]
+    roles:[1,2]
   },
   {
     title: 'All Wallet Transactions',
@@ -41,7 +41,13 @@ const navConfig = [
     title: 'GiftCard Sell Request',
     path: '/dashboard/giftcard/sell/transactions',
     icon: getIcon('ic:baseline-sell'),
-    roles:[1]
+    roles:[1,6]
+  },
+  {
+    title: 'GiftCard Buy Request',
+    path: '/dashboard/giftcard/sell/transactions',
+    icon: getIcon('ic:baseline-sell'),
+    roles:[1,6]
   },
   {
     title: 'Staff Management',

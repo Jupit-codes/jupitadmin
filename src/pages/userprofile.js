@@ -26,8 +26,16 @@ import {
   Grid,
   useTheme,
   TextField,
-  getAccordionSummaryUtilityClass
+  getAccordionSummaryUtilityClass,
+  
 } from '@mui/material';
+
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
 // components
 import BiggerLoader from '../utils/loader'
 import Page from '../components/Page';
@@ -358,19 +366,28 @@ export default function User() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-          <AppOrderTimeline
-              title="KYC (Know Your Client) LEVEL"
-              list={[...Array(3)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  'KYC LEVEL 1',
-                  'KYC LEVEL 2',
-                  'KYC LEVEL 3'
-                 
-                ][index]
-                
-              }))}
-            />
+              <Timeline>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>Eat</TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>Code</TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                  </TimelineSeparator>
+                  <TimelineContent>Sleep</TimelineContent>
+                </TimelineItem>
+              </Timeline>
           </Grid>
         </Grid>
 
