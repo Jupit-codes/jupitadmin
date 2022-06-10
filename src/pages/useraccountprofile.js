@@ -108,6 +108,8 @@ export default function User() {
   const [twofactbtn,settwofactbtn] = useState(false)
 
   const { account } = useParams();
+
+//   console.log(account)
   const getAllUserDetails = async ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
   
@@ -121,7 +123,7 @@ export default function User() {
       data:JSON.stringify({account})
     })
     .then((res)=>{
-      
+      console.log(res.data)
       setkyclevel1(res.data.kyc.level1[0].status);
       setkyclevel2(res.data.kyc.level2[0].event_status);
       setkyclevel3(res.data.kyc.level3[0].status);
@@ -150,6 +152,7 @@ export default function User() {
     })
     .catch((err)=>{
       setbigLoader(false)
+      console.log(err.response)
       if(err.response){
         if(err.response.status === 403){
         //   console.log(err.response.data.message);

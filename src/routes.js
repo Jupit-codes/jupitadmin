@@ -181,7 +181,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="app" element={<DashboardApp  />} />
             <Route path="user" element={<User/>} />
             <Route path="user/:id" element={<UserProfile/>} />
-            <Route path="user/account:account" element={<UserAccountProfile/>} />
+            <Route path="user/account/:account" element={<UserAccountProfile/>} />
             <Route path="setrate" element={<SetRate/>} />
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
