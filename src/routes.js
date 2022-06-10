@@ -18,6 +18,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import UserProfile from './pages/userprofile'
+import UserAccountProfile from './pages/useraccountprofile'
 import DashboardApp from './pages/DashboardApp';
 import AllTransaction from './pages/alltransaction'
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
@@ -29,6 +30,8 @@ import VerificationPortal from './pages/verifyIdcard'
 import GiftCardSell from './pages/giftcardsellfetch'
 import GiftCardUpload from './pages/Giftcarduploads'
 import AllStaff from './pages/staff'
+import Alldeposit from './pages/alldeposit';
+import Allwithdrawal from './pages/allwithdrawal';
 
 
 // ----------------------------------------------------------------------
@@ -178,10 +181,13 @@ export default function Router({redirectPath='/login'}) {
             <Route path="app" element={<DashboardApp  />} />
             <Route path="user" element={<User/>} />
             <Route path="user/:id" element={<UserProfile/>} />
+            <Route path="user/account:account" element={<UserAccountProfile/>} />
             <Route path="setrate" element={<SetRate/>} />
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
             <Route path="alltransactions" element={<AllTransaction/>}/>
+            <Route path="alldeposit" element={<Alldeposit/>}/>
+            <Route path="allwithdrawal" element={<Allwithdrawal/>}/>
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>
             <Route path="idcard/user/verification/" element={<VerificationPortal/>}/>
             <Route path="changepassword" element={<ChangePassword  update={setpasswordChecker}/>} />

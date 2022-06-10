@@ -57,13 +57,13 @@ const navConfig = [
   },
   {
     title: 'All Deposit',
-    path: '/dashboard/get/all/deposit',
+    path: '/dashboard/alldeposit',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,3]
   },
   {
     title: 'All Withdrawal',
-    path: '/dashboard/get/all/deposit',
+    path: '/dashboard/allwithdrawal',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,3]
   },
