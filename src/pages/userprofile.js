@@ -440,7 +440,23 @@ export default function User() {
 
       <Grid container spacing={3}>
         {
-          reactLocalStorage.getObject('admin').roleid === 1 || reactLocalStorage.getObject('admin').roleid === 4 || reactLocalStorage.getObject('admin').roleid === 2  && 
+          reactLocalStorage.getObject('admin').roleid === 1 || reactLocalStorage.getObject('admin').roleid === 4 && 
+          <>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+              <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+              <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
+          </Grid>
+          </>
+
+        }
+
+{
+          reactLocalStorage.getObject('admin').roleid === 2 && 
           <>
           <Grid item xs={12} sm={6} md={4}>
             <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
