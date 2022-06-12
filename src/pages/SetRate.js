@@ -49,6 +49,7 @@ const [usdtDisablebuy,setusdtDisablebuy] = useState(false)
 const [usdtDisablesell,setusdtDisablesell] = useState(false)
 
 const [cardtype,setcardtype] = useState('');
+const [cardtypeII,setcardtypeII] = useState('');
 const [allgiftcards,setallgiftcards] = useState([])
 
 
@@ -83,8 +84,20 @@ const updateGiftcardSell = async ()=>{
         icon: 'error',
         confirmButtonText: 'ok'
       });
+      
       return false
     }
+
+      if(!cardtypeII){
+        Swal.fire({
+      title: 'oops!',
+      text: 'Invalid Parameter',
+      icon: 'error',
+      confirmButtonText: 'ok'
+    });
+    
+    return false
+  }
 
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    setgiftcardDisablesell(true);
@@ -95,7 +108,7 @@ const updateGiftcardSell = async ()=>{
         'Content-Type':'application/json',  
         'Authorization':reactLocalStorage.get('token')
       },
-      data:JSON.stringify({giftcard_sell:giftcardsell,type:"GIFTCARD_SELL"})
+      data:JSON.stringify({giftcard_sell:giftcardsell,type:"GIFTCARD_SELL",cardtype:cardtypeII})
     })
     .then((res)=>{
       console.log(res.data)
@@ -549,6 +562,10 @@ const handeCardSelect=(e)=>{
   setcardtype(e.target.value)
 }
 
+const handeCardSelectII=(e)=>{
+  setcardtypeII(e.target.value)
+}
+
 
   const theme = useTheme();
   return (
@@ -616,6 +633,19 @@ const handeCardSelect=(e)=>{
                     </Button>
 
                     <TextField fullWidth label="Set Sell GiftCard" id="fullWidth"  type="number"  value={giftcardsell|| ''}  onChange={handleGiftcardSell}   />
+                    <InputLabel id="demo-simple-select-label" style={{marginTop:10}}  >Card Type</InputLabel>
+                    <Select
+                        fullWidth
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={cardtypeII||''}
+                        label="SelectCard"
+                        onChange={handeCardSelectII}
+                        style={{marginTop:5,marginBottom:20}} 
+                        >
+                          {displayCardTypes()}
+                      
+                    </Select>
                     <Button variant="outlined"  to="#" color="secondary" startIcon={<Iconify icon="arcticons:microsoftauthenticator" /> }  disabled={giftcardDisablesell}  style={{marginTop:5}} onClick={()=>updateGiftcardSell()}>
                        Save Sell Rate (<Iconify icon="ic:round-card-giftcard"/>)
                     </Button>
