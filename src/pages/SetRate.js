@@ -49,6 +49,7 @@ const [usdtDisablebuy,setusdtDisablebuy] = useState(false)
 const [usdtDisablesell,setusdtDisablesell] = useState(false)
 
 const [cardtype,setcardtype] = useState('');
+const [allgiftcards,setallgiftcards] = useState([])
 
 
 const handleBtcBuy = (e)=>{
@@ -146,12 +147,21 @@ const updateGiftcardBuy = async ()=>{
     if(!giftcardbuy){
         Swal.fire({
        title: 'oops!',
-       text: 'Invalid Parameter',
+       text: 'Input Valid Amount',
        icon: 'error',
        confirmButtonText: 'ok'
      });
      return false
    }
+   if(!cardtype){
+    Swal.fire({
+   title: 'oops!',
+   text: 'Select GiftCard Type',
+   icon: 'error',
+   confirmButtonText: 'ok'
+ });
+ return false
+}
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    setgiftcardDisablebuy(true);
     await axios({
@@ -161,7 +171,7 @@ const updateGiftcardBuy = async ()=>{
         'Content-Type':'application/json',  
         'Authorization':reactLocalStorage.get('token')
       },
-      data:JSON.stringify({giftcard_buy:giftcardbuy,type:"GIFTCARD_BUY"})
+      data:JSON.stringify({giftcard_buy:giftcardbuy,type:"GIFTCARD_BUY",cardtype})
     })
     .then((res)=>{
       console.log(res.data)
@@ -496,7 +506,8 @@ const getAllGiftCards = async()=>{
     
    })
    .then((res)=>{
-     console.log(res.data)
+    setallgiftcards(res.data);
+  
     
    })
    .catch((err)=>{
@@ -529,7 +540,13 @@ const getAllGiftCards = async()=>{
 }
 
 const displayCardTypes = ()=>{
+  return allgiftcards.map((d,index)=>{
+      return  <MenuItem key={index} value={d.brandname}>{d.brandname}</MenuItem>
+  })
+}
 
+const handeCardSelect=(e)=>{
+  setcardtype(e.target.value)
 }
 
 
@@ -588,6 +605,7 @@ const displayCardTypes = ()=>{
                         id="demo-simple-select"
                         value={cardtype||''}
                         label="SelectCard"
+                        onChange={handeCardSelect}
                         style={{marginTop:5,marginBottom:20}} 
                         >
                           {displayCardTypes()}
