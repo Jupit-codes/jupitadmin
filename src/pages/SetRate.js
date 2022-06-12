@@ -487,7 +487,7 @@ const getAllGiftCards = async()=>{
   const BaseUrl = process.env.REACT_APP_ADMIN_URL;
   
    await axios({
-     url:`${BaseUrl}/admin/get/giftcards`,
+     url:`${BaseUrl}/admin/all/giftcard`,
      method:'GET',
      headers:{
        'Content-Type':'application/json',  
