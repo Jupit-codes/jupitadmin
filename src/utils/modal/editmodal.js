@@ -132,9 +132,12 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
       console.log(marketrate)
       const nairaequi = parseFloat(e.target.value) * newjupitrate;
       setnairavalue(nairaequi);
-      const btcequi = parseFloat(usdvalue/newmarketrate).toFixed(8);
-      console.log(btcequi)
-      setValue(btcequi)
+      const btcequi = parseFloat(e.target.value)/parseFloat(newmarketrate).toFixed(8);
+      const dp = 10**5;
+      const xp = Math.round(btcequi * dp)/dp;
+      
+
+      setValue(xp)
     }
     else{
       Swal.fire({

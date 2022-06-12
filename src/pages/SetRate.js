@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { toast,ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography,TextField, CardContent,Card,Button, CardHeader } from '@mui/material';
+import { Grid, Container, Typography,TextField, CardContent,Card,Button, CardHeader,Select,InputLabel,MenuItem, } from '@mui/material';
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 // components
@@ -48,6 +48,7 @@ const [btcDisablesell,setbtcDisablesell] = useState(false)
 const [usdtDisablebuy,setusdtDisablebuy] = useState(false)
 const [usdtDisablesell,setusdtDisablesell] = useState(false)
 
+const [cardtype,setcardtype] = useState('');
 
 
 const handleBtcBuy = (e)=>{
@@ -478,6 +479,58 @@ const updateBtcBuy = async ()=>{
     })
 }
 
+useEffect(()=>{
+  getAllGiftCards();
+})
+
+const getAllGiftCards = async()=>{
+  const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+  
+   await axios({
+     url:`${BaseUrl}/admin/get/giftcards`,
+     method:'GET',
+     headers:{
+       'Content-Type':'application/json',  
+       'Authorization':reactLocalStorage.get('token')
+     }
+    
+   })
+   .then((res)=>{
+     console.log(res.data)
+    
+   })
+   .catch((err)=>{
+    
+     if(err.response){
+       if(err.response.status === 403){
+         console.log(err.response.data.message);
+         Swal.fire({
+           title: 'Message!',
+           text: err.response.data.message,
+           icon: 'error',
+           confirmButtonText: 'ok'
+         });
+         navigate('/',{replace:true})
+         return false;
+         
+       }
+       
+           toast.error(err.response.data,'Failed Callback');
+   
+       console.log(err)
+     }
+     else{
+       console.log(err)
+     }
+     
+   
+
+   })
+}
+
+const displayCardTypes = ()=>{
+
+}
 
 
   const theme = useTheme();
@@ -511,6 +564,7 @@ const updateBtcBuy = async ()=>{
                   
                 <CardContent>
                     <TextField fullWidth label="Set Buy USDT" id="fullWidth"  type="number"  value={usdtbuy || ''}  onChange={handleUsdtBuy}  />
+                    
                     <Button variant="outlined"  to="#" color="secondary" startIcon={<Iconify icon="arcticons:microsoftauthenticator" /> } style={{marginTop:5,marginBottom:20}} disabled={usdtDisablebuy} onClick={()=>updateUsdtBuy()}>
                        Save Buy Rate (<Iconify icon="cryptocurrency:usdt"/>)
                     </Button>
@@ -527,6 +581,18 @@ const updateBtcBuy = async ()=>{
                   
                 <CardContent>
                     <TextField fullWidth label="Set Buy GiftCard" id="fullWidth"  type="number"  value={giftcardbuy|| ''}  onChange={handleGiftcardBuy}  />
+                    <InputLabel id="demo-simple-select-label" style={{marginTop:10}}  >Card Type</InputLabel>
+                    <Select
+                        fullWidth
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={cardtype||''}
+                        label="SelectCard"
+                        style={{marginTop:5,marginBottom:20}} 
+                        >
+                          {displayCardTypes()}
+                      
+                    </Select>
                     <Button variant="outlined"  to="#" color="secondary" startIcon={<Iconify icon="arcticons:microsoftauthenticator" /> } style={{marginTop:5,marginBottom:20}} disabled={giftcardDisablebuy} onClick={()=>updateGiftcardBuy()}>
                        Save Buy Rate (<Iconify icon="ic:round-card-giftcard"/>)
                     </Button>
