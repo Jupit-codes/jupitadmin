@@ -62,6 +62,7 @@ import USERLIST from '../_mock/user';
 
 
 
+
 // ----------------------------------------------------------------------
 
 
@@ -86,6 +87,8 @@ export default function User() {
   const [status, setstatus] = useState('')
   const [DATA,setDATA] = useState([]);
 
+  const [edit_email,set_edit_email] = useState('')
+
 
   const [btcmarketprice,setbtcmarketprice] = useState(0);
   const [btcmarketpricedisplay,setbtcmarketpricedisplay] = useState('');
@@ -105,8 +108,9 @@ export default function User() {
   const [kyclevel2,setkyclevel2] = useState('')
   const [kyclevel3,setkyclevel3] = useState('')
   const [useractivate_deactivate,setuseractivate_deactivate] = useState(false)
-  const [twofactbtn,settwofactbtn] = useState(false)
-
+  const [twofactbtn,settwofactbtn] = useState(false);
+  const [editprofile,seteditprofile] = useState('Edit Profile')
+  const [disablebtn,setdisablebtn] = useState(false)
   const { id } = useParams();
   const getAllUserDetails = async ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
@@ -331,7 +335,94 @@ export default function User() {
       
 
     }
+    const validateEmail = (email) => {
+      const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
 
+    const handleEdit = async (e)=>{
+      e.preventDefault();
+     seteditprofile('Save');
+     
+      if(edit_email){
+
+        if(validateEmail(edit_email)){
+          const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+          setdisablebtn(true);
+          await axios({
+            url:`${BaseUrl}/admin/edit/user/email`,
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',  
+              'Authorization':reactLocalStorage.get('token')
+            },
+            data:JSON.stringify({id,email})
+          })
+          .then((res)=>{
+            
+            setdisablebtn(false);
+            setemail(edit_email);
+            set_edit_email('')
+            seteditprofile('Edit Profile')
+            Swal.fire({
+              title: 'Message!',
+              text: res.data,
+              icon: 'success',
+              confirmButtonText: 'ok'
+            });
+    
+            
+          })
+          .catch((err)=>{
+            setdisablebtn(false);
+            
+            if(err.response){
+              if(err.response.status === 403){
+              //   console.log(err.response.data.message);
+                Swal.fire({
+                  title: 'Message!',
+                  text: err.response.data.message,
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+                navigate('/login',{replace:true})
+                return false;
+                
+              }
+      
+              Swal.fire({
+                title: 'Message!',
+                text: err.response.data,
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+             
+            }
+            else{
+              Swal.fire({
+                title: 'Message!',
+                text: 'No Connection',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+            }
+      
+          })
+          
+         }
+         else{
+           alert('invalid Email')
+         }
+
+      }
+
+    
+    }
+
+    const handleEditEmail = (e)=>{
+      set_edit_email(e.target.value);
+     
+    }
     useEffect(()=>{
         setbigLoader(true);
         getAllUserDetails();
@@ -348,16 +439,23 @@ export default function User() {
       <Container>
 
       <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-                <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
-            </Grid>
+        {
+          reactLocalStorage.getObject('admin').roleid === 1 || reactLocalStorage.getObject('admin').roleid === 4 || reactLocalStorage.getObject('admin').roleid === 2  && 
+          <>
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+              <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+              <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
+          </Grid>
+          </>
 
+        }
+       
+           
 
             <Grid item xs={12} md={6} lg={8}>
             <Card style={{padding:20}}>
@@ -435,17 +533,33 @@ export default function User() {
                 </Stack>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography variance="body1" align='left'  gutterBottom>
-                    <TextField
-                            label="Email"
-                            id="outlined-start-adornment"
-                            sx={{ m: 1, width: '30ch' }}
-                            
-                            value={email || ''}
-                            variant='filled'
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            />
+                      {
+                        editprofile === "Save" && 
+                        
+                        <TextField 
+                         label="New Email"
+                          id="outlined-start-adornment"
+                          sx={{ m: 1, width: '30ch' }}
+                          value={edit_email}
+                          onChange={handleEditEmail}
+                          
+                        />
+                      }
+                      {
+                        editprofile === "Edit Profile" && 
+                        <TextField
+                                label="Email"
+                                id="outlined-start-adornment"
+                                sx={{ m: 1, width: '30ch' }}
+                                
+                                value={email || ''}
+                                variant='filled'
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                />
+
+                      }
                     </Typography>
                     <Typography    align='left'gutterBottom>
                         <TextField
@@ -496,8 +610,8 @@ export default function User() {
                    
                     <Typography variant="h4" gutterBottom mb={5}>
 
-                      <Button variant="outlined" component={RouterLink} to="#"  startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
-                          Edit Profile
+                      <Button variant="outlined" disabled={disablebtn} component={RouterLink} to="#" onClick={(e)=>{handleEdit(e)}} startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                          {editprofile}
                           
                       </Button>
                     </Typography>

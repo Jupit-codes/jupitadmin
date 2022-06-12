@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
+import { reactLocalStorage } from 'reactjs-localstorage';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
 // components
 import Iconify from '../../../components/Iconify';
 import Modal from '../../../utils/modal/editmodal'
+
 
 
 // ----------------------------------------------------------------------
@@ -89,7 +91,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <Iconify icon={edit} width={24} height={24}  onClick={()=>handleClick()}/>
+      {reactLocalStorage.getObject('admin').roleid !== 4 && <Iconify icon={edit} width={24} height={24}  onClick={()=>handleClick()}/> }
     </Card>
     </>
   );
