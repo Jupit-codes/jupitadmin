@@ -48,13 +48,13 @@ export default function UserMore({userid,_id,data}) {
           </ListItemIcon>
           <ListItemText primary="Verification" primaryTypographyProps={{ variant: 'body2' }} onClick={()=>_handleUserVerification()} />
         </MenuItem>
-
+{/* 
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="View More" primaryTypographyProps={{ variant: 'body2' }}  onClick={()=>_handleUserProfile()} />
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </>
   );

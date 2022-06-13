@@ -127,6 +127,72 @@ export default function VerifyId() {
         })
     }
     
+    const approve = async ()=>{
+     
+        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+        await axios({
+        
+            url:`${BaseUrl}/admin/verify/kyclevel3/action`,
+            method:'POST',
+            headers:{
+            'Content-Type':'application/json',  
+            'Authorization': reactLocalStorage.get('token')
+            },
+            data:JSON.stringify({email:reactLocalStorage.getObject('data')[0].email,_id:reactLocalStorage.getObject('data')[0]._id,cardtype:reactLocalStorage.getObject('data')[0].cardtype,cardnumber:reactLocalStorage.getObject('data')[0].cardnumber,option:'approved'})
+            
+        })
+        .then((res)=>{
+        
+            setLoader(false)
+            console.log(res.data.message);
+            
+            setfetched(res.data.message)
+            
+        })
+        .catch((err)=>{
+            
+                setLoader(false);
+                setFailedRequest(true);
+                setReject(true);
+                console.log(err)
+                if(err.response){
+                    if(err.response.status === 403){
+                    //   console.log(err.response.data.message);
+                      Swal.fire({
+                        title: 'Message!',
+                        text: err.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'ok'
+                      });
+                      navigate('/',{replace:true})
+                      return false;
+                      
+                    }
+          
+                    Swal.fire({
+                      title: 'Message!',
+                      text: err.response.data,
+                      icon: 'error',
+                      confirmButtonText: 'ok'
+                    });
+                   
+                  }
+                  else{
+                    Swal.fire({
+                      title: 'Message!',
+                      text: 'No Connection',
+                      icon: 'error',
+                      confirmButtonText: 'ok'
+                    });
+                  }
+                
+        })
+    }
+
+    const disapprove = ()=>{
+
+    }
+
       useEffect(()=>{
         
         verifyme();
@@ -212,10 +278,10 @@ export default function VerifyId() {
                  : <>
                  {fetched.description}
                  <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                        <Button variant="contained" disabled>
+                        <Button variant="contained" onClick={()=>approve()}>
                             Approved
                         </Button>
-                        <Button variant="contained"  className= 'red' >
+                        <Button variant="contained" onClick={()=>disapprove()}  className= 'red' >
                             Reject
                         </Button>
                     </Stack>
