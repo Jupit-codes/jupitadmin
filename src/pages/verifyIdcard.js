@@ -62,6 +62,7 @@ export default function VerifyId() {
     const [userData,setuserData]= useState([]);
     const [failedRequest,setFailedRequest] = useState(false)
     const [reject,setReject] = useState(false)
+    const [disablebtn,setdisablebtn] = useState(false)
     const navigate = useNavigate();
     const verifyme = async ()=>{
         setLoader(true);
@@ -127,33 +128,37 @@ export default function VerifyId() {
         })
     }
     
-    const approve = async ()=>{
+    const action = async (action)=>{
      
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+        setdisablebtn(true)
         await axios({
         
-            url:`${BaseUrl}/admin/verify/kyclevel3/action`,
+            url:`${BaseUrl}/admin/kyclevel3/action`,
             method:'POST',
             headers:{
             'Content-Type':'application/json',  
             'Authorization': reactLocalStorage.get('token')
             },
-            data:JSON.stringify({email:reactLocalStorage.getObject('data')[0].email,_id:reactLocalStorage.getObject('data')[0]._id,cardtype:reactLocalStorage.getObject('data')[0].cardtype,cardnumber:reactLocalStorage.getObject('data')[0].cardnumber,option:'approved'})
+            data:JSON.stringify({email:reactLocalStorage.getObject('data')[0].email,_id:reactLocalStorage.getObject('data')[0]._id,cardtype:reactLocalStorage.getObject('data')[0].cardtype,cardnumber:reactLocalStorage.getObject('data')[0].cardnumber,option:action})
             
         })
         .then((res)=>{
         
-            setLoader(false)
-            console.log(res.data.message);
-            
-            setfetched(res.data.message)
+            setdisablebtn(false);
+            Swal.fire({
+                title: 'Message!',
+                text: res.data,
+                icon: 'success',
+                confirmButtonText: 'ok'
+              });
+
+            navigate('/dashboard/awaiting/approval')
             
         })
         .catch((err)=>{
             
-                setLoader(false);
-                setFailedRequest(true);
-                setReject(true);
+            setdisablebtn(false);
                 console.log(err)
                 if(err.response){
                     if(err.response.status === 403){
@@ -189,9 +194,7 @@ export default function VerifyId() {
         })
     }
 
-    const disapprove = ()=>{
-
-    }
+    
 
       useEffect(()=>{
         
@@ -265,10 +268,10 @@ export default function VerifyId() {
                         FaceMatch:{fetched.faceMatch.verdict}
                     </Button>
                     <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                        <Button variant="contained">
+                        <Button variant="contained"  onClick={()=>action('approve')} disabled={disablebtn}>
                             Approved
                         </Button>
-                        <Button variant="contained"  className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
+                        <Button variant="contained"  disabled={disablebtn}  onClick={()=>action('disapprove')} className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
                             Reject
                         </Button>
                     </Stack>
@@ -278,10 +281,10 @@ export default function VerifyId() {
                  : <>
                  {fetched.description}
                  <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                        <Button variant="contained" onClick={()=>approve()}>
+                        <Button variant="contained" disabled={disablebtn} onClick={()=>action('approve')} >
                             Approved
                         </Button>
-                        <Button variant="contained" onClick={()=>disapprove()}  className= 'red' >
+                        <Button variant="contained" disabled={disablebtn} onClick={()=>action('disapprove')}  className= 'red' >
                             Reject
                         </Button>
                     </Stack>
@@ -407,7 +410,7 @@ export default function VerifyId() {
                         {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{verifyme()}}/></div>}
                         {reject && 
                             <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                                <Button variant="contained" className='red'>
+                                <Button variant="contained" disabled={disablebtn} onClick={()=>action('disapprove')} className='red'>
                                     Reject
                                 </Button>
                         

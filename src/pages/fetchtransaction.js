@@ -30,6 +30,7 @@ import {
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
+  import Filter from './filter'
 
   
 const TABLE_HEAD = [
@@ -200,6 +201,7 @@ export default function Transaction({userid}){
     return (
         
         <>
+            <Filter filteredData={setDATA}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
@@ -207,8 +209,8 @@ export default function Transaction({userid}){
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
+                <TableContainer sx={{ minWidth: 800 }} >
+                    <Table >
                     <UserListHead
                         order={order}
                         orderBy={orderBy}
