@@ -26,7 +26,7 @@ import {
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
   import { UserListHead, UserListToolbar,UserMore,VirtualAccountUser } from '../sections/@dashboard/user';
-  
+  import Filter from './filterdeposit'
   
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
@@ -75,7 +75,7 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function DepositTable(){
+export default function DepositTable({handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('_id');
@@ -84,6 +84,7 @@ export default function DepositTable(){
     const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState([]);
+
   const navigate = useNavigate()
     
   const handleRequestSort = (event, property) => {
@@ -201,6 +202,7 @@ export default function DepositTable(){
     return (
         
         <>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 

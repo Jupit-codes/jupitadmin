@@ -111,7 +111,7 @@ export default function Alldeposit() {
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
            
-            <DepositTable/>
+            <DepositTable handleData={setDATA}/>
 
         </Grid>
 
