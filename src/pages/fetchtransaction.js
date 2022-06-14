@@ -76,7 +76,7 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function Transaction({userid}){
+export default function Transaction({handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -201,7 +201,7 @@ export default function Transaction({userid}){
     return (
         
         <>
-            <Filter filteredData={setDATA}/>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 

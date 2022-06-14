@@ -183,14 +183,16 @@ export default function Alltransaction() {
           <Typography variant="h4" gutterBottom>
             All Wallet Transaction
           </Typography>
-          <CSVLink data={DATA}>Download me</CSVLink>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Export To CsV
-          </Button>
+          <CSVLink data={DATA}>
+              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To CsV
+            </Button>
+          </CSVLink>
+          
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
            
-            <FetchTransaction/>
+            <FetchTransaction handleData={setDATA} />
 
         </Grid>
 

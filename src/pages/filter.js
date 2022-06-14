@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CSVLink } from "react-csv";
 
-const Index = ({filteredData})=>{
+const Index = ({filteredData,xhandle,mysetloader})=>{
     const navigate = useNavigate();
     const [startdate,setstartdate] = useState();
     const [status,setstatus] = useState();
@@ -53,7 +53,7 @@ const Index = ({filteredData})=>{
 
       }
       const search = async ()=>{
-
+        mysetloader(true)
         const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    
             await axios({
@@ -67,7 +67,9 @@ const Index = ({filteredData})=>{
             })
             .then((res)=>{
                 // console.log(res.data);
-                filteredData(res.data)
+                mysetloader(false)
+                filteredData(res.data);
+                xhandle(res.data)
            
             })
             .catch((err)=>{
@@ -104,6 +106,7 @@ const Index = ({filteredData})=>{
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
+            
            <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
                     <Typography  gutterBottom style={{marginTop:-15}}>
                         <InputLabel id="demo-simple-select-label">Status</InputLabel>
