@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CSVLink } from "react-csv";
 
-const Index = ({filteredData,xhandle,mysetloader})=>{
+const Index = ({filteredData,xhandle,mysetloader,getUserid})=>{
     const navigate = useNavigate();
     const [startdate,setstartdate] = useState();
     const [status,setstatus] = useState();
@@ -45,7 +45,8 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
           setstartdate('');
           setenddate('');
           setstatus('');
-        setvirtualacct('')
+          settype('');
+          setasset('');
 
           search();
 
@@ -55,24 +56,24 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
         const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    
             await axios({
-            url:`${BaseUrl}/verify/filter/deposit`,
+            url:`${BaseUrl}/verify/filter/tradelogs`,
             method:'POST',
             headers:{
                 'Content-Type':'application/json',  
                 'Authorization':reactLocalStorage.get('token')
             },
-            data:JSON.stringify({status,startdate,enddate,virtualacct})
+            data:JSON.stringify({status,startdate,enddate,getUserid,asset,type})
             })
             .then((res)=>{
-                console.log(res.data);
+                // console.log(res.data);
                 mysetloader(false)
                 filteredData(res.data);
                 xhandle(res.data)
            
             })
             .catch((err)=>{
-                mysetloader(false)
                 console.log(err)
+                mysetloader(false)
             if(err.response){
                 if(err.response.status === 403){
                 console.log(err.response.data.message);
@@ -117,8 +118,8 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                             onChange={handleStatus}
                         >
                            
-                            <MenuItem  value="successful">Successful</MenuItem>
-                            <MenuItem  value="failed">Failed</MenuItem>
+                            <MenuItem  value="Transaction Completed">Transaction Completed</MenuItem>
+                            <MenuItem  value="Failed">Failed</MenuItem>
                         </Select>
                         </Typography>
 
@@ -144,14 +145,37 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                                     
                                 />
                         </Typography>
-                        <Typography gutterBottom>
-                            <TextField
-                                label="Virtual Account"
-                                style={{width:'100%'}}
-                                value={virtualacct || ''}
-                                onChange={handlevirtualacct}
-                            />
+                        <Typography  gutterBottom style={{marginTop:-15}}>
+                        <InputLabel id="demo-simple-select-label">Asset</InputLabel>
+                            <Select
+                                fullWidth
+                                id="demo-simple-select"
+                                sx={{ m: 1, width: '20ch' }}
+                                value={asset || ''}
+                                onChange={handleAsset}
+                            >
+                           
+                                <MenuItem  value="BTC">BTC</MenuItem>
+                                <MenuItem  value="USDT">USDT</MenuItem>
+                            </Select>
                         </Typography>
+
+                        <Typography  gutterBottom style={{marginTop:-10}}>
+                        <InputLabel id="demo-simple-select-label">Transaction Type</InputLabel>
+                            <Select
+                                fullWidth
+                                id="demo-simple-select"
+                                sx={{ m: 1, width: '20ch' }}
+                                value={type || ''}
+                                onChange={handleType}
+                            >
+                                <MenuItem  value="Internal Transfer">Internal Transfer</MenuItem>
+                                <MenuItem  value="Blockchain Transfer">Blockchain Transfer</MenuItem>
+                            </Select>
+                        </Typography>
+                        
+
+                        
 
                         
             </Stack>

@@ -28,7 +28,7 @@ import {
   import { useNavigate } from "react-router-dom";
 
   import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-  
+  import Filter from './filtertradelog'
   
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
@@ -78,7 +78,7 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function Transaction({userid}){
+export default function Transaction({userid,handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -198,6 +198,7 @@ export default function Transaction({userid}){
     return (
         
         <>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader} getUserid={userid}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
