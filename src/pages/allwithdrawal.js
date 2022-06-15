@@ -104,13 +104,13 @@ export default function Allwithdrawal() {
           <Typography variant="h4" gutterBottom>
             All Withdrawal
           </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Test
-          </Button> */}
+          <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+            Export To CSV
+          </Button>
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
            
-            <WithdrawalTable/>
+            <WithdrawalTable handleData={setDATA}/>
 
         </Grid>
 

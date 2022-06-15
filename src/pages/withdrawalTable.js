@@ -23,8 +23,10 @@ import {
   import { sentenceCase } from 'change-case';
   import { filter } from 'lodash';
   import axios from 'axios'
+ 
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
+  import Filter from './filterwithdrawal'
   import { UserListHead, UserListToolbar,UserMore } from '../sections/@dashboard/user';
   
   
@@ -37,6 +39,9 @@ import {
 const TABLE_HEAD = [
     { id: 'Userid', label: 'Userid', alignRight: false },
     { id: 'Email', label: 'Email', alignRight: false },
+    { id: 'Account Number', label: 'Account Number', alignRight: false },
+    { id: 'Account Name', label: 'Account Name', alignRight: false },
+    { id: 'Bank', label: 'Bank Code', alignRight: false },
     { id: 'Amount', label: 'Amount', alignRight: false },
     { id: 'status', label: 'Status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
@@ -73,7 +78,7 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function WithdrawalTable(){
+export default function WithdrawalTable({handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('_id');
@@ -199,6 +204,7 @@ export default function WithdrawalTable(){
     return (
         
         <>
+          <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
@@ -219,7 +225,7 @@ export default function WithdrawalTable(){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const {_id,amount,email,userid,updated } = row;
+                        const {_id,amount,email,userid,account_name,account_number,bank_code,updated } = row;
                         const isItemSelected = selected.indexOf(email) !== -1;
     
                         return (
@@ -243,11 +249,14 @@ export default function WithdrawalTable(){
                                 </Stack>
                             </TableCell>
                             <TableCell align="left">{email}</TableCell>
+                            <TableCell align="left">{account_number}</TableCell>
+                            <TableCell align="left">{account_name}</TableCell>
+                            <TableCell align="left">{bank_code}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
                     
                             <TableCell align="left">
                                 <Label variant="ghost" color='success'>
-                                {sentenceCase("Successul")}
+                                {sentenceCase("Successful")}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">
