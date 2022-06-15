@@ -45,7 +45,7 @@ const navConfig = [
   },
   {
     title: 'GiftCard Buy Request',
-    path: '/dashboard/giftcard/sell/transactions',
+    path: '/dashboard/giftcard/buy/transactions',
     icon: getIcon('ic:baseline-sell'),
     roles:[1,6]
   },

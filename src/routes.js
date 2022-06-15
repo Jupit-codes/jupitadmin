@@ -29,6 +29,7 @@ import ChangePassword from './pages/changepassword'
 import AwaitingApproval from './pages/pending'
 import VerificationPortal from './pages/verifyIdcard'
 import GiftCardSell from './pages/giftcardsellfetch'
+import GiftCardBuy from './pages/giftcardbuyfetch'
 import GiftCardUpload from './pages/Giftcarduploads'
 import AllStaff from './pages/staff'
 import Alldeposit from './pages/alldeposit';
@@ -193,6 +194,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="idcard/user/verification/" element={<VerificationPortal/>}/>
             <Route path="changepassword" element={<ChangePassword  update={setpasswordChecker}/>} />
             <Route path="giftcard/sell/transactions" element={<GiftCardSell />} />
+            <Route path="giftcard/buy/transactions" element={<GiftCardBuy />} />
             <Route path='giftcard/sell/cardupload/:id' element={<GiftCardUpload/>} />
             <Route path='get/all/staffs' element={<AllStaff/>} />
           </Route>
