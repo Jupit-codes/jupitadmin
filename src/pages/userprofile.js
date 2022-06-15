@@ -705,14 +705,20 @@ export default function User() {
         
 
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-              <Typography variant="h4" gutterBottom mb={5}>
-                  Trade Logs (USDT/BTC)
-              </Typography>
-              <CSVLink data={DATA}>
-              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
-              Export To CsV
-            </Button>
-          </CSVLink>
+            <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
+                <Typography variant="h4" gutterBottom mb={5}>
+                      Trade Logs (USDT/BTC)
+                </Typography>
+
+                <CSVLink data={DATA}>
+                    <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+                     Export To CsV
+                  </Button>
+              </CSVLink>
+
+            </Stack>
+             
+             
             <UserTransaction userid={id} handleData = {setDATA}/>
           </Grid>
 
