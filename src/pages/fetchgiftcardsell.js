@@ -266,7 +266,7 @@ export default function FetchGiftCardSell({userid}){
                             </TableCell>
                             <TableCell align="right">
                                 {/* <UserMore userid={userid}  unique_id={unique_id} data={DATA}/> */}
-                                <GiftCardMore userid={userid} unique_id={unique_id} data={DATA}/>
+                                <GiftCardMore userid={userid} unique_id={unique_id} data={DATA} type="Sell"/>
                             </TableCell>
                             </TableRow>
                         );

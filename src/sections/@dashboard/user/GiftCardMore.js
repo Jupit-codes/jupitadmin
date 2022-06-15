@@ -9,7 +9,7 @@ import EditModal from '../../../utils/modal/editmodal'
 
 // ----------------------------------------------------------------------
 
-export default function GiftCardMore({userid,unique_id,data}) {
+export default function GiftCardMore({userid,unique_id,data,type}) {
   const ref = useRef(null);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,13 @@ export default function GiftCardMore({userid,unique_id,data}) {
    
   const _handleGiftcardUploads = ()=>{
   
-    window.location=`/dashboard/giftcard/sell/cardupload/${unique_id}`
+    if(type === "Sell"){
+      window.location=`/dashboard/giftcard/sell/cardupload/${unique_id}`
+    }
+    else if(type === "Buy"){
+      window.location=`/dashboard/giftcard/buy/cardupload/${userid}`
+    }
+    
   }
   return (
     <>

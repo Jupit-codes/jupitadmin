@@ -25,7 +25,7 @@ const Index=()=>{
         setLoader(true)
         await axios({
     
-        url:`${BaseUrl}/admin/get/uploadedgiftcards`,
+        url:`${BaseUrl}/admin/get/uploadedgiftcards/buy`,
         method:'POST',
         headers:{
           'Content-Type':'application/json',  
@@ -39,7 +39,7 @@ const Index=()=>{
       .then((res)=>{
        console.log(res.data)
         setLoader(false)
-        setdata(res.data.message);
+        // setdata(res.data.message);
         setdata_details(res.data.message_details)
         setdata_bank(res.data.message_bank)
   
@@ -62,73 +62,66 @@ const Index=()=>{
     },[])
 
     const renderComponent = ()=>{
-        return data.map((d,index)=>{
-            return <div key={index}>
-                     <img src={d.image_url} alt="uploaded giftcard"/>
-
-                    </div>
-        })
+       console.log(data_details.rate)
+      
     }
 
     const renderComponentDetails= ()=>{
-        return data_details.map((d,index)=>{
-            return <div key={index}>
-                      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-                                <TextField
-                                    label="Userid"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: '20ch' }}
-                                    value={ d.userid || ''}
-                                    variant='filled'
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    />
-                                    
-                                <TextField
-                                    label="Total In USD"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: '20ch' }}
-                                    value={ d.amount_in_usd || ''}
-                                    variant='filled'
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    />
-                                    <TextField
-                                    label="Total In Naira"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: '20ch' }}
-                                    value={ d.total || ''}
-                                    variant='filled'
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    />
-                                    <TextField
-                                    label="CardName"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: '20ch' }}
-                                    value={ d.cardname || ''}
-                                    variant='filled'
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    />
-                                     <TextField
-                                    label="Country"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: '20ch' }}
-                                    value={ d.country || ''}
-                                    variant='filled'
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    />
-                      </Stack>
 
-                    </div>
-        })
+        return <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+                    <TextField
+                        label="Userid"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '20ch' }}
+                        value={ data_details.userid || ''}
+                        variant='filled'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        />
+                        
+                    <TextField
+                        label="Total In USD"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '20ch' }}
+                        value={ data_details.amount_in_usd || ''}
+                        variant='filled'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        />
+                        <TextField
+                        label="Total In Naira"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '20ch' }}
+                        value={ data_details.total || ''}
+                        variant='filled'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        />
+                        <TextField
+                        label="CardName"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '20ch' }}
+                        value={ data_details.cardname || ''}
+                        variant='filled'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        />
+                        <TextField
+                        label="Country"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '20ch' }}
+                        value={ data_details.country || ''}
+                        variant='filled'
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        />
+                    </Stack>
+
     }
 
     const renderComponentBank= ()=>{
@@ -265,9 +258,10 @@ const Index=()=>{
                 </Stack>
                     {loader && <div className='myloader'>loading data...</div>}
                     {!loader && failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{fetchGiftCardUpload()}}/></div>}
-                    {data && <div className="uploadDiv">{renderComponent()}</div>}
+                    {/* {data && <div className="uploadDiv">{renderComponent()}</div>} */}
                     {data_details && <div className="">{renderComponentDetails()}</div>}
                     {data_bank && <div className="">{renderComponentBank()}</div>}
+                     
                 </Container>
 
             </Page>

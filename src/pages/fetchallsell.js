@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
-
 import {
     Card,
     CardContent,
@@ -26,23 +25,23 @@ import {
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
-  import Iconify from '../components/Iconify';
-  import { UserListHead, UserListToolbar,UserMore,GiftCardMore } from '../sections/@dashboard/user';
-
+  import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+  
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
-
+  import Filter from './filter'
 
   
 const TABLE_HEAD = [
-    { id: 'Id', label: 'Id', alignRight: false },
-    { id: 'Userid', label: 'Userid', alignRight: false },
-    {id:'GiftCard',label:'GiftCard',alignRight:false},
-    { id: 'Country', label: 'Country', alignRight: false },
-    { id: 'Total', label: 'Total(USD)', alignRight: false },
-    { id: 'Total', label: 'Total(Naira)', alignRight: false },
-    { id: 'Status', label: 'Status', alignRight: false },
+    { id: 'type', label: 'Type', alignRight: false },
+    { id: 'order_id', label: 'Order Id', alignRight: false },
+    { id: 'currency', label: 'Currency', alignRight: false },
+    { id: 'from_address', label: 'From Address', alignRight: false },
+    { id: 'amount', label: 'Amount', alignRight: false },
+    { id: 'fee', label: 'Fee', alignRight: false },
+    { id: 'to_address', label: 'To_Address', alignRight: false },
+    { id: 'status', label: 'status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -72,12 +71,12 @@ const TABLE_HEAD = [
       return a[1] - b[1];
     });
     if (query) {
-      return filter(array, (_user) => _user.country.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      return filter(array, (_user) => _user.type.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     }
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function FetchGiftCardSell({userid}){
+export default function Transaction({handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -86,13 +85,13 @@ export default function FetchGiftCardSell({userid}){
     const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
-    const [failedRequest,setFailedRequest] = useState(false)
-    const navigate = useNavigate()
-    const handleRequestSort = (event, property) => {
-      const isAsc = orderBy === property && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(property);
-    };
+    const navigate = useNavigate();
+    
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -136,14 +135,12 @@ export default function FetchGiftCardSell({userid}){
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-
     const getTransactionData = async ()=>{
         setLoader(true)
-        setFailedRequest(false);
-    const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/fetch/giftcard/buy`,
+        url:`${BaseUrl}/admin/get/all/sell/transaction`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
@@ -155,13 +152,14 @@ export default function FetchGiftCardSell({userid}){
     //    console.log(res.data)
         setLoader(false)
         setDATA(res.data.message)
-
+  
+        
+  
       })
       .catch((err)=>{
           
-            console.log(err);
-            setLoader(false);
-            setFailedRequest(true);
+            console.log(err.response);
+            setLoader(false)
             if(err.response){
               if(err.response.status === 403){
               //   console.log(err.response.data.message);
@@ -192,29 +190,27 @@ export default function FetchGiftCardSell({userid}){
                 confirmButtonText: 'ok'
               });
             }
-
-            
             
       })
     }
 
     useEffect(()=>{
-        getTransactionData();
+        getTransactionData()
     },[])
 
     return (
         
         <>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
-            {!loader && failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{getTransactionData()}}/></div>}
             {!loader && 
                 <>
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
+                <TableContainer sx={{ minWidth: 800 }} >
+                    <Table >
                     <UserListHead
                         order={order}
                         orderBy={orderBy}
@@ -226,45 +222,46 @@ export default function FetchGiftCardSell({userid}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const {_id,country,userid,unique_id,updated,total,status,cardname,amount_in_usd } = row;
-                        const isItemSelected = selected.indexOf(country) !== -1;
+                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees } = row;
+                        const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
                             <TableRow
                             hover
-                            key={_id}
+                            key={id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
                             aria-checked={isItemSelected}
                             >
                             <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, country)} />
+                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
                             </TableCell>
                             <TableCell component="th" scope="row" padding="none">
                                 <Stack direction="row" alignItems="center" spacing={2}>
                                 {/* <Avatar alt={username} src={avatarUrl} /> */}
                                 <Typography variant="subtitle2" noWrap>
-                                    {_id}
+                                    {type}
                                 </Typography>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left">{userid}</TableCell>
-                            <TableCell align="left">{cardname}</TableCell>
-                            <TableCell align="left">{country}</TableCell>
-                            <TableCell align="left">{amount_in_usd}</TableCell>
-                            <TableCell align="left">{total}</TableCell>
+                            <TableCell align="left">{order_id}</TableCell>
+                            <TableCell align="left">{currency}</TableCell>
+                            <TableCell align="left">{from_address}</TableCell>
+                            <TableCell align="left">{amount}</TableCell>
+                            <TableCell align="left">{fees}</TableCell>
+                            <TableCell align="left">{to_address}</TableCell>
                             <TableCell align="left">
-                                <Label variant="ghost" >
-                                {status}
+                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                                {sentenceCase(status)}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
                             <TableCell align="right">
-                                {/* <UserMore userid={userid}  unique_id={unique_id} data={DATA}/> */}
-                                <GiftCardMore userid={userid} unique_id={unique_id} data={DATA} type="Buy"/>
+                                
+                                <UserMoreMenu userid={_id} />
                             </TableCell>
                             </TableRow>
                         );

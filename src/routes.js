@@ -22,6 +22,8 @@ import UserProfile from './pages/userprofile'
 import UserAccountProfile from './pages/useraccountprofile'
 import DashboardApp from './pages/DashboardApp';
 import AllTransaction from './pages/alltransaction'
+import AllBuy from './pages/allbuy'
+import AllSell from './pages/allsell'
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardSidebar from './layouts/dashboard/DashboardSidebar';
 import SetRate from './pages/SetRate';
@@ -31,6 +33,7 @@ import VerificationPortal from './pages/verifyIdcard'
 import GiftCardSell from './pages/giftcardsellfetch'
 import GiftCardBuy from './pages/giftcardbuyfetch'
 import GiftCardUpload from './pages/Giftcarduploads'
+import GiftCardUploadBuy from './pages/GiftCardUploadBuy'
 import AllStaff from './pages/staff'
 import Alldeposit from './pages/alldeposit';
 import Allwithdrawal from './pages/allwithdrawal';
@@ -188,6 +191,8 @@ export default function Router({redirectPath='/login'}) {
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
             <Route path="alltransactions" element={<AllTransaction/>}/>
+            <Route path="allbuy" element={<AllBuy/>}/>
+            <Route path="allsell" element={<AllSell/>}/>
             <Route path="alldeposit" element={<Alldeposit/>}/>
             <Route path="allwithdrawal" element={<Allwithdrawal/>}/>
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>
@@ -196,6 +201,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="giftcard/sell/transactions" element={<GiftCardSell />} />
             <Route path="giftcard/buy/transactions" element={<GiftCardBuy />} />
             <Route path='giftcard/sell/cardupload/:id' element={<GiftCardUpload/>} />
+            <Route path='giftcard/buy/cardupload/:id' element={<GiftCardUploadBuy/>} />
             <Route path='get/all/staffs' element={<AllStaff/>} />
           </Route>
           <Route path="*" element={<NotFound />} />
