@@ -34,14 +34,11 @@ import {
 
   
 const TABLE_HEAD = [
-    { id: 'type', label: 'Type', alignRight: false },
-    { id: 'order_id', label: 'Order Id', alignRight: false },
-    { id: 'currency', label: 'Currency', alignRight: false },
-    { id: 'from_address', label: 'From Address', alignRight: false },
-    { id: 'amount', label: 'Amount', alignRight: false },
-    { id: 'fee', label: 'Fee', alignRight: false },
-    { id: 'to_address', label: 'To_Address', alignRight: false },
-    { id: 'status', label: 'status', alignRight: false },
+    { id: 'Userid', label: 'Userid', alignRight: false },
+    { id: 'Amount', label: 'Amount', alignRight: false },
+    { id: 'Type', label: 'Type', alignRight: false },
+    { id: 'Currency', label: 'Currency', alignRight: false },
+    { id: 'Currency_worth', label: 'Currency_worth', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -151,7 +148,7 @@ export default function Transaction({handleData}){
       .then((res)=>{
     //    console.log(res.data)
         setLoader(false)
-        setDATA(res.data.message)
+        setDATA(res.data)
   
         
   
@@ -222,13 +219,13 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees } = row;
+                        const { _id,amount, type, currency, currency_worth,updated,userid} = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
                             <TableRow
                             hover
-                            key={id}
+                            key={_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -241,19 +238,18 @@ export default function Transaction({handleData}){
                                 <Stack direction="row" alignItems="center" spacing={2}>
                                 {/* <Avatar alt={username} src={avatarUrl} /> */}
                                 <Typography variant="subtitle2" noWrap>
-                                    {type}
+                                    {userid}
                                 </Typography>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left">{order_id}</TableCell>
-                            <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{fees}</TableCell>
-                            <TableCell align="left">{to_address}</TableCell>
+                            <TableCell align="left">{type}</TableCell>
+                            <TableCell align="left">{currency}</TableCell>
+                            <TableCell align="left">{currency_worth}</TableCell>
+                            
                             <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                                {sentenceCase(status)}
+                                <Label variant="ghost" color='success'>
+                                {sentenceCase('Successful')}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">

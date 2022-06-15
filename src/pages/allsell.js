@@ -151,7 +151,7 @@ export default function Alltransaction() {
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/transactions`,
+        url:`${BaseUrl}/admin/get/all/sell/transaction`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
@@ -160,7 +160,7 @@ export default function Alltransaction() {
       })
       .then((res)=>{
        console.log(res.data)
-       setDATA(res.data.message)
+       setDATA(res.data)
   
       })
       .catch((err)=>{
@@ -181,7 +181,7 @@ export default function Alltransaction() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
-            All Wallet Transaction
+            All Sell Transaction
           </Typography>
           <CSVLink data={DATA}>
             <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
