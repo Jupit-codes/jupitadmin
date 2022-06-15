@@ -23,6 +23,7 @@ import {
   TablePagination,
   Grid
 } from '@mui/material';
+import { CSVLink } from "react-csv";
 // components
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -45,6 +46,7 @@ import {
 import USERLIST from '../_mock/user';
 import AwaitingApproval from './fetchpending'
 import DepositTable from './depositTable';
+
 
 
 
@@ -105,9 +107,15 @@ export default function Alldeposit() {
           <Typography variant="h4" gutterBottom>
             All Deposit
           </Typography>
+          <CSVLink data={DATA}>
+              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To CsV
+            </Button>
+          </CSVLink>
           {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
             Test
           </Button> */}
+         
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
            

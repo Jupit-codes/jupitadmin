@@ -36,6 +36,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import { CSVLink } from "react-csv";
 // components
 import BiggerLoader from '../utils/loader'
 import Page from '../components/Page';
@@ -707,6 +708,11 @@ export default function User() {
               <Typography variant="h4" gutterBottom mb={5}>
                   Trade Logs (USDT/BTC)
               </Typography>
+              <CSVLink data={DATA}>
+              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To CsV
+            </Button>
+          </CSVLink>
             <UserTransaction userid={id} handleData = {setDATA}/>
           </Grid>
 

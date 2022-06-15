@@ -3,6 +3,7 @@ import '../App.css'
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { CSVLink } from "react-csv";
 import axios from 'axios';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
@@ -104,9 +105,11 @@ export default function Allwithdrawal() {
           <Typography variant="h4" gutterBottom>
             All Withdrawal
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
-            Export To CSV
-          </Button>
+          <CSVLink data={DATA}>
+              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To CsV
+            </Button>
+          </CSVLink>
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
            
