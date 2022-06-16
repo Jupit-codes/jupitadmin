@@ -128,8 +128,12 @@ export default function VerifyId() {
         })
     }
     
-    const action = async (action)=>{
-     
+    const action = async (event,action)=>{
+
+        event.preventDefault();
+        
+        alert(action)
+    
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
         setdisablebtn(true)
         await axios({
@@ -140,12 +144,13 @@ export default function VerifyId() {
             'Content-Type':'application/json',  
             'Authorization': reactLocalStorage.get('token')
             },
-            data:JSON.stringify({email:reactLocalStorage.getObject('data')[0].email,_id:reactLocalStorage.getObject('data')[0]._id,cardtype:reactLocalStorage.getObject('data')[0].cardtype,cardnumber:reactLocalStorage.getObject('data')[0].cardnumber,option:action})
+            data:JSON.stringify({email:reactLocalStorage.getObject('data')[0].email,_id:reactLocalStorage.getObject('data')[0].userid,cardtype:reactLocalStorage.getObject('data')[0].cardtype,cardnumber:reactLocalStorage.getObject('data')[0].cardnumber,option:action})
             
         })
         .then((res)=>{
         
             setdisablebtn(false);
+            console.log(res.data)
             Swal.fire({
                 title: 'Message!',
                 text: res.data,
@@ -159,7 +164,7 @@ export default function VerifyId() {
         .catch((err)=>{
             
             setdisablebtn(false);
-                console.log(err)
+                console.log(err.response)
                 if(err.response){
                     if(err.response.status === 403){
                     //   console.log(err.response.data.message);
@@ -268,10 +273,10 @@ export default function VerifyId() {
                         FaceMatch:{fetched.faceMatch.verdict}
                     </Button>
                     <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                        <Button variant="contained"  onClick={()=>action('approve')} disabled={disablebtn}>
+                        <Button variant="contained"  onClick={(event)=>action(event,'approve')} disabled={disablebtn}>
                             Approved
                         </Button>
-                        <Button variant="contained"  disabled={disablebtn}  onClick={()=>action('disapprove')} className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
+                        <Button variant="contained"  disabled={disablebtn}  onClick={(event)=>action(event,'disapprove')} className={fetched.faceMatch.verdict === "NOT A MATCH" && 'red'}>
                             Reject
                         </Button>
                     </Stack>
@@ -281,10 +286,10 @@ export default function VerifyId() {
                  : <>
                  {fetched.description}
                  <Stack  direction="row" alignItems="center" justifyContent="space-around" mt={4}>
-                        <Button variant="contained" disabled={disablebtn} onClick={()=>action('approve')} >
+                        <Button variant="contained" disabled={disablebtn} onClick={(event)=>action(event,'approve')} >
                             Approved
                         </Button>
-                        <Button variant="contained" disabled={disablebtn} onClick={()=>action('disapprove')}  className= 'red' >
+                        <Button variant="contained" disabled={disablebtn} onClick={(event)=>action(event,'disapprove')}  className= 'red' >
                             Reject
                         </Button>
                     </Stack>
