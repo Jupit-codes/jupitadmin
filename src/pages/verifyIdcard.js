@@ -132,7 +132,7 @@ export default function VerifyId() {
 
         event.preventDefault();
         
-        alert(action)
+        
     
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
         setdisablebtn(true)
