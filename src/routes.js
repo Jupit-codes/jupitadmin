@@ -191,8 +191,8 @@ export default function Router({redirectPath='/login'}) {
             <Route path="product" element={<Products />} />
             <Route path="blog" element={<Blog />} />
             <Route path="alltransactions" element={<AllTransaction/>}/>
-            <Route path="allbuy" element={<AllBuy/>}/>
-            <Route path="allsell" element={<AllSell/>}/>
+            {/* <Route path="allbuy" element={<AllBuy/>}/> */}
+            <Route path="allbuy/n/sell" element={<AllSell/>}/>
             <Route path="alldeposit" element={<Alldeposit/>}/>
             <Route path="allwithdrawal" element={<Allwithdrawal/>}/>
             <Route path="awaiting/approval" element={<AwaitingApproval/>}/>

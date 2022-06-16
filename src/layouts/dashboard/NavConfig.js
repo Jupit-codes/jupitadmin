@@ -67,15 +67,15 @@ const navConfig = [
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,3]
   },
+  // {
+  //   title: 'All Buy',
+  //   path: '/dashboard/allbuy',
+  //   icon: getIcon('fa-solid:users-cog'),
+  //   roles:[1]
+  // },
   {
-    title: 'All Buy',
-    path: '/dashboard/allbuy',
-    icon: getIcon('fa-solid:users-cog'),
-    roles:[1]
-  },
-  {
-    title: 'All Sell',
-    path: '/dashboard/allsell',
+    title: 'Transaction Log',
+    path: '/dashboard/allbuy/n/sell',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1]
   },
