@@ -181,11 +181,11 @@ export default function Alltransaction() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
-            All Sell Transaction
+            Transaction Log
           </Typography>
           <CSVLink data={DATA}>
             <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
-              Export To CsV
+              Export To Csv
             </Button>
           </CSVLink>
           

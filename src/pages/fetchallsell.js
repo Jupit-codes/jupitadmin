@@ -30,7 +30,7 @@ import {
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
-  import Filter from './filter'
+  import Filter from './FilterTransactionLog'
 
   
 const TABLE_HEAD = [
@@ -137,7 +137,7 @@ export default function Transaction({handleData}){
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/sell/transaction`,
+        url:`${BaseUrl}/admin/get/all/buy_n_sell/transaction`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
