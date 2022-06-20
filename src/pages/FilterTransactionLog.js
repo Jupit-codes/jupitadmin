@@ -17,7 +17,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
     const [asset,setasset] = useState();
     const [enddate,setenddate] = useState();
     const [type,settype] = useState();
-
+    const [status,setstatus] = useState();
  
     const handleChange = (newValue) => {
         setstartdate(newValue);
@@ -32,6 +32,9 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
         settype(e.target.value);
       };
       
+      const handleStatus = (e) => {
+        setstatus(e.target.value);
+      };
 
      
 
@@ -54,7 +57,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                 'Content-Type':'application/json',  
                 'Authorization':reactLocalStorage.get('token')
             },
-            data:JSON.stringify({startdate,enddate,asset,type})
+            data:JSON.stringify({startdate,enddate,asset,type,status})
             })
             .then((res)=>{
                 // console.log(res.data);
@@ -154,6 +157,24 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                             
                             <MenuItem  value="Buy">BUY</MenuItem>
                             <MenuItem  value="Sell">SELL</MenuItem>
+                        </Select>
+                        </Typography>
+
+                        <Typography  gutterBottom  >
+                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            fullWidth
+                            label="Status"
+                            value={status || ''}
+                            sx={{ width: '30ch' }}
+                            onChange={handleStatus}
+  
+                        >
+                            
+                            <MenuItem  value="Successful">Successful</MenuItem>
+                            <MenuItem  value="Failed">Failed</MenuItem>
                         </Select>
                         </Typography>
 

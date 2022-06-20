@@ -39,6 +39,7 @@ const TABLE_HEAD = [
     { id: 'Type', label: 'Type', alignRight: false },
     { id: 'Currency', label: 'Currency', alignRight: false },
     { id: 'Currency_worth', label: 'Currency_worth', alignRight: false },
+    { id: 'status', label: 'Status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
