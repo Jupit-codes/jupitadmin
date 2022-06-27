@@ -1,12 +1,14 @@
 import { filter } from 'lodash';
 import '../App.css'
 import { sentenceCase } from 'change-case';
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useRef,createRef} from 'react';
 import Swal from 'sweetalert2';
 import { CSVLink } from "react-csv";
 import axios from 'axios';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
+import { renderToString } from "react-dom/server";
+import JsPDF from "jspdf";
 // material
 import {
   Card,
@@ -25,6 +27,7 @@ import {
   Grid
 } from '@mui/material';
 // components
+import Pdf from "react-to-pdf";
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -46,6 +49,7 @@ import {
 import USERLIST from '../_mock/user';
 import AwaitingApproval from './fetchpending'
 import WithdrawalTable from './withdrawalTable';
+
 
 
 
@@ -94,6 +98,8 @@ export default function Allwithdrawal() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
+    const ref = createRef();
+
 
 
   return (
@@ -105,14 +111,18 @@ export default function Allwithdrawal() {
           <Typography variant="h4" gutterBottom>
             All Withdrawal
           </Typography>
+          
           <CSVLink data={DATA}>
               <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
               Export To CsV
             </Button>
           </CSVLink>
+          <Button variant="contained"  startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To PDF
+            </Button>
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-           
+         
             <WithdrawalTable handleData={setDATA}/>
 
         </Grid>

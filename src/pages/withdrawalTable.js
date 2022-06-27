@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,createRef} from "react";
 import Swal from 'sweetalert2';
 import {
     Card,
@@ -23,6 +23,7 @@ import {
   import { sentenceCase } from 'change-case';
   import { filter } from 'lodash';
   import axios from 'axios'
+  import Pdf from "react-to-pdf";
  
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
@@ -94,6 +95,7 @@ export default function WithdrawalTable({handleData}){
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+  const ref = createRef();
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -206,14 +208,17 @@ export default function WithdrawalTable({handleData}){
         <>
           <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
+              <Pdf targetRef={ref} filename="withdrawal">
+                {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
+            </Pdf>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
+                <TableContainer sx={{ minWidth: 800 }} >
+                    <Table  >
                     <UserListHead
                         order={order}
                         orderBy={orderBy}
