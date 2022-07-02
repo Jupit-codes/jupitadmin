@@ -112,7 +112,35 @@ export default function User() {
   const [twofactbtn,settwofactbtn] = useState(false);
   const [editprofile,seteditprofile] = useState('Edit Profile')
   const [disablebtn,setdisablebtn] = useState(false)
+  const [bvn,setbvn] = useState()
+  const [bankType,setbankType] = useState()
   const { id } = useParams();
+  
+const banks = [
+  { "id": "1", "name": "Access Bank" ,"code":"044" },
+  { "id": "2", "name": "Citibank","code":"023" },
+  { "id": "3", "name": "Diamond Bank","code":"063" },
+  { "id": "4", "name": "Dynamic Standard Bank","code":"" },
+  { "id": "5", "name": "Ecobank Nigeria","code":"050" },
+  { "id": "6", "name": "Fidelity Bank Nigeria","code":"070" },
+  { "id": "7", "name": "First Bank of Nigeria","code":"011" },
+  { "id": "8", "name": "First City Monument Bank","code":"214" },
+  { "id": "9", "name": "Guaranty Trust Bank","code":"058" },
+  { "id": "10", "name": "Heritage Bank Plc","code":"030" },
+  { "id": "11", "name": "Jaiz Bank","code":"301" },
+  { "id": "12", "name": "Keystone Bank Limited","code":"082" },
+  { "id": "13", "name": "Providus Bank Plc","code":"101" },
+  { "id": "14", "name": "Polaris Bank","code":"076" },
+  { "id": "15", "name": "Stanbic IBTC Bank Nigeria Limited","code":"221" },
+  { "id": "16", "name": "Standard Chartered Bank","code":"068" },
+  { "id": "17", "name": "Sterling Bank","code":"232" },
+  { "id": "18", "name": "Suntrust Bank Nigeria Limited","code":"100" },
+  { "id": "19", "name": "Union Bank of Nigeria","code":"032" },
+  { "id": "20", "name": "United Bank for Africa","code":"033" },
+  { "id": "21", "name": "Unity Bank Plc","code":"215" },
+  { "id": "22", "name": "Wema Bank","code":"035" },
+  { "id": "23", "name": "Zenith Bank","code":"057" }
+]
   const getAllUserDetails = async ()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL;
   
@@ -144,9 +172,19 @@ export default function User() {
       setdoc(res.data.detail.updated);
       setbank(res.data.bank.bank_code);
       setaccountnumber(res.data.bank.account_number)
+      setbvn(res.data.bank.bvn)
         settwofactor(res.data.detail.TWOFA);
         
       setbigLoader(false);
+
+      banks.map((d)=>{
+        
+        if(d.code === res.data.bank.bank_code){
+          setbankType(d.name)
+        }
+
+        return true
+      })
 
       // console.log(res.data.twofactor)
 
@@ -164,7 +202,7 @@ export default function User() {
             icon: 'error',
             confirmButtonText: 'ok'
           });
-          navigate('/',{replace:true})
+          navigate('/login',{replace:true})
           return false;
           
         }
@@ -178,12 +216,13 @@ export default function User() {
        
       }
       else{
-        Swal.fire({
-          title: 'Message!',
-          text: 'No Connection',
-          icon: 'error',
-          confirmButtonText: 'ok'
-        });
+        console.log("No Connection")
+        // Swal.fire({
+        //   title: 'Message!',
+        //   text: 'No Connection',
+        //   icon: 'error',
+        //   confirmButtonText: 'ok'
+        // });
       }
 
     })
@@ -615,7 +654,7 @@ export default function User() {
                             id="outlined-start-adornment"
                             sx={{ m: 1, width: '30ch' }}
                             
-                            value={bank || ''}
+                            value={bankType || ''}
                             variant='filled'
                             InputProps={{
                                 readOnly: true,
@@ -636,6 +675,35 @@ export default function User() {
                             />
                     </Typography>
                     
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>
+                      <Typography  align='left' gutterBottom>
+                        <TextField
+                            label="BVN"
+                            id="outlined-start-adornment"
+                            sx={{ m: 1, width: '30ch' }}
+                            
+                            value={bvn || ''}
+                            variant='filled'
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            />
+                    </Typography>
+
+                    <Typography variance="body1" align='left'  gutterBottom>
+                    <TextField
+                            label="Bank Code"
+                            id="outlined-start-adornment"
+                            sx={{ m: 1, width: '30ch' }}
+                            
+                            value={bank || ''}
+                            variant='filled'
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            />
+                    </Typography>
                 </Stack>
 
                 <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>

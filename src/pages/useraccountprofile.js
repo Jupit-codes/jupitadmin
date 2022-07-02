@@ -106,6 +106,7 @@ export default function User() {
   const [kyclevel3,setkyclevel3] = useState('')
   const [useractivate_deactivate,setuseractivate_deactivate] = useState(false)
   const [twofactbtn,settwofactbtn] = useState(false)
+  const [bvn,setbvn] = useState('')
 
   const { account } = useParams();
 
@@ -141,6 +142,7 @@ export default function User() {
       setdoc(res.data.detail.updated);
       setbank(res.data.bank.bank_code);
       setaccountnumber(res.data.bank.account_number)
+      setbvn(res.data.bank.bvn)
         settwofactor(res.data.detail.TWOFA);
         
       setbigLoader(false);
@@ -364,7 +366,10 @@ export default function User() {
                             />
                     </Typography>
                     
+                    
                 </Stack>
+
+                
 
                 <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>
                    
