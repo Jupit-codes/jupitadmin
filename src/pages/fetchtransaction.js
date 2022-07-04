@@ -37,6 +37,9 @@ const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
     { id: 'currency', label: 'Currency', alignRight: false },
+    { id: 'usd value', label: 'USD value', alignRight: false },
+    { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
+    { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
     { id: 'from_address', label: 'From Address', alignRight: false },
     { id: 'amount', label: 'Amount', alignRight: false },
     { id: 'fee', label: 'Fee', alignRight: false },
@@ -83,7 +86,7 @@ export default function Transaction({handleData}){
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(500);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
     
@@ -222,7 +225,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees } = row;
+                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -247,6 +250,9 @@ export default function Transaction({handleData}){
                             </TableCell>
                             <TableCell align="left">{order_id}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
+                            <TableCell align="left">{usdvalue}</TableCell>
+                            <TableCell align="left">{marketprice}</TableCell>
+                            <TableCell align="left">{rateInnaira}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{fees}</TableCell>
@@ -259,10 +265,10 @@ export default function Transaction({handleData}){
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
-                            <TableCell align="right">
+                            {/* <TableCell align="right">
                                 
                                 <UserMoreMenu userid={_id} />
-                            </TableCell>
+                            </TableCell> */}
                             </TableRow>
                         );
                         })}
@@ -287,7 +293,7 @@ export default function Transaction({handleData}){
                 </Scrollbar>
     
                 <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[500, 1000, 2000]}
                 component="div"
                 count={DATA.length}
                 rowsPerPage={rowsPerPage}
