@@ -26,7 +26,7 @@ const navConfig = [
     roles:[1,2,4]
   },
   {
-    title: 'All Wallet Transactions',
+    title: 'Transactions Log',
     path: '/dashboard/alltransactions',
     icon: getIcon('icon-park-outline:transaction-order'),
     roles:[1,2,3,4]
@@ -37,18 +37,18 @@ const navConfig = [
     icon: getIcon('mdi:lan-pending'),
     roles:[1]
   },
-  {
-    title: 'GiftCard Sell Request',
-    path: '/dashboard/giftcard/sell/transactions',
-    icon: getIcon('ic:baseline-sell'),
-    roles:[1,6]
-  },
-  {
-    title: 'GiftCard Buy Request',
-    path: '/dashboard/giftcard/buy/transactions',
-    icon: getIcon('ic:baseline-sell'),
-    roles:[1,6]
-  },
+  // {
+  //   title: 'GiftCard Sell Request',
+  //   path: '/dashboard/giftcard/sell/transactions',
+  //   icon: getIcon('ic:baseline-sell'),
+  //   roles:[1,6]
+  // },
+  // {
+  //   title: 'GiftCard Buy Request',
+  //   path: '/dashboard/giftcard/buy/transactions',
+  //   icon: getIcon('ic:baseline-sell'),
+  //   roles:[1,6]
+  // },
   {
     title: 'Staff Management',
     path: '/dashboard/get/all/staffs',
@@ -73,12 +73,12 @@ const navConfig = [
   //   icon: getIcon('fa-solid:users-cog'),
   //   roles:[1]
   // },
-  {
-    title: 'Transaction Log',
-    path: '/dashboard/allbuy/n/sell',
-    icon: getIcon('fa-solid:users-cog'),
-    roles:[1]
-  },
+  // {
+  //   title: 'Transaction Log',
+  //   path: '/dashboard/allbuy/n/sell',
+  //   icon: getIcon('fa-solid:users-cog'),
+  //   roles:[1]
+  // },
 ];
 
 export default navConfig;
