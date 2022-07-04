@@ -117,9 +117,11 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                             value={status|| ''}
                             onChange={handleStatus}
                         >
-                           
-                            <MenuItem  value="Transaction Completed">Transaction Completed</MenuItem>
-                            <MenuItem  value="Failed">Failed</MenuItem>
+                            <MenuItem  value="All">All</MenuItem>
+                            <MenuItem  value="Send">Send</MenuItem>
+                            <MenuItem  value="Receive">Receive</MenuItem>
+                            <MenuItem  value="Buy">Buy</MenuItem>
+                            <MenuItem  value="Sell">Sell</MenuItem>
                         </Select>
                         </Typography>
 
@@ -162,27 +164,13 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                             onChange={handleAsset}
   
                         >
-                            
+                            <MenuItem  value="All">All</MenuItem>
                             <MenuItem  value="BTC">BTC</MenuItem>
                             <MenuItem  value="USDT">USDT</MenuItem>
                         </Select>
                         </Typography>
 
-                        <Typography gutterBottom style={{marginTop:-15}}>
-                            <InputLabel id="demo-simple-select-label">Transaction Type</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    fullWidth
-                                    label="Asset"
-                                    value={type || ''}
-                                    sx={{ width: '30ch' }}
-                                    onChange={handleType}>
-                                    
-                                    <MenuItem  value="Internal Transfer">Internal Transfer</MenuItem>
-                                    <MenuItem  value="Blockchain Transfer">Blockchain Transfer</MenuItem>
-                                </Select>
-                        </Typography>
+                       
 
                         <Typography gutterBottom>
                             <TextField
