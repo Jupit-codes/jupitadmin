@@ -37,6 +37,12 @@ const navConfig = [
     icon: getIcon('mdi:lan-pending'),
     roles:[1]
   },
+  {
+    title: 'Asset Undermanagement Crypto',
+    path: '/dashboard/asset/undermanagement/crypto',
+    icon: getIcon('mdi:lan-pending'),
+    roles:[1]
+  },
   // {
   //   title: 'GiftCard Sell Request',
   //   path: '/dashboard/giftcard/sell/transactions',
