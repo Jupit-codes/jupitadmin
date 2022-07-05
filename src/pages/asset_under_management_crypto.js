@@ -84,7 +84,7 @@ export default function Assetundermanagementcrypto() {
     const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
     const [startdate,setstartdate] = useState()
-    const [enddate,setenddate] = useState()
+    const [enddate,setdate] = useState()
     const navigate = useNavigate();
     
   const handleRequestSort = (event, property) => {
@@ -201,7 +201,7 @@ export default function Assetundermanagementcrypto() {
         setstartdate(newValue);
       };
       const handleChangeEnd = (newValue) => {
-        setenddate(newValue);
+        setdate(newValue);
         
       };
 
@@ -214,7 +214,7 @@ export default function Assetundermanagementcrypto() {
       }
       const reset = ()=>{
         setstartdate('');
-        setenddate('');
+        setdate('');
         assetfetch(startdate,enddate)
       }
 
@@ -268,7 +268,7 @@ export default function Assetundermanagementcrypto() {
                                     Search  
                                 </Button>
 
-                                <Button variant="outlined" size='large' onClick={()=>reset()} disabled={refresh} >
+                                <Button variant="outlined" size='large' onClick={()=>reset()} disabled={refresh} color="error" style={{marginLeft:5}} >
                                     Reset  
                                 </Button>
 
