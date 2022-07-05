@@ -38,7 +38,8 @@ import AllStaff from './pages/staff'
 import Alldeposit from './pages/alldeposit';
 import Allwithdrawal from './pages/allwithdrawal';
 import AssetUndermangementCrypto from './pages/asset_under_management_crypto'
-
+import AssetUndermanagementFiat from './pages/asset_under_management_fiat'
+import TransactionCount from './pages/TransactionCount'
 
 // ----------------------------------------------------------------------
 
@@ -205,6 +206,8 @@ export default function Router({redirectPath='/login'}) {
             <Route path='giftcard/buy/cardupload/:id' element={<GiftCardUploadBuy/>} />
             <Route path='get/all/staffs' element={<AllStaff/>} />
             <Route path="asset/undermanagement/crypto" element={<AssetUndermangementCrypto/>}/>
+            <Route path="asset/undermanagement/fiat" element={<AssetUndermanagementFiat/>}/>
+            <Route path="total/transaction/count" element={<TransactionCount/>}/>
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>

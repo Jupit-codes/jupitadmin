@@ -53,7 +53,9 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
 
 
 
-   
+   const breaker =(total)=>{
+          return total ? total.toLocaleString('en-US'):''
+   }
 
     
 
@@ -86,7 +88,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
 
-      <Typography variant="h4">{title === 'Naira Wallet Balancexx' ? fShortenNumber(total) : total}</Typography>
+      <Typography variant="h4">{title === 'Naira Wallet Balancexx' ? fShortenNumber(total) : breaker(total)}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

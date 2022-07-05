@@ -77,7 +77,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   // }
   const handeChangeNaira=(e)=>{
     if(parseFloat(marketrate)){
-      setnairavalue(e.target.value);
+      setnairavalue(e.target.value.toLocaleString('en-US'));
       const newjupitrate = parseFloat(jupitrate);
       const newmarketrate = parseFloat(marketrate);
       const usdequi = parseFloat(e.target.value) / newjupitrate

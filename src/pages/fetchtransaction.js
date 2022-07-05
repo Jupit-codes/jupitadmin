@@ -36,7 +36,7 @@ import {
 const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
-    { id: 'currency', label: 'Currency', alignRight: false },
+    { id: 'currency', label: 'Asset', alignRight: false },
     { id: 'usd value', label: 'USD value', alignRight: false },
     { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
     { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },

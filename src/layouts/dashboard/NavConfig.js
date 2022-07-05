@@ -40,6 +40,18 @@ const navConfig = [
   {
     title: 'Asset Undermanagement Crypto',
     path: '/dashboard/asset/undermanagement/crypto',
+    icon: getIcon('icon-park-outline:set-off'),
+    roles:[1]
+  },
+  {
+    title: 'Asset Undermanagement Fiat',
+    path: '/dashboard/asset/undermanagement/fiat',
+    icon: getIcon('mdi:lan-pending'),
+    roles:[1]
+  },
+  {
+    title: 'Transaction Count',
+    path: '/dashboard/total/transaction/count',
     icon: getIcon('mdi:lan-pending'),
     roles:[1]
   },

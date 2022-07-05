@@ -71,7 +71,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Assetundermanagementcrypto() {
+export default function TransactionCount() {
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -87,54 +87,6 @@ export default function Assetundermanagementcrypto() {
     const [enddate,setdate] = useState()
     const navigate = useNavigate();
     
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = DATA.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - DATA.length) : 0;
-
-  // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-  const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
 
     const assetfetch = async (startdate,enddate)=>{
         setbtcbalance('refreshing')
@@ -219,26 +171,17 @@ export default function Assetundermanagementcrypto() {
       }
 
   return (
-    <Page title="Asset Under Management Crypto">
+    <Page title="TransactionCount">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
-            Asset Under Management Crypto
+            Transaction Count
           </Typography>
           {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
             Test
           </Button> */}
         </Stack>
-        <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total BTC" color="warning" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total USDT"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
-                    </Grid>
-            </Grid>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5,mt:5 }}>
                                 <Typography gutterBottom>
                                     <DesktopDatePicker
@@ -281,6 +224,28 @@ export default function Assetundermanagementcrypto() {
 
 
             </LocalizationProvider>
+        <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Buy" color="primary" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Sell"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Send"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+            </Grid>
+            
             
         </Grid>
 

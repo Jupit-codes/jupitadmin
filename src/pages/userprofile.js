@@ -162,7 +162,7 @@ const banks = [
       setjupitusdtbuyrate(res.data.rate[0].usdt[1].buy);
       setbtcbalance(res.data.detail.btc_wallet[0].balance.$numberDecimal);
       setusdtbalance(res.data.detail.usdt_wallet[0].balance.$numberDecimal);
-      setnairabalance(res.data.detail.naira_wallet[0].balance.$numberDecimal);
+      setnairabalance(res.data.detail.naira_wallet[0].balance.$numberDecimal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setstatus(res.data.detail.Status)
       setusername(res.data.detail.username);
       setfname(res.data.detail.firstname);
