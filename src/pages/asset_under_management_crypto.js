@@ -134,11 +134,12 @@ export default function Assetundermanagementcrypto() {
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-    const getTransactionData = async ()=>{
+
+    const assetfetch = async ()=>{
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/transactions`,
+        url:`${BaseUrl}/admin/get/cryptoasset`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
@@ -147,7 +148,7 @@ export default function Assetundermanagementcrypto() {
       })
       .then((res)=>{
        console.log(res.data)
-       setDATA(res.data.message)
+      
   
       })
       .catch((err)=>{
@@ -161,7 +162,7 @@ export default function Assetundermanagementcrypto() {
               icon: 'error',
               confirmButtonText: 'ok'
             });
-            navigate('/',{replace:true})
+            navigate('/login',{replace:true})
             return false;
             
           }
