@@ -7,22 +7,10 @@ import axios from 'axios';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
-import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Grid
-} from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TextField,Stack,Typography,Select,InputLabel,MenuItem,Button,Grid,Container } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -91,6 +79,11 @@ export default function Assetundermanagementcrypto() {
     const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
+    const [btcbalance,setbtcbalance] = useState(4000)
+    const [usdtbalance,setusdtbalance] = useState(4000)
+    const [refresh,setrefresh] = useState(false)
+    const [startdate,setstartdate] = useState()
+    const [enddate,setenddate] = useState()
     const navigate = useNavigate();
     
   const handleRequestSort = (event, property) => {
@@ -192,10 +185,14 @@ export default function Assetundermanagementcrypto() {
       })
     }
 
-    useEffect(()=>{
-        getTransactionData()
-    },[])
+  
 
+    const handleChange = (newValue) => {
+        setstartdate(newValue);
+      };
+      const handleChangeEnd = (newValue) => {
+        setenddate(newValue);
+      };
 
   return (
     <Page title="Awaiting Approval">
@@ -209,9 +206,45 @@ export default function Assetundermanagementcrypto() {
           </Button> */}
         </Stack>
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-           
-           
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummary title="Total BTC" color="warning" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummary title="Total USDT"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+            </Grid>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5,mt:5 }}>
+                                <Typography gutterBottom>
+                                    <DesktopDatePicker
+                                            label="Start Date"
+                                            inputFormat="MM/dd/yyyy"
+                                            sx={{ m: 2 }}
+                                            value={startdate}
+                                            onChange={handleChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                            
+                                        />
+                                </Typography>
+                                <Typography gutterBottom >
+                                    <DesktopDatePicker
+                                            label="End Date"
+                                            inputFormat="MM/dd/yyyy"
+                                            sx={{ m: 1 }}
+                                            value={enddate}
+                                            onChange={handleChangeEnd}
+                                            renderInput={(params) => <TextField {...params} />}
+                                            
+                                        />
+                                </Typography>                       
+                    </Stack>
+ 
 
+
+
+            </LocalizationProvider>
+            
         </Grid>
 
         
