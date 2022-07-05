@@ -140,6 +140,8 @@ export default function Assetundermanagementcrypto() {
         setbtcbalance('refreshing')
         setusdtbalance('refreshing')
         setrefresh(true);
+        console.log("startdate",startdate);
+        console.log("enddate",enddate);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -200,6 +202,7 @@ export default function Assetundermanagementcrypto() {
       };
       const handleChangeEnd = (newValue) => {
         setenddate(newValue);
+        
       };
 
       useEffect(()=>{
@@ -208,6 +211,11 @@ export default function Assetundermanagementcrypto() {
 
       const search = ()=>{
         assetfetch(startdate,enddate);
+      }
+      const reset = ()=>{
+        setstartdate('');
+        setenddate('');
+        assetfetch(startdate,enddate)
       }
 
   return (
@@ -258,6 +266,10 @@ export default function Assetundermanagementcrypto() {
 
                                 <Button variant="outlined" size='large' onClick={()=>search()} disabled={refresh} >
                                     Search  
+                                </Button>
+
+                                <Button variant="outlined" size='large' onClick={()=>reset()} disabled={refresh} >
+                                    Reset  
                                 </Button>
 
                                 </Typography>
