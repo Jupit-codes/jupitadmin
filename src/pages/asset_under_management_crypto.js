@@ -139,7 +139,7 @@ export default function Assetundermanagementcrypto() {
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/cryptoasset`,
+        url:`${BaseUrl}/admin/get/cryptoasset/set`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
