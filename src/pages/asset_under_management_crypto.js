@@ -26,6 +26,7 @@ import {
   AppWebsiteVisits,
   // AppTrafficBySite,
   AppWidgetSummary,
+  AppWidgetSummaryEdit,
   // AppCurrentSubject,
   // AppConversionRates,
 } from '../sections/@dashboard/app';
@@ -79,8 +80,8 @@ export default function Assetundermanagementcrypto() {
     const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
-    const [btcbalance,setbtcbalance] = useState(4000)
-    const [usdtbalance,setusdtbalance] = useState(4000)
+    const [btcbalance,setbtcbalance] = useState(0)
+    const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
     const [startdate,setstartdate] = useState()
     const [enddate,setenddate] = useState()
@@ -135,19 +136,26 @@ export default function Assetundermanagementcrypto() {
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
 
-    const assetfetch = async ()=>{
+    const assetfetch = async (startdate,enddate)=>{
+        setbtcbalance('refreshing')
+        setusdtbalance('refreshing')
+        setrefresh(true);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
         url:`${BaseUrl}/admin/get/cryptoasset/set`,
-        method:'GET',
+        method:'POST',
         headers:{
           'Content-Type':'application/json',  
           'Authorization': reactLocalStorage.get('token')
-        }
+        },
+        data:JSON.stringify({startdate,enddate})
       })
       .then((res)=>{
        console.log(res.data)
+       setrefresh(false)
+       setbtcbalance(res.data.BTC_BALANCE);
+       setusdtbalance(res.data.USDT_BALANCE);
       
   
       })
@@ -173,6 +181,7 @@ export default function Assetundermanagementcrypto() {
             icon: 'error',
             confirmButtonText: 'ok'
           });
+          console.log('err',err)
          
         }
         else{
@@ -186,14 +195,20 @@ export default function Assetundermanagementcrypto() {
       })
     }
 
-  
-
     const handleChange = (newValue) => {
         setstartdate(newValue);
       };
       const handleChangeEnd = (newValue) => {
         setenddate(newValue);
       };
+
+      useEffect(()=>{
+        assetfetch(startdate,enddate);
+      },[])
+
+      const search = ()=>{
+        assetfetch(startdate,enddate);
+      }
 
   return (
     <Page title="Awaiting Approval">
@@ -209,10 +224,10 @@ export default function Assetundermanagementcrypto() {
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummary title="Total BTC" color="warning" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total BTC" color="warning" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummary title="Total USDT"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total USDT"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -238,7 +253,16 @@ export default function Assetundermanagementcrypto() {
                                             renderInput={(params) => <TextField {...params} />}
                                             
                                         />
-                                </Typography>                       
+                                </Typography>  
+                                <Typography variant="h4" gutterBottom>
+
+                                <Button variant="outlined" size='large' onClick={()=>search()} disabled={refresh} >
+                                    Search  
+                                </Button>
+
+                                </Typography>
+
+
                     </Stack>
  
 
