@@ -37,12 +37,14 @@ AppWidgetSummaryEdit.propTypes = {
   edit:PropTypes.string
 };
 
-export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemarket,livemarketdata,jupitrate, total, icon, edit,userid, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemarket,livemarketdata,jupitrate, total, icon, edit, withdrawal,userid, color = 'primary', sx, ...other }) {
 
     const [openmodal,setOpenModal] = useState(false);
-    const [completed,setcompleted] = useState(null)
+    const [completed,setcompleted] = useState(null);
+    const [mode,setmode] = useState()
     
-    const handleClick = ()=>{
+    const handleClick = (mode)=>{
+      setmode(mode);
         setOpenModal(true);
         
     }
@@ -62,7 +64,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
   return (
       <>
       
-    {openmodal &&<Modal statemodal={openmodal} modifyOpen={setOpenModal} modalTitle={title} userid={userid} marketrate={livemarketdata} jupitrate={jupitrate} page={refreshPage} pagerefresh={refresh}/>}
+    {openmodal &&<Modal statemodal={openmodal} modifyOpen={setOpenModal} modalTitle={title} userid={userid} marketrate={livemarketdata} jupitrate={jupitrate} page={refreshPage} pagerefresh={refresh} mode={mode} balance={total}/>}
     <Card
       sx={{
         py: 5,
@@ -93,7 +95,8 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      {reactLocalStorage.getObject('admin').roleid !== 4 && <Iconify icon={edit} width={24} height={24}  onClick={()=>handleClick()}/> }
+       <Iconify icon={edit} width={30} height={30}  onClick={()=>handleClick('Deposit')}/> 
+       <Iconify icon={withdrawal} width={24} height={24}  onClick={()=>handleClick('Withdrawal')}/> 
     </Card>
     </>
   );

@@ -28,7 +28,7 @@ const style = {
 
 
 
-export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,marketrate,jupitrate,page,pagerefresh}) {
+export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid,marketrate,jupitrate,page,pagerefresh,balance}) {
   const [open, setOpen] = React.useState(false);
   const [disablebtn,setdisablebtn] = React.useState(false)
   const [value, setValue] = React.useState(0);
@@ -37,7 +37,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   const [solevalue,setsolevalue] = React.useState('')
   const handleClose = () => modifyOpen(!statemodal);
   const BaseUrl = process.env.REACT_APP_ADMIN_URL
-  const handleCreditWallet = async ()=>{
+  const handleWallet = async ()=>{
    
    setdisablebtn(true)
    let valuex;
@@ -64,6 +64,18 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
       nairavaluex=nairavalue
     }
 
+    if(parseFloat(valuex) > parseFloat(balance)){
+
+      Swal.fire({
+        title: 'Message!',
+        text: 'Amount inputted is greater than the customer balance',
+        icon: 'error',
+        confirmButtonText: 'ok'
+      });
+      
+      return false;
+    }
+
 
     await axios({
       url:`${BaseUrl}/admin/manual/wallet/credit`,
@@ -72,7 +84,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
         "Content-type":'application/json',
         "Authorization":reactLocalStorage.get('token')
       },
-      data:JSON.stringify({valuex,nairavaluex,usdvaluex,modalTitle,userid,marketrate,jupitrate})
+      data:JSON.stringify({valuex,nairavaluex,usdvaluex,modalTitle,userid,marketrate,jupitrate,mode})
 
     })
     .then((res)=>{
@@ -225,7 +237,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
       >
         <Box sx={style}>
          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {modalTitle}
+            {modalTitle} {mode}
           </Typography>
           {modalTitle === "BTC Wallet Balance" || modalTitle === "USDT Wallet Balance"  ?
               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={4}>
@@ -284,7 +296,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
          
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               
-            <Button variant="outlined" disableElevation style={{marginTop:10}} disabled={disablebtn} onClick={()=>handleCreditWallet()}>Credit User Wallet</Button>
+            <Button variant="outlined" disableElevation style={{marginTop:10}} disabled={disablebtn} onClick={()=>handleWallet()}>{mode === "Deposit"? 'Credit User Wallet': 'Debit User Wallet'}</Button>
             
            
         </Typography>
