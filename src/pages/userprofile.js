@@ -312,77 +312,7 @@ const banks = [
       })
     }
 
-    const handleBlacklist = async (e,status)=>{
-      e.preventDefault();
-      let updatestatus = ""
-      if(status === "Active"){
-          updatestatus = "Non-Active";
-      }
-      else{
-        updatestatus = "Active";
-      }
-      setuseractivate_deactivate(true)
-      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
-    
-      await axios({
-        url:`${BaseUrl}/admin/deactivate/user/profile`,
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',  
-          'Authorization':reactLocalStorage.get('token')
-        },
-        data:JSON.stringify({id,updatestatus})
-      })
-      .then((res)=>{
-        console.log(res.data)
-        setstatus(updatestatus)
-        setuseractivate_deactivate(false);
-        
   
-      })
-      .catch((err)=>{
-        setuseractivate_deactivate(false);
-        console.log(err.response)
-        if(err.response){
-          if(err.response.status === 403){
-          //   console.log(err.response.data.message);
-            Swal.fire({
-              title: 'Message!',
-              text: err.response.data.message,
-              icon: 'error',
-              confirmButtonText: 'ok'
-            });
-            navigate('/login',{replace:true})
-            return false;
-            
-          }
-  
-          Swal.fire({
-            title: 'Message!',
-            text: err.response.data,
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
-         
-        }
-        else{
-          Swal.fire({
-            title: 'Message!',
-            text: 'No Connection',
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
-        }
-  
-      })
-      
-
-    }
-
-
-
-
-
     const handleActiveAccount = async (e,status)=>{
       e.preventDefault();
       let updatestatus = ""
@@ -533,16 +463,134 @@ const banks = [
     
     }
 
-    const handleSuspension =async(e,suspensionstatus)=>{
-      e.preventDefault()
-        console.log('suspend',suspensionstatus)
-        if(suspensionstatus){
-          alert('deactivate acct')
+
+    const handleSuspension = async (e,suspensionstatus)=>{
+      e.preventDefault();
+      let updatestatus = false
+      if(suspensionstatus){
+          updatestatus = false ;
+      }
+      else{
+        updatestatus = true;
+      }
+      setuseractivate_deactivate(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+    
+      await axios({
+        url:`${BaseUrl}/admin/deactivate/user/suspension`,
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({id,updatestatus})
+      })
+      .then((res)=>{
+        console.log(res.data)
+        setstatus(updatestatus)
+        setuseractivate_deactivate(false);
+        
+  
+      })
+      .catch((err)=>{
+        setuseractivate_deactivate(false);
+        
+        if(err.response){
+          if(err.response.status === 403){
+          //   console.log(err.response.data.message);
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+            navigate('/login',{replace:true})
+            return false;
+            
+          }
+
+         
         }
         else{
-          alert('activate account')
+          Swal.fire({
+            title: 'Message!',
+            text: 'No Connection',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
         }
+  
+      })
+      
+
     }
+
+    
+    const handleBlacklist = async (e,blackliststatus)=>{
+      e.preventDefault();
+      let updatestatus = false
+      if(blackliststatus){
+          updatestatus = false ;
+      }
+      else{
+        updatestatus = true;
+      }
+      setuseractivate_deactivate(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+    
+      await axios({
+        url:`${BaseUrl}/admin/deactivate/user/blacklist`,
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({id,updatestatus})
+      })
+      .then((res)=>{
+        console.log(res.data)
+        setstatus(updatestatus)
+        setuseractivate_deactivate(false);
+        
+  
+      })
+      .catch((err)=>{
+        setuseractivate_deactivate(false);
+        
+        if(err.response){
+          if(err.response.status === 403){
+          //   console.log(err.response.data.message);
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+            navigate('/login',{replace:true})
+            return false;
+            
+          }
+
+         
+        }
+        else{
+          Swal.fire({
+            title: 'Message!',
+            text: 'No Connection',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+        }
+  
+      })
+      
+
+    }
+
+
+
+
+
 
     const handleEditEmail = (e)=>{
       set_edit_email(e.target.value);
