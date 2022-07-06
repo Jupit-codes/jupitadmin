@@ -38,8 +38,33 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   const handleClose = () => modifyOpen(!statemodal);
   const BaseUrl = process.env.REACT_APP_ADMIN_URL
   const handleCreditWallet = async ()=>{
-   console.log(value)
+   
    setdisablebtn(true)
+   let valuex;
+   let usdvaluex;
+   let nairavaluex;
+   if (value.toString().indexOf(',') > -1) { 
+      valuex = value.replace(/\D/g, '');
+    }
+    else{
+        valuex=value
+    }
+
+    if (usdvalue.toString().indexOf(',') > -1) { 
+      usdvaluex = usdvalue.replace(/\D/g, '');
+    }
+    else{
+      usdvaluex=usdvalue
+    }
+
+    if (nairavalue.toString().indexOf(',') > -1) { 
+      nairavaluex = nairavalue.replace(/\D/g, '');
+    }
+    else{
+      nairavaluex=nairavalue
+    }
+
+
     await axios({
       url:`${BaseUrl}/admin/manual/wallet/credit`,
       method:"POST",
@@ -47,11 +72,11 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
         "Content-type":'application/json',
         "Authorization":reactLocalStorage.get('token')
       },
-      data:JSON.stringify({value,modalTitle,userid})
+      data:JSON.stringify({valuex,nairavaluex,usdvaluex,modalTitle,userid,marketrate,jupitrate})
 
     })
     .then((res)=>{
-      console.log(res.data);
+     
       if(res.data.status){
         setdisablebtn(false);
         Swal.fire({
@@ -68,7 +93,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
 
     })
     .catch((err)=>{
-      console.log(err.response);
+      console.log("errorx",err.response);
     })
   }
 
@@ -180,7 +205,15 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   }
 
   const handeChangeN =(e)=>{
-    setValue(e.target.value)
+    const {value} = e.target
+    if(value){
+      const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
+      setValue(formattedValue)
+    }
+    else{
+      setValue('')
+    }
+   
   }
   return (
     <div>
@@ -237,7 +270,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
                     value={value|| ''}
                     style={{marginTop:20}}
                     onChange={handeChangeN}
-                    type="number"
+                    type="text"
                   />  
 
         
