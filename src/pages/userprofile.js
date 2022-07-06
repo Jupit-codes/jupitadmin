@@ -44,6 +44,7 @@ import Iconify from '../components/Iconify';
 
 
 import UserTransaction from './user_transaction'
+import FetchTransaction from './fetchtransaction'
 
 import {
   // AppTasks,
@@ -209,10 +210,10 @@ const banks = [
           return false;
           
         }
-
+        console.log(err.response.data)
         Swal.fire({
           title: 'Message!',
-          text: err.response.data,
+          text: err.response,
           icon: 'error',
           confirmButtonText: 'ok'
         });
@@ -473,6 +474,8 @@ const banks = [
       else{
         updatestatus = true;
       }
+
+      console.log(updatestatus)
       setuseractivate_deactivate(true)
       const BaseUrl = process.env.REACT_APP_ADMIN_URL;
     
@@ -487,7 +490,7 @@ const banks = [
       })
       .then((res)=>{
         console.log(res.data)
-        setstatus(updatestatus)
+        setsuspensionstatus(updatestatus)
         setuseractivate_deactivate(false);
         
   
@@ -549,7 +552,7 @@ const banks = [
       })
       .then((res)=>{
         console.log(res.data)
-        setstatus(updatestatus)
+        setblackliststatus(updatestatus)
         setuseractivate_deactivate(false);
         
   
@@ -930,7 +933,10 @@ const banks = [
             </Stack>
              
              
-            <UserTransaction userid={id} handleData = {setDATA}/>
+            {/* <UserTransaction userid={id} handleData = {setDATA}/> */}
+            <UserTransaction handleData={setDATA} userid={id} />
+
+
           </Grid>
 
 

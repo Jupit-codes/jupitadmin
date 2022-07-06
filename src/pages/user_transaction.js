@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Swal from 'sweetalert2';
 import {
     Card,
     CardContent,
@@ -23,22 +23,23 @@ import {
   import { sentenceCase } from 'change-case';
   import { filter } from 'lodash';
   import axios from 'axios'
-  import Swal from "sweetalert2";
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
-
   import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
-  import Filter from './filtertradelog'
   
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
+  import Filter from './filter'
 
   
 const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
-    { id: 'currency', label: 'Currency', alignRight: false },
+    { id: 'currency', label: 'Asset', alignRight: false },
+    { id: 'usd value', label: 'USD value', alignRight: false },
+    { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
+    { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
     { id: 'from_address', label: 'From Address', alignRight: false },
     { id: 'amount', label: 'Amount', alignRight: false },
     { id: 'fee', label: 'Fee', alignRight: false },
@@ -78,14 +79,14 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function Transaction({userid,handleData}){
+export default function UserTransaction({handleData,userid}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
     
@@ -138,56 +139,61 @@ export default function Transaction({userid,handleData}){
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
     const getTransactionData = async ()=>{
+        setLoader(true)
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/user/wallet/transactions`,
+        url:`${BaseUrl}/admin/get/all/transactions/individual`,
         method:'POST',
         headers:{
           'Content-Type':'application/json',  
           'Authorization': reactLocalStorage.get('token')
         },
         data:JSON.stringify({userid})
+        
       })
       .then((res)=>{
-       console.log(res.data)
-       setDATA(res.data.message)
+    //    console.log(res.data)
+        setLoader(false)
+        setDATA(res.data)
   
-        
-  
+      
       })
       .catch((err)=>{
           
-        if(err.response){
-          if(err.response.status === 403){
-          //   console.log(err.response.data.message);
-            Swal.fire({
-              title: 'Message!',
-              text: err.response.data.message,
-              icon: 'error',
-              confirmButtonText: 'ok'
-            });
-            navigate('/',{replace:true})
-            return false;
+            console.log(err.response);
+            setLoader(false)
+            if(err.response){
+              if(err.response.status === 403){
+              //   console.log(err.response.data.message);
+                Swal.fire({
+                  title: 'Message!',
+                  text: err.response.data.message,
+                  icon: 'error',
+                  confirmButtonText: 'ok'
+                });
+                navigate('/',{replace:true})
+                return false;
+                
+              }
+    
+              Swal.fire({
+                title: 'Message!',
+                text: err.response.data,
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+             
+            }
+            else{
+              Swal.fire({
+                title: 'Message!',
+                text: 'No Connection',
+                icon: 'error',
+                confirmButtonText: 'ok'
+              });
+            }
             
-          }
-
-          Swal.fire({
-            title: 'Message!',
-            text: err.response.data,
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
-         
-        }
-        else{
-          Swal.fire({
-            title: 'Message!',
-            text: 'No Connection',
-            icon: 'error',
-            confirmButtonText: 'ok'
-          });
-        }
       })
     }
 
@@ -198,17 +204,16 @@ export default function Transaction({userid,handleData}){
     return (
         
         <>
-            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader} getUserid={userid}/>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
-                
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
+                <TableContainer sx={{ minWidth: 800 }} >
+                    <Table >
                     <UserListHead
                         order={order}
                         orderBy={orderBy}
@@ -220,7 +225,7 @@ export default function Transaction({userid,handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees } = row;
+                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -245,6 +250,9 @@ export default function Transaction({userid,handleData}){
                             </TableCell>
                             <TableCell align="left">{order_id}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
+                            <TableCell align="left">{usdvalue}</TableCell>
+                            <TableCell align="left">{marketprice}</TableCell>
+                            <TableCell align="left">{rateInnaira}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{fees}</TableCell>
@@ -257,10 +265,10 @@ export default function Transaction({userid,handleData}){
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
-                            <TableCell align="right">
+                            {/* <TableCell align="right">
                                 
                                 <UserMoreMenu userid={_id} />
-                            </TableCell>
+                            </TableCell> */}
                             </TableRow>
                         );
                         })}
@@ -285,7 +293,7 @@ export default function Transaction({userid,handleData}){
                 </Scrollbar>
     
                 <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[250, 400, 500]}
                 component="div"
                 count={DATA.length}
                 rowsPerPage={rowsPerPage}

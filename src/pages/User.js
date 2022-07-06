@@ -108,7 +108,7 @@ export default function User() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [failedRequest,setfailedRequest] = useState(false)
 
   const getAllUsers =  ()=>{
@@ -237,7 +237,7 @@ export default function User() {
             {failedRequest && <div className='myloader'><small>Verification Failed...Click Below to Reload</small><Iconify icon="icon-park-twotone:reload" width="48px" height="48px" onClick={()=>{getAllUsers()}}/></div>}
         </Grid>
 
-        <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
+        {/* <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
             <AppWebsiteVisits
               title="User Onboarding"
               subheader="Monthly basis"
@@ -264,7 +264,7 @@ export default function User() {
                 
               ]}
             />
-          </Grid>
+          </Grid> */}
 
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
@@ -357,7 +357,7 @@ export default function User() {
              </Scrollbar>
    
              <TablePagination
-               rowsPerPageOptions={[5, 10, 25]}
+               rowsPerPageOptions={[50, 100, 200]}
                component="div"
                count={DATA.length}
                rowsPerPage={rowsPerPage}
