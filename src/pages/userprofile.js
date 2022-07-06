@@ -86,6 +86,8 @@ export default function User() {
   const [accountnumber,setaccountnumber] = useState()
   const [twofactor,settwofactor] = useState();
   const [status, setstatus] = useState('')
+  const [blackliststatus, setblackliststatus] = useState()
+  const [suspensionstatus, setsuspensionstatus] = useState()
   const [DATA,setDATA] = useState([]);
 
   const [edit_email,set_edit_email] = useState('')
@@ -174,7 +176,8 @@ const banks = [
       setaccountnumber(res.data.bank.account_number)
       setbvn(res.data.bank.bvn)
         settwofactor(res.data.detail.TWOFA);
-        
+        setblackliststatus(res.data.blacklist);
+        setsuspensionstatus(res.data.suspension);
       setbigLoader(false);
 
       banks.map((d)=>{
@@ -308,6 +311,77 @@ const banks = [
   
       })
     }
+
+    const handleBlacklist = async (e,status)=>{
+      e.preventDefault();
+      let updatestatus = ""
+      if(status === "Active"){
+          updatestatus = "Non-Active";
+      }
+      else{
+        updatestatus = "Active";
+      }
+      setuseractivate_deactivate(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL;
+    
+      await axios({
+        url:`${BaseUrl}/admin/deactivate/user/profile`,
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',  
+          'Authorization':reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({id,updatestatus})
+      })
+      .then((res)=>{
+        console.log(res.data)
+        setstatus(updatestatus)
+        setuseractivate_deactivate(false);
+        
+  
+      })
+      .catch((err)=>{
+        setuseractivate_deactivate(false);
+        console.log(err.response)
+        if(err.response){
+          if(err.response.status === 403){
+          //   console.log(err.response.data.message);
+            Swal.fire({
+              title: 'Message!',
+              text: err.response.data.message,
+              icon: 'error',
+              confirmButtonText: 'ok'
+            });
+            navigate('/login',{replace:true})
+            return false;
+            
+          }
+  
+          Swal.fire({
+            title: 'Message!',
+            text: err.response.data,
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+         
+        }
+        else{
+          Swal.fire({
+            title: 'Message!',
+            text: 'No Connection',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
+        }
+  
+      })
+      
+
+    }
+
+
+
+
 
     const handleActiveAccount = async (e,status)=>{
       e.preventDefault();
@@ -457,6 +531,17 @@ const banks = [
       }
 
     
+    }
+
+    const handleSuspension =async(e,suspensionstatus)=>{
+      e.preventDefault()
+        console.log('suspend',suspensionstatus)
+        if(suspensionstatus){
+          alert('deactivate acct')
+        }
+        else{
+          alert('activate account')
+        }
     }
 
     const handleEditEmail = (e)=>{
@@ -724,9 +809,19 @@ const banks = [
             <Grid item xs={12} md={6} lg={4}>
             <Card style={{padding:20}}>
             
-              <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
+                <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
                   <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
                       {status === "Active" ? "Deactivate Account":"Active Account"}
+                  </Button>   
+                </Stack>
+                <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
+                  <Button variant="contained" onClick={(e)=>{handleSuspension(e,suspensionstatus)}}  component={RouterLink} to="#" color={suspensionstatus ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                  {suspensionstatus ? "Unsuspend Account":"Suspend Account"}
+                  </Button>   
+                </Stack>
+                <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
+                  <Button variant="contained" onClick={(e)=>{handleBlacklist(e,blackliststatus)}}  component={RouterLink} to="#" color={blackliststatus ? 'error' :'primary'}  disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                  {blackliststatus ? "Remove Blacklist":"Blacklist Account"}
                   </Button>   
                 </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
