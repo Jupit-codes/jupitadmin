@@ -80,8 +80,12 @@ export default function TransactionCount() {
     const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
-    const [btcbalance,setbtcbalance] = useState(0)
-    const [usdtbalance,setusdtbalance] = useState(0)
+    const [sendcount,setsendcount] = useState(0)
+    const [receivecount,setreceivecount] = useState(0)
+    const [sellcount,setsellcount] = useState(0)
+    const [buycount,setbuycount] = useState(0)
+    const [depositcount,setdepositcount] = useState(0)
+    const [withdrawalcount,setwithdrawalcount] = useState(0)
     const [refresh,setrefresh] = useState(false)
     const [startdate,setstartdate] = useState()
     const [enddate,setdate] = useState()
@@ -89,15 +93,19 @@ export default function TransactionCount() {
     
 
     const assetfetch = async (startdate,enddate)=>{
-        setbtcbalance('refreshing')
-        setusdtbalance('refreshing')
+        setsellcount('refreshing')
+        setbuycount('refreshing')
+        setsendcount('refreshing')
+        setreceivecount('refreshing')
+        setdepositcount('refreshing')
+        setwithdrawalcount('refreshing')
         setrefresh(true);
         console.log("startdate",startdate);
         console.log("enddate",enddate);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/cryptoasset/set`,
+        url:`${BaseUrl}/admin/get/transaction/count`,
         method:'POST',
         headers:{
           'Content-Type':'application/json',  
@@ -107,11 +115,13 @@ export default function TransactionCount() {
       })
       .then((res)=>{
        console.log(res.data)
-       setrefresh(false)
-       setbtcbalance(res.data.BTC_BALANCE);
-       setusdtbalance(res.data.USDT_BALANCE);
-      
-  
+            setrefresh(false)
+            setbuycount(res.data.Buy)
+            setsellcount(res.data.Sell)
+            setsendcount(res.data.Send)
+            setreceivecount(res.data.Receive)
+            setdepositcount(res.data.Deposit)
+            setwithdrawalcount(res.data.Withdrawal)
       })
       .catch((err)=>{
           
@@ -227,22 +237,22 @@ export default function TransactionCount() {
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Buy" color="primary" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Buy" color="primary" total={buycount} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Sell"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Sell"  color="warning" total={sellcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Send"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Send"  color="warning" total={sendcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={receivecount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={depositcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={withdrawalcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
             </Grid>
             
