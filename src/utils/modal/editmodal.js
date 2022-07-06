@@ -32,9 +32,9 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   const [open, setOpen] = React.useState(false);
   const [disablebtn,setdisablebtn] = React.useState(false)
   const [value, setValue] = React.useState(0);
-  const [usdvalue, setusdvalue] = React.useState(0);
-  const [nairavalue, setnairavalue] = React.useState(0);
-  const [solevalue,setsolevalue] = React.useState(0)
+  const [usdvalue, setusdvalue] = React.useState('');
+  const [nairavalue, setnairavalue] = React.useState('');
+  const [solevalue,setsolevalue] = React.useState('')
   const handleClose = () => modifyOpen(!statemodal);
   const BaseUrl = process.env.REACT_APP_ADMIN_URL
   const handleCreditWallet = async ()=>{
@@ -77,13 +77,23 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   // }
   const handeChangeNaira=(e)=>{
     if(parseFloat(marketrate)){
-      setnairavalue(e.target.value.toLocaleString('en-US'));
-      const newjupitrate = parseFloat(jupitrate);
-      const newmarketrate = parseFloat(marketrate);
-      const usdequi = parseFloat(e.target.value) / newjupitrate
-      const btcequi = parseFloat(usdequi/newmarketrate).toFixed(8)
-      setusdvalue(usdequi);
-      setValue(btcequi)
+      const {value} = e.target
+      if(value) {
+        const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
+        setnairavalue(formattedValue)
+        const newjupitrate = parseFloat(jupitrate);
+        const newmarketrate = parseFloat(marketrate);
+        const usdequi = parseFloat(value.replace(/,/g, '')) / newjupitrate
+        const btcequi = parseFloat(usdequi/newmarketrate).toFixed(8)
+        setusdvalue(usdequi);
+        setValue(btcequi);
+      }
+      else{
+        setnairavalue('');
+        setusdvalue('');
+        setValue('');
+      }
+      
     }
     else{
       Swal.fire({
@@ -99,18 +109,23 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   }
   const handeChangeBtc=(e)=>{
     if(parseFloat(marketrate)){
-      setValue(e.target.value);
+      const {value} = e.target
+      if(value){
+        const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
+        setValue(formattedValue)
+        const newjupitrate = parseFloat(jupitrate);
+        const newmarketrate = parseFloat(marketrate);
+        const usdequi = parseFloat(value.replace(/,/g, '')) * newmarketrate
+        const nairaequi = parseFloat(usdequi) * newjupitrate
+        setusdvalue(usdequi.toLocaleString());
+        setnairavalue(nairaequi.toLocaleString());
+      }
+      else{
+        setusdvalue('');
+        setnairavalue('');
+        setValue('')
+      }
       
-      const newjupitrate = parseFloat(jupitrate);
-      const newmarketrate = parseFloat(marketrate);
-      
-
-      const usdequi = parseFloat(e.target.value) * newmarketrate
-      const nairaequi = parseFloat(usdequi) * newjupitrate
-      setusdvalue(usdequi);
-      setnairavalue(nairaequi)
-      
-
     }
     else{
       Swal.fire({
@@ -126,18 +141,30 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
   }
   const handeChangeUsd=(e)=>{
     if(parseFloat(marketrate)){
-      setusdvalue(e.target.value);
-      const newjupitrate = parseFloat(jupitrate);
-      const newmarketrate = parseFloat(marketrate);
-      console.log(marketrate)
-      const nairaequi = parseFloat(e.target.value) * newjupitrate;
-      setnairavalue(nairaequi);
-      const btcequi = parseFloat(e.target.value)/parseFloat(newmarketrate).toFixed(8);
-      const dp = 10**5;
-      const xp = Math.round(btcequi * dp)/dp;
-      
+      const {value} = e.target
+     
+      if(value){
+        const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
+        setusdvalue(formattedValue)
+        
+        const newjupitrate = parseFloat(jupitrate);
+        const newmarketrate = parseFloat(marketrate);
+        
+        const nairaequi = parseFloat(value.replace(/,/g, '')) * newjupitrate;
+        setnairavalue(nairaequi.toLocaleString());
+        
 
-      setValue(xp)
+        const btcequi = parseFloat(value.replace(/,/g, ''))/parseFloat(newmarketrate).toFixed(8);
+        const dp = 10**5;
+        const xp = Math.round(btcequi * dp)/dp;
+        setValue(xp)
+      }
+      else{
+        setusdvalue('')
+        setValue('');
+        setnairavalue('')
+      }
+      
     }
     else{
       Swal.fire({
@@ -177,7 +204,7 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
                     
                     fullWidth
                     onChange={handeChangeBtc}
-                    type="number"
+                    type="text"
                   />   
                   <Iconify icon="carbon:arrows-horizontal" width={50} height={50}/>
                   <TextField
@@ -188,17 +215,17 @@ export default function BasicModal({statemodal,modifyOpen,modalTitle,userid,mark
                     value={usdvalue|| ''}
                     fullWidth
                     onChange={handeChangeUsd}
-                    type="number"
+                    type="text"
                   /> 
                   <Iconify icon="carbon:arrows-horizontal" width={50} height={50}/>
                   <TextField
                     required
                     id="outlined-required"
                     label="Naira Amount"
-                    value={nairavalue|| ''}
+                    value={nairavalue || ''}
                     fullWidth
                     onChange={handeChangeNaira}
-                    type="number"
+                    type="text"
                   />   
             </Stack>
                     :

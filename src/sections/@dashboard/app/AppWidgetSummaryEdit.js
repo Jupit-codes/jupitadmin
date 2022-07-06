@@ -54,7 +54,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
 
 
    const breaker =(total)=>{
-          return total ? total.toLocaleString('en-US'):''
+          return total ? total.toLocaleString('en-US'):'0'
    }
 
     
