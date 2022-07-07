@@ -267,10 +267,10 @@ export default function TransactionCount() {
                         <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={receivecount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={depositcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={depositcount}icon={'tabler:currency-naira'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={withdrawalcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={withdrawalcount} icon={'tabler:currency-naira'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
             </Grid>
             
