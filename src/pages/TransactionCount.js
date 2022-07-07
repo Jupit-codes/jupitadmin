@@ -89,6 +89,7 @@ export default function TransactionCount() {
     const [refresh,setrefresh] = useState(false)
     const [startdate,setstartdate] = useState()
     const [enddate,setdate] = useState()
+    const [asset,setasset] = useState('BTC')
     const navigate = useNavigate();
     
 
@@ -166,6 +167,9 @@ export default function TransactionCount() {
         setdate(newValue);
         
       };
+      const handleAsset = (e)=>{
+        setasset(e.target.value)
+      }
 
       useEffect(()=>{
         assetfetch(startdate,enddate);
@@ -215,6 +219,20 @@ export default function TransactionCount() {
                                             
                                         />
                                 </Typography>  
+                                <Typography  gutterBottom style={{marginTop:-15}}>
+                                    <InputLabel id="demo-simple-select-label">Assets</InputLabel>
+                                    <Select
+                                        fullWidth
+                                        id="demo-simple-select"
+                                        sx={{ m: 1, width: '30ch' }}
+                                        value={asset|| ''}
+                                        onChange={handleAsset}
+                                    >
+                                        <MenuItem  value="BTC">BTC</MenuItem>
+                                        <MenuItem  value="USDT">USDT</MenuItem>
+                                       
+                                    </Select>
+                                </Typography>
                                 <Typography variant="h4" gutterBottom>
 
                                 <Button variant="outlined" size='large' onClick={()=>search()} disabled={refresh} >
@@ -237,22 +255,22 @@ export default function TransactionCount() {
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Buy" color="primary" total={buycount} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Buy" color="primary" total={buycount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Sell"  color="warning" total={sellcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Sell"  color="warning" total={sellcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Send"  color="warning" total={sendcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Send"  color="warning" total={sendcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={receivecount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Receive"  color="success" total={receivecount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={depositcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Deposit"  color="primary" total={depositcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={withdrawalcount} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total Count Withdrawal"  color="warning" total={withdrawalcount} icon={asset === "BTC" ?'cryptocurrency:btc':'cryptocurrency:usdt'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
             </Grid>
             
