@@ -64,7 +64,7 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
       nairavaluex=nairavalue
     }
 
-    if(parseFloat(valuex) > parseFloat(balance)){
+    if(mode === "Withdrawal" && parseFloat(valuex) > parseFloat(balance)){
 
       Swal.fire({
         title: 'Message!',
@@ -72,7 +72,7 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
         icon: 'error',
         confirmButtonText: 'ok'
       });
-      
+      modifyOpen(!statemodal)
       return false;
     }
 

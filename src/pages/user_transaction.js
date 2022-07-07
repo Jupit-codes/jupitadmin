@@ -30,7 +30,7 @@ import {
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
-  import Filter from './filter'
+  import Filter from './filterUserProfile'
 
   
 const TABLE_HEAD = [
