@@ -112,7 +112,7 @@ export default function TransactionCount() {
           'Content-Type':'application/json',  
           'Authorization': reactLocalStorage.get('token')
         },
-        data:JSON.stringify({startdate,enddate})
+        data:JSON.stringify({startdate,enddate,asset})
       })
       .then((res)=>{
        console.log(res.data)
