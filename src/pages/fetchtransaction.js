@@ -138,67 +138,63 @@ export default function Transaction({handleData}){
   // const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
   const filteredUsers = applySortFilter(DATA, getComparator(order, orderBy), filterName);
   const isUserNotFound = filteredUsers.length === 0;
-    const getTransactionData = async ()=>{
-        setLoader(true)
-        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
-    await axios({
-    
-        url:`${BaseUrl}/admin/get/all/transactions`,
-        method:'GET',
-        headers:{
-          'Content-Type':'application/json',  
-          'Authorization': reactLocalStorage.get('token')
-        },
-        
-      })
-      .then((res)=>{
-    //    console.log(res.data)
-        setLoader(false)
-        setDATA(res.data.message)
-  
-        
-  
-      })
-      .catch((err)=>{
+    const getTransactionData = async (isMounted)=>{
+      if (isMounted){
+          setLoader(true)
+          const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+          await axios({
+      
+          url:`${BaseUrl}/admin/get/all/transactions`,
+          method:'GET',
+          headers:{
+            'Content-Type':'application/json',  
+            'Authorization': reactLocalStorage.get('token')
+          },
           
-            console.log(err.response);
-            setLoader(false)
-            if(err.response){
-              if(err.response.status === 403){
-              //   console.log(err.response.data.message);
-                Swal.fire({
-                  title: 'Message!',
-                  text: err.response.data.message,
-                  icon: 'error',
-                  confirmButtonText: 'ok'
-                });
-                navigate('/',{replace:true})
-                return false;
-                
-              }
+        })
+        .then((res)=>{
+      //    console.log(res.data)
+          setLoader(false)
+          setDATA(res.data.message)
     
-              Swal.fire({
-                title: 'Message!',
-                text: err.response.data,
-                icon: 'error',
-                confirmButtonText: 'ok'
-              });
-             
-            }
-            else{
-              Swal.fire({
-                title: 'Message!',
-                text: 'No Connection',
-                icon: 'error',
-                confirmButtonText: 'ok'
-              });
-            }
+          
+    
+        })
+        .catch((err)=>{
             
-      })
+              console.log("Error",err);
+              setLoader(false)
+              if(err.response){
+                if(err.response.status === 403){
+                //   console.log(err.response.data.message);
+                  Swal.fire({
+                    title: 'Message!',
+                    text: err.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'ok'
+                  });
+                  navigate('/login',{replace:true})
+                  return false;
+                  
+                }
+      
+              
+              
+              }
+              
+              
+        })
+      }
+        
     }
 
     useEffect(()=>{
-        getTransactionData()
+      let isMounted = true
+        getTransactionData(isMounted)
+
+        return () => {
+          isMounted = false;
+          };
     },[])
 
     return (
@@ -259,7 +255,7 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{to_address}</TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                                {sentenceCase(status)}
+                                {status}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">
