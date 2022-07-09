@@ -40,6 +40,7 @@ import Allwithdrawal from './pages/allwithdrawal';
 import AssetUndermangementCrypto from './pages/asset_under_management_crypto'
 import AssetUndermanagementFiat from './pages/asset_under_management_fiat'
 import TransactionCount from './pages/TransactionCount'
+import Createrole from './pages/CreateRole'
 
 // ----------------------------------------------------------------------
 
@@ -208,6 +209,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="asset/undermanagement/crypto" element={<AssetUndermangementCrypto/>}/>
             <Route path="asset/undermanagement/fiat" element={<AssetUndermanagementFiat/>}/>
             <Route path="total/transaction/count" element={<TransactionCount/>}/>
+            <Route path="create/admin/role" element={<Createrole/>}/>
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
