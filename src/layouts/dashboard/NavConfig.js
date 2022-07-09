@@ -61,6 +61,12 @@ const navConfig = [
     icon: getIcon('mdi:lan-pending'),
     roles:[1]
   },
+  {
+    title: 'Create Staff',
+    path: '/dashboard/create/admin/staff',
+    icon: getIcon('mdi:lan-pending'),
+    roles:[1]
+  },
   // {
   //   title: 'GiftCard Sell Request',
   //   path: '/dashboard/giftcard/sell/transactions',

@@ -41,6 +41,7 @@ import AssetUndermangementCrypto from './pages/asset_under_management_crypto'
 import AssetUndermanagementFiat from './pages/asset_under_management_fiat'
 import TransactionCount from './pages/TransactionCount'
 import Createrole from './pages/CreateRole'
+import StaffCreation from './pages/staffcreation'
 
 // ----------------------------------------------------------------------
 
@@ -210,6 +211,7 @@ export default function Router({redirectPath='/login'}) {
             <Route path="asset/undermanagement/fiat" element={<AssetUndermanagementFiat/>}/>
             <Route path="total/transaction/count" element={<TransactionCount/>}/>
             <Route path="create/admin/role" element={<Createrole/>}/>
+            <Route path="create/admin/staff" element={<StaffCreation/>}/>
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
