@@ -53,12 +53,40 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
 
     
 
-
+    const x = reactLocalStorage.getObject('admin').previledge;
 
    const breaker =(total)=>{
           return total ? total.toLocaleString('en-US'):'0'
    }
 
+   const _renderDeposit = ()=>{
+      return x.map(d=>{
+        if(d.includes('Manual Deposit') || d.includes('All')){
+          return  <>
+                    <Iconify icon={edit} width={29} height={29}  onClick={()=>handleClick('Deposit')}/> 
+                  </>
+        }
+        return null
+        
+        
+      })
+  }
+
+  const _renderWithdrawal = ()=>{
+    return x.map(d=>{
+      if(d.includes('Manual Withdrawal') || d.includes('All')){
+        return  <>
+                  <Iconify icon={withdrawal} width={24} height={24}  onClick={()=>handleClick('Withdrawal')}/>  
+                </>
+      }
+      return null
+      
+      
+    })
+}
+
+
+   
     
 
   return (
@@ -95,8 +123,9 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-       <Iconify icon={edit} width={30} height={30}  onClick={()=>handleClick('Deposit')}/> 
-       <Iconify icon={withdrawal} width={24} height={24}  onClick={()=>handleClick('Withdrawal')}/> 
+        {_renderDeposit()}
+        {_renderWithdrawal()}
+       
     </Card>
     </>
   );

@@ -145,6 +145,7 @@ export default function NavSection({ navConfig, ...other }) {
   
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
   const x = reactLocalStorage.getObject('admin').previledge;
+  console.log(x)
   const renderSideBar = ()=>{
     return navConfig.map((item)=>{
         

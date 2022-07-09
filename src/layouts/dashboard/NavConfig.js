@@ -26,14 +26,14 @@ const navConfig = [
     path: '/dashboard/setrate',
     icon: getIcon('icon-park-outline:set-off'),
     roles:[1],
-    previledges:['All','Rate Input']
+    previledges:['All','Initialise Rate']
   },
   {
     title: 'Transactions Log',
     path: '/dashboard/alltransactions',
     icon: getIcon('icon-park-outline:transaction-order'),
     roles:[1,2,3,4],
-    previledges:['All','Trnasaction Log']
+    previledges:['All','Transaction Log']
   },
   {
     title: 'Awaiting Approval',

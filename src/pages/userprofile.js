@@ -605,6 +605,129 @@ const banks = [
         
 
     },[refresh])
+    const x = reactLocalStorage.getObject('admin').previledge;
+    console.log(x)
+    const _renderBalances = ()=>{
+      return x.map(d=>{
+        if(d.includes('Customer Balances') || d.includes('All')){
+          return  <>
+                    <Grid item xs={12} sm={6} md={4}>
+                      <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} refreshPage={setrefresh} livemarket={0.00}  refresh={refresh}/>
+                    </Grid>
+                  </>
+        }
+        return null
+        
+        
+      })
+     
+    }
+
+      const _renderEditProfile = ()=>{
+        return x.map(d=>{
+          if(d.includes('All')){
+            return  <>
+                    <Button variant="outlined" disabled={disablebtn} component={RouterLink} to="#" onClick={(e)=>{handleEdit(e)}} startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                            {editprofile}
+                            
+                      </Button>
+                    </>
+          }
+          return null
+          
+          
+        })
+    }
+
+    
+    const _renderBlock = ()=>{
+      return x.map(d=>{
+        if(d.includes('Account Block') || d.includes('All')){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                        {status === "Active" ? "Deactivate Account":"Active Account"}
+                    </Button>
+                  </>
+        }
+        return null
+        
+        
+      })
+  }
+
+
+    const _renderSuspension = ()=>{
+      return x.map(d=>{
+        if(d.includes('Account Suspension') || d.includes('All')){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleSuspension(e,suspensionstatus)}}  component={RouterLink} to="#" color={suspensionstatus ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                        {suspensionstatus ? "Unsuspend Account":"Suspend Account"}
+                      </Button>
+                  </>
+        }
+        return null
+        
+        
+      })
+    }
+
+    const _renderBlacklist = ()=>{
+      return x.map(d=>{
+        if(d.includes('Blacklist') || d.includes('All')){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleBlacklist(e,blackliststatus)}}  component={RouterLink} to="#" color={blackliststatus ? 'error' :'primary'}  disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                      {blackliststatus ? "Remove Blacklist":"Blacklist Account"}
+                      </Button>  
+                  </>
+        }
+        return null
+        
+        
+      })
+    }
+
+  const _renderTradelog = ()=>{
+
+    return x.map(d=>{
+      if(d.includes('Trade Log') || d.includes('All') || d.includes('Transaction History')){
+        return  <>
+                    <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
+                      <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
+                          <Typography variant="h4" gutterBottom mb={5}>
+                                Trade Logs (USDT/BTC)
+                          </Typography>
+
+                          <CSVLink data={DATA}>
+                              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+                                Export To CsV
+                            </Button>
+                        </CSVLink>
+
+                      </Stack>
+                        
+                        
+                      {/* <UserTransaction userid={id} handleData = {setDATA}/> */}
+                      <UserTransaction handleData={setDATA} userid={id} />
+
+
+                    </Grid>
+              
+                </>
+      }
+      return null
+      
+      
+    })
+
+    
+  }
+
 
     useEffect(()=>{
         marketprice();
@@ -615,52 +738,14 @@ const banks = [
       <Container>
 
       <Grid container spacing={3}>
-      {
-          reactLocalStorage.getObject('admin').roleid === 1 && 
-          <>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} refreshPage={setrefresh} livemarket={0.00}  refresh={refresh}/>
-          </Grid>
-          </>
+      
+          {
+              _renderBalances()
 
-        }
-        {
-           reactLocalStorage.getObject('admin').roleid === 4 && 
-          <>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
-          </Grid>
-          </>
+          }
+         
 
-        }
-
-{
-          reactLocalStorage.getObject('admin').roleid === 2 && 
-          <>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} edit={'bx:edit'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} edit={'bx:edit'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-              <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} edit={'bx:edit'} userid={id} refreshPage={setrefresh} livemarket={500}  refresh={refresh}/>
-          </Grid>
-          </>
-
-        }
+        
        
            
 
@@ -846,10 +931,7 @@ const banks = [
                    
                     <Typography variant="h4" gutterBottom mb={5}>
 
-                      <Button variant="outlined" disabled={disablebtn} component={RouterLink} to="#" onClick={(e)=>{handleEdit(e)}} startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
-                          {editprofile}
-                          
-                      </Button>
+                      {_renderEditProfile()}
                     </Typography>
                 </Stack>
                
@@ -861,19 +943,13 @@ const banks = [
             <Card style={{padding:20}}>
             
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
-                  <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
-                      {status === "Active" ? "Deactivate Account":"Active Account"}
-                  </Button>   
+                  {_renderBlock()}   
                 </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
-                  <Button variant="contained" onClick={(e)=>{handleSuspension(e,suspensionstatus)}}  component={RouterLink} to="#" color={suspensionstatus ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
-                  {suspensionstatus ? "Unsuspend Account":"Suspend Account"}
-                  </Button>   
+                 {_renderSuspension()}   
                 </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
-                  <Button variant="contained" onClick={(e)=>{handleBlacklist(e,blackliststatus)}}  component={RouterLink} to="#" color={blackliststatus ? 'error' :'primary'}  disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
-                  {blackliststatus ? "Remove Blacklist":"Blacklist Account"}
-                  </Button>   
+                  {_renderBlacklist()}  
                 </Stack>
                 <Stack direction="row" alignItems="left" justifyContent="space-between" mb={2}>
                     <Typography variant="h4" gutterBottom mb={5}>
@@ -918,26 +994,7 @@ const banks = [
 
         
 
-        <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
-            <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
-                <Typography variant="h4" gutterBottom mb={5}>
-                      Trade Logs (USDT/BTC)
-                </Typography>
-
-                <CSVLink data={DATA}>
-                    <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
-                     Export To CsV
-                  </Button>
-              </CSVLink>
-
-            </Stack>
-             
-             
-            {/* <UserTransaction userid={id} handleData = {setDATA}/> */}
-            <UserTransaction handleData={setDATA} userid={id} />
-
-
-          </Grid>
+       {_renderTradelog()}
 
 
 
