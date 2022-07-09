@@ -677,6 +677,23 @@ const banks = [
       })
     }
 
+    const _render2fa = ()=>{
+      return x.map(d=>{
+        if(d.includes('2FA') || d.includes('All')){
+          return  <>
+                    
+                    <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                        {twofactor ? 'Disable 2FA':'2FA not activated'}
+                        
+                    </Button>
+                  </>
+        }
+        return null
+        
+        
+      })
+    }
+
     const _renderBlacklist = ()=>{
       return x.map(d=>{
         if(d.includes('Blacklist') || d.includes('All')){
@@ -756,11 +773,7 @@ const banks = [
                         User Profile Details
                     </Typography>
                     <Typography variant="h4" gutterBottom mb={5}>
-
-                    <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
-                        {twofactor ? 'Disable 2FA':'2FA not activated'}
-                        
-                    </Button>
+                      {_render2fa()}
                     </Typography>
                 </Stack>
 
