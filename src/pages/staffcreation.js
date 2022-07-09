@@ -101,12 +101,18 @@ export default function Changepassword({update}) {
               'Content-Type':'application/json',  
               'Authorization': reactLocalStorage.get('token')
             },
-            data:JSON.stringify({username,fname,lname,email,role})
+            data:JSON.stringify({username,fname,lname,email,role,previleges})
           })
           .then((res)=>{
            console.log(res.data);
+           setusername('');
+           setfname('');
+           setlname('');
+           setemail('');
+           setrole('');
+           
            setbtn('Staff Successfully Created');
-           setdisablebtn(true)
+           setdisablebtn(false)
            
           //  alert(res.data.message);
            Swal.fire({

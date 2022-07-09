@@ -144,18 +144,22 @@ export default function NavSection({ navConfig, ...other }) {
   const { pathname } = useLocation();
   
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
-
+  const x = reactLocalStorage.getObject('admin').previledge;
   const renderSideBar = ()=>{
-    
-      return navConfig.map((item)=>{
-        if(item.roles.includes(reactLocalStorage.getObject('admin').roleid)){
+    return navConfig.map((item)=>{
+        
+      return item.previledges.map((d)=>{
+        if(x.includes(d)){
           return <NavItem key={item.title} item={item} active={match} />
         }
         return true;
-        
-    
-     
+       
+       
+      })
+      
+      
     })
+        
   }
 
   return (
