@@ -679,7 +679,7 @@ const banks = [
 
     const _render2fa = ()=>{
       return x.map(d=>{
-        if(d.includes('2FA') || d.includes('All')){
+        if(d.includes('Disable 2FA') || d.includes('All')){
           return  <>
                     
                     <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
@@ -712,7 +712,7 @@ const banks = [
   const _renderTradelog = ()=>{
 
     return x.map(d=>{
-      if(d.includes('Trade Log') || d.includes('All') || d.includes('Transaction History')){
+      if(d.includes('Trade Log') || d.includes('All')){
         return  <>
                     <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
                       <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>

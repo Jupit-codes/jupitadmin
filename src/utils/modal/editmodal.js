@@ -43,6 +43,7 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
    let valuex;
    let usdvaluex;
    let nairavaluex;
+   let balancex;
    if (value.toString().indexOf(',') > -1) { 
       valuex = value.replace(/\D/g, '');
     }
@@ -63,12 +64,18 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
     else{
       nairavaluex=nairavalue
     }
+    if (balance.toString().indexOf(',') > -1) { 
+      balancex = balance.replace(/\D/g, '');
+    }
+    else{
+      balancex= balance
+    }
 
-    if(mode === "Withdrawal" && parseFloat(valuex) > parseFloat(balance)){
-
+    if(mode === "Withdrawal" && parseFloat(valuex) > parseFloat(balancex)){
+      
       Swal.fire({
         title: 'Message!',
-        text: 'Amount inputted is greater than the customer balance',
+        text: `Amount inputted is greater than the customer balance ${valuex} ${balance}`,
         icon: 'error',
         confirmButtonText: 'ok'
       });
