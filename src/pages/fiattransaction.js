@@ -30,18 +30,16 @@ import {
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
-  import Filter from './cryptofilter'
+  import Filter from './fiatfilter'
 
   
 const TABLE_HEAD = [
     { id: 'id', label: 'Id', alignRight: false },
     { id: 'userid', label: 'Userid', alignRight: false },
-    { id: 'from_address', label: 'Address', alignRight: false },
+    { id: 'email', label: 'Email', alignRight: false },
     { id: 'amount', label: 'Amount', alignRight: false },
-    { id: 'type', label: 'Type', alignRight: false },
-    { id: 'currency', label: 'Currency', alignRight: false },
     { id: 'transaction_fee', label: 'Transaction Fee', alignRight: false },
-    { id: 'status', label: 'status', alignRight: false },
+    { id: 'status', label: 'Status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -141,7 +139,7 @@ export default function Transaction({handleData}){
           const BaseUrl = process.env.REACT_APP_ADMIN_URL  
           await axios({
       
-          url:`${BaseUrl}/admin/get/all/cryptoledger`,
+          url:`${BaseUrl}/admin/get/all/fiatledger`,
           method:'GET',
           headers:{
             'Content-Type':'application/json',  
@@ -218,8 +216,8 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { _id,userid,address, status, type, currency,updated,transaction_fee,amount } = row;
-                        const isItemSelected = selected.indexOf(userid) !== -1;
+                        const { _id,userid,amount, status,email ,updated,transaction_fee } = row;
+                        const isItemSelected = selected.indexOf(email) !== -1;
     
                         return (
                             <TableRow
@@ -231,24 +229,21 @@ export default function Transaction({handleData}){
                             aria-checked={isItemSelected}
                             >
                             <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, userid)} />
+                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, email)} />
                             </TableCell>
                             <TableCell component="th" scope="row" padding="none">
                                 <Stack direction="row" alignItems="center" spacing={2}>
                                 {/* <Avatar alt={username} src={avatarUrl} /> */}
                                 <Typography variant="subtitle2" noWrap>
-                                    {userid}
+                                    {email}
                                 </Typography>
                                 </Stack>
                             </TableCell>
                             <TableCell align="left">{_id}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
-                            <TableCell align="left">{address}</TableCell>
+                            <TableCell align="left">{email}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{type}</TableCell>
-                            <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{transaction_fee}</TableCell>
-                            
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}

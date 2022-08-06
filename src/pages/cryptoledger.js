@@ -151,7 +151,7 @@ export default function CryptoLedger() {
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/transactions`,
+        url:`${BaseUrl}/admin/get/all/cryptoledger`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  

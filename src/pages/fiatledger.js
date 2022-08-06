@@ -44,7 +44,7 @@ import {
 } from '../sections/@dashboard/app';
 // mock
 import USERLIST from '../_mock/user';
-import FetchTransaction from './fetchtransaction'
+import FetchTransaction from './fiattransaction'
 
 
 // ----------------------------------------------------------------------
@@ -151,7 +151,7 @@ export default function Alltransaction() {
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/transactions`,
+        url:`${BaseUrl}/admin/get/all/fiatledger`,
         method:'GET',
         headers:{
           'Content-Type':'application/json',  
@@ -173,13 +173,13 @@ export default function Alltransaction() {
 
 
   return (
-    <Page title="All Transactions">
+    <Page title="Fiat Ledger">
       <Container>
 
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
-            All Wallet Transaction
+            Fiat Ledger
           </Typography>
           <CSVLink data={DATA}>
             <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>

@@ -57,7 +57,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
         const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    
             await axios({
-            url:`${BaseUrl}/verify/filtercryptoledger`,
+            url:`${BaseUrl}/verify/filterfiatledger`,
             method:'POST',
             headers:{
                 'Content-Type':'application/json',  
@@ -109,23 +109,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
             
            <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
                    
-                    <Typography  gutterBottom  style={{marginTop:-15}}>
-                        <InputLabel id="demo-simple-select-label">Asset</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            fullWidth
-                            label="Asset"
-                            value={asset || ''}
-                            sx={{ width: '30ch' }}
-                            onChange={handleAsset}
-  
-                        >
-                            <MenuItem  value="All">All</MenuItem>
-                            <MenuItem  value="BTC">BTC</MenuItem>
-                            <MenuItem  value="USDT">USDT</MenuItem>
-                        </Select>
-                    </Typography>
+                   
                     <Typography gutterBottom>
                         <DesktopDatePicker
                             label="Start Date"
@@ -149,12 +133,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                         />
                     </Typography>
 
-                        
-            </Stack>
-
-            
-            <Stack direction='row' flexWrap="wrap" alignItems="center" justifyContent="center">
-                <Typography variant="h4" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
 
                     <Button variant="outlined" size='large' onClick={()=>search()} >
                         Search  
@@ -166,7 +145,14 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                         Reset 
                     </Button>
                 </Typography>
+
+                        
             </Stack>
+
+            
+            {/* <Stack direction='row' flexWrap="wrap" alignItems="center" justifyContent="center">
+                
+            </Stack> */}
           </LocalizationProvider>
     )
 }
