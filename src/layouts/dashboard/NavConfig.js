@@ -50,11 +50,25 @@ const navConfig = [
     previledges:['All','Asset Undermanagement Crypto']
   },
   {
+    title: 'Crypto Ledger ',
+    path: '/dashboard/asset/crypto/ledger',
+    icon: getIcon('icon-park-outline:set-off'),
+    roles:[1],
+    previledges:['All','Crypto Ledger ']
+  },
+  {
     title: 'Asset Undermanagement Fiat',
     path: '/dashboard/asset/undermanagement/fiat',
     icon: getIcon('mdi:lan-pending'),
     roles:[1],
     previledges:['All','Asset Undermanagement Fiat']
+  },
+  {
+    title: 'Fiat Ledger',
+    path: '/dashboard/asset/fiat/ledger',
+    icon: getIcon('icon-park-outline:set-off'),
+    roles:[1],
+    previledges:['All','Fiat Ledger']
   },
   {
     title: 'Transaction Count',

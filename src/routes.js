@@ -42,7 +42,8 @@ import AssetUndermanagementFiat from './pages/asset_under_management_fiat'
 import TransactionCount from './pages/TransactionCount'
 import Createrole from './pages/CreateRole'
 import StaffCreation from './pages/staffcreation'
-
+import FiatLedger from './pages/fiatledger'
+import CryptoLedger from './pages/cryptoledger'
 // ----------------------------------------------------------------------
 
 export default function Router({redirectPath='/login'}) {
@@ -208,7 +209,9 @@ export default function Router({redirectPath='/login'}) {
             <Route path='giftcard/buy/cardupload/:id' element={<GiftCardUploadBuy/>} />
             <Route path='get/all/staffs' element={<AllStaff/>} />
             <Route path="asset/undermanagement/crypto" element={<AssetUndermangementCrypto/>}/>
+            <Route path="asset/crypto/ledger" element={<CryptoLedger/>}/>
             <Route path="asset/undermanagement/fiat" element={<AssetUndermanagementFiat/>}/>
+            <Route path="asset/fiat/ledger" element={<FiatLedger/>}/>
             <Route path="total/transaction/count" element={<TransactionCount/>}/>
             <Route path="create/admin/role" element={<Createrole/>}/>
             <Route path="create/admin/staff" element={<StaffCreation/>}/>
