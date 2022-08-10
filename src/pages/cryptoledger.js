@@ -32,15 +32,11 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import {
-  // AppTasks,
-  // AppNewsUpdate,
-  // AppOrderTimeline,
-  // AppCurrentVisits,
+  
   AppWebsiteVisits,
-  // AppTrafficBySite,
   AppWidgetSummary,
-  // AppCurrentSubject,
-  // AppConversionRates,
+  AppWidgetSummaryEdit,
+
 } from '../sections/@dashboard/app';
 // mock
 import USERLIST from '../_mock/user';

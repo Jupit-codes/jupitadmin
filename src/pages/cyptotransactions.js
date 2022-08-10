@@ -26,11 +26,18 @@ import {
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
   import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+  import {
   
+    AppWebsiteVisits,
+    AppWidgetSummary,
+    AppWidgetSummaryEdit,
+  
+  } from '../sections/@dashboard/app';
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
   import Scrollbar from '../components/Scrollbar';
   import Filter from './cryptofilter'
+
 
   
 const TABLE_HEAD = [
@@ -86,7 +93,8 @@ export default function Transaction({handleData}){
     const [rowsPerPage, setRowsPerPage] = useState(500);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
-    
+    const [btc,setbtc]= useState(0)
+    const [usdt,setusdt]= useState(0)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -197,6 +205,14 @@ export default function Transaction({handleData}){
     return (
         
         <>
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total BTC" color="warning" total={btc} icon={'cryptocurrency:btc'}  />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total USDT"  color="success" total={usdt} icon={'cryptocurrency:usdt'}  />
+                    </Grid>
+            </Grid>
             <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
