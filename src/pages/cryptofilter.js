@@ -107,7 +107,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             
-           <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
+           <Stack spacing={4} direction="row" flexWrap="wrap" alignItems="center" justifyContent="flex-start" xs={12} sm={6} md={4} sx={{ mb: 5 }} style={{marginTop:25}}>
                    
                     <Typography  gutterBottom  style={{marginTop:-15}}>
                         <InputLabel id="demo-simple-select-label">Asset</InputLabel>

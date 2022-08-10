@@ -25,6 +25,13 @@ import {
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
+  import {
+  
+    AppWebsiteVisits,
+    AppWidgetSummary,
+    AppWidgetSummaryEdit,
+  
+  } from '../sections/@dashboard/app';
   import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
   
   import SearchNotFound from '../components/SearchNotFound';
@@ -84,6 +91,7 @@ export default function Transaction({handleData}){
     const [rowsPerPage, setRowsPerPage] = useState(500);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
+    const [naira,setnaira] = useState(0)
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -195,6 +203,12 @@ export default function Transaction({handleData}){
     return (
         
         <>
+            <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Naira" color="primary" total={naira} icon={'tabler:currency-naira'}   />
+                    </Grid>
+                    
+            </Grid>
             <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
