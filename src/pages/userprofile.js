@@ -749,10 +749,24 @@ const banks = [
     useEffect(()=>{
         marketprice();
     },[marketdata])
+
+    const handleback =()=>{
+      window.location=`/dashboard/user`
+    }
   return (
     <Page title="UserProfile">
         {bigloader && <BiggerLoader/>}
+        <Stack direction="row" alignItems="center" justifyContent="start" mb={2} style={{cursor:'pointer'}} onClick={(e)=>{handleback()}}>
+          <Typography variant="h3" gutterBottom mt={1}  >
+            <Iconify icon="ic:outline-arrow-back-ios-new"   />
+          </Typography>
+          <Typography variant="h3" gutterBottom ml={1}  style={{cursor:'pointer',fontSize:18,display:'flex',alignItems:'center'}}>
+            Back
+          </Typography>
+        </Stack>
+       
       <Container>
+      
 
       <Grid container spacing={3}>
       

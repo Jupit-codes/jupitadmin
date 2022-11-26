@@ -199,9 +199,8 @@ export default function Alltransaction() {
 
   return (
     <Page title="Awaiting Approval">
+       
       <Container>
-
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={5}>
           <Typography variant="h4" gutterBottom>
             Awaiting Approval

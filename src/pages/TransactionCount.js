@@ -9,14 +9,17 @@ import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField,Stack,Typography,Select,InputLabel,MenuItem,Button,Grid,Container } from '@mui/material';
 // components
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
+
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import {
   // AppTasks,
@@ -90,6 +93,7 @@ export default function TransactionCount() {
     const [startdate,setstartdate] = useState()
     const [enddate,setdate] = useState()
     const [asset,setasset] = useState('BTC')
+    const [testDate,setTestDate] = useState('')
     const navigate = useNavigate();
     
 
@@ -101,8 +105,8 @@ export default function TransactionCount() {
         setdepositcount('refreshing')
         setwithdrawalcount('refreshing')
         setrefresh(true);
-        console.log("startdate",startdate);
-        console.log("enddate",enddate);
+        console.log("startdatexxx",startdate);
+        console.log("enddatexxxxx",enddate);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -160,8 +164,10 @@ export default function TransactionCount() {
       })
     }
 
-    const handleChange = (newValue) => {
+    const handleChange = (newValue,x) => {
+     
         setstartdate(newValue);
+
       };
       const handleChangeEnd = (newValue) => {
         setdate(newValue);
@@ -218,7 +224,8 @@ export default function TransactionCount() {
                                             renderInput={(params) => <TextField {...params} />}
                                             
                                         />
-                                </Typography>  
+                                </Typography> 
+                                
                                 <Typography  gutterBottom style={{marginTop:-15}}>
                                     <InputLabel id="demo-simple-select-label">Assets</InputLabel>
                                     <Select
