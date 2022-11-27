@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import swal from 'sweetalert';
 // component
 import { reactLocalStorage } from 'reactjs-localstorage';
 import axios from 'axios';
@@ -57,9 +58,21 @@ export default function StaffMore({userid,update,status,loader}) {
       })
   }
   const handleDelete = async ()=>{
-    setLoader(true)
-        const BaseUrl = process.env.REACT_APP_ADMIN_URL  
-    await axios({
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+
+      
+      setLoader(true)
+      const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+     axios({
     
         url:`${BaseUrl}/admin/delete/staff`,
         method:'POST',
@@ -73,7 +86,9 @@ export default function StaffMore({userid,update,status,loader}) {
        console.log(res.data)
        setLoader(false);
        update(true);
-       
+         swal("Staff Profile Deleted", {
+          icon: "success",
+        });
        
   
       })
@@ -82,6 +97,12 @@ export default function StaffMore({userid,update,status,loader}) {
             alert(err.response.data)
             console.log(err.response)
       })
+      } 
+    });
+
+
+    
+    
   }
   return (
     <>

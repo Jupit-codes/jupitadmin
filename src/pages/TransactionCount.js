@@ -9,6 +9,7 @@ import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import moment from 'moment'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField,Stack,Typography,Select,InputLabel,MenuItem,Button,Grid,Container } from '@mui/material';
@@ -178,7 +179,9 @@ export default function TransactionCount() {
       }
 
       useEffect(()=>{
-        assetfetch(startdate,enddate);
+        const start = moment().startOf('day');
+        const end = moment(start).endOf('day')
+        assetfetch(start,end);
       },[])
 
       const search = ()=>{

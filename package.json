@@ -54,6 +54,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -69,6 +70,7 @@
     "reactjs-localstorage": "^1.0.1",
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.14",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
