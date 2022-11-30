@@ -204,7 +204,7 @@ export default function UserTransaction({handleData,userid}){
     return (
         
         <>
-            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader} userId={userid}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 

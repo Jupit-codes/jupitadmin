@@ -1,5 +1,6 @@
 import { TextField,Stack,Typography,Select,InputLabel,MenuItem,Button } from '@mui/material';
 // import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import moment from 'moment'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,13 +12,16 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CSVLink } from "react-csv";
 
-const Index = ({filteredData,xhandle,mysetloader})=>{
+const Index = ({filteredData,xhandle,mysetloader,userId})=>{
     const navigate = useNavigate();
-    const [startdate,setstartdate] = useState();
+    const todayNew = moment().startOf('day');
+    const [startdate,setstartdate] = useState(moment().startOf('day'))
+    const [enddate,setenddate] = useState(moment(todayNew).endOf('day'))
+   
     const [status,setstatus] = useState();
     const [asset,setasset] = useState();
     const [userid,setuserid] = useState();
-    const [enddate,setenddate] = useState();
+    
     const [amount,setamount] = useState();
     const [type,settype] = useState();
 
@@ -55,7 +59,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
       const search = async ()=>{
         mysetloader(true)
         const BaseUrl = process.env.REACT_APP_ADMIN_URL;
-   
+            console.log(startdate,enddate)
             await axios({
             url:`${BaseUrl}/verify/transaction/history`,
             method:'POST',
@@ -63,7 +67,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                 'Content-Type':'application/json',  
                 'Authorization':reactLocalStorage.get('token')
             },
-            data:JSON.stringify({status,startdate,enddate,asset,type,userid})
+            data:JSON.stringify({status,startdate,enddate,asset,type,userId})
             })
             .then((res)=>{
                 // console.log(res.data);
@@ -74,6 +78,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
             })
             .catch((err)=>{
                 console.log(err)
+                mysetloader(false)
             if(err.response){
                 if(err.response.status === 403){
                 console.log(err.response.data.message);
