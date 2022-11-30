@@ -3,6 +3,7 @@ import '../App.css'
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import axios from 'axios';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
@@ -33,6 +34,7 @@ import {
 // mock
 import USERLIST from '../_mock/user';
 import AwaitingApproval from './fetchpending'
+
 
 
 
@@ -87,6 +89,13 @@ export default function Assetundermanagementfiat() {
     const [startdate,setstartdate] = useState()
     const [enddate,setdate] = useState()
     const navigate = useNavigate();
+
+    useEffect(()=>{
+      const start = moment().startOf('day')
+      const end = moment(start).endOf('day')
+
+      assetfetch(start,end);
+    },[])
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -205,9 +214,7 @@ export default function Assetundermanagementfiat() {
         
       };
 
-      useEffect(()=>{
-        assetfetch(startdate,enddate);
-      },[])
+      
 
       const search = ()=>{
         assetfetch(startdate,enddate);

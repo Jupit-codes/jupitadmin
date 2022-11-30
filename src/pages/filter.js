@@ -1,5 +1,6 @@
 import { TextField,Stack,Typography,Select,InputLabel,MenuItem,Button } from '@mui/material';
 // import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import moment from 'moment';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,11 +16,13 @@ import { CSVLink } from "react-csv";
 
 const Index = ({filteredData,xhandle,mysetloader})=>{
     const navigate = useNavigate();
-    const [startdate,setstartdate] = useState();
+    const todayNew = moment().startOf('day');
+    const [startdate,setstartdate] = useState(moment().startOf('day'))
+    const [enddate,setenddate] = useState(moment(todayNew).endOf('day'))
     const [status,setstatus] = useState();
     const [asset,setasset] = useState();
     const [userid,setuserid] = useState();
-    const [enddate,setenddate] = useState();
+   
     const [amount,setamount] = useState();
     const [type,settype] = useState();
     const [testDate,setTestDate] = useState('')
@@ -129,26 +132,19 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
                         </Typography>
 
                         <Typography gutterBottom>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            
                                 <DesktopDatePicker
                                         label="Start Date"
                                         inputFormat="MM/dd/yyyy"
-                                        sx={{ m: 2 }}
+                                        sx={{ m: 1 }}
                                         value={startdate}
                                         onChange={handleChange}
                                         renderInput={(params) => <TextField {...params} />}
                                         
                                     />
-                            </LocalizationProvider>
+                            
                         </Typography>
-                        <Typography gutterBottom>
-                        <DatePicker
-                            label="Basic example"
-                            value={testDate}
-                            onChange={handleChange}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                        </Typography>
+                      
                         <Typography gutterBottom >
                             <DesktopDatePicker
                                     label="End Date"

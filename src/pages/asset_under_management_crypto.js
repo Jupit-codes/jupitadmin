@@ -4,6 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import moment from 'moment';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 // material
@@ -83,9 +84,16 @@ export default function Assetundermanagementcrypto() {
     const [btcbalance,setbtcbalance] = useState(0)
     const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
-    const [startdate,setstartdate] = useState()
-    const [enddate,setdate] = useState()
+    const todayNew = moment().startOf('day');
+    const [startdate,setstartdate] = useState(moment().startOf('day'))
+    const [enddate,setdate] = useState(moment(todayNew).endOf('day'))
     const navigate = useNavigate();
+
+    useEffect(()=>{
+      const start = moment().startOf('day');
+      const end = moment(start).startOf('day');
+      assetfetch(start,end);
+    },[])
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -137,11 +145,11 @@ export default function Assetundermanagementcrypto() {
   const isUserNotFound = filteredUsers.length === 0;
 
     const assetfetch = async (startdate,enddate)=>{
+     
         setbtcbalance('refreshing')
         setusdtbalance('refreshing')
         setrefresh(true);
-        console.log("startdate",startdate);
-        console.log("enddate",enddate);
+      
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -205,16 +213,18 @@ export default function Assetundermanagementcrypto() {
         
       };
 
-      useEffect(()=>{
-        assetfetch(startdate,enddate);
-      },[])
+      
 
       const search = ()=>{
+        const start = moment().startOf('day');
+        const end = moment(start).endOf('day')
         assetfetch(startdate,enddate);
       }
       const reset = ()=>{
         setstartdate('');
         setdate('');
+        const start = moment().startOf('day');
+        const end = moment(start).endOf('day')
         assetfetch(startdate,enddate)
       }
 
