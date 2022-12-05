@@ -90,8 +90,11 @@ export default function Assetundermanagementcrypto() {
     const navigate = useNavigate();
 
     useEffect(()=>{
-      const start = moment().startOf('day');
+      const today = moment();
+      const now = today.format()
+      const start = moment(now).startOf('day');
       const end = moment(start).startOf('day');
+      
       assetfetch(start,end);
     },[])
     
@@ -145,7 +148,7 @@ export default function Assetundermanagementcrypto() {
   const isUserNotFound = filteredUsers.length === 0;
 
     const assetfetch = async (startdate,enddate)=>{
-     
+      // console.log(startdate,enddate)
         setbtcbalance('refreshing')
         setusdtbalance('refreshing')
         setrefresh(true);

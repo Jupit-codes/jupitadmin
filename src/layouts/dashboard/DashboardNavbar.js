@@ -82,7 +82,7 @@ const NotificationCount = async ()=>{
  
   await axios({
       method: "GET",
-      url: `https://myjupit.herokuapp.com/admin/admit/staff`,
+      url: `https://jupit.app/admin/admit/staff`,
       headers:{
           'Content-Type':'application/json',
           
