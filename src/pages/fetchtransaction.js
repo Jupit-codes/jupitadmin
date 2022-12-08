@@ -252,7 +252,7 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{marketprice}</TableCell>
                             <TableCell align="left">{parseFloat(amount * marketprice)}</TableCell>
-                            <TableCell align="left">{rateInnaira}</TableCell>
+                            <TableCell align="left">{type === "Send" && rateInnaira}</TableCell>
 
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
