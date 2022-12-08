@@ -84,18 +84,21 @@ export default function Assetundermanagementcrypto() {
     const [btcbalance,setbtcbalance] = useState(0)
     const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
-    const todayNew = moment().startOf('day');
-    const [startdate,setstartdate] = useState(moment().startOf('day'))
-    const [enddate,setdate] = useState(moment(todayNew).endOf('day'))
+  
+    const [startdate,setstartdate] = useState()
+    const [enddate,setdate] = useState()
     const navigate = useNavigate();
 
     useEffect(()=>{
-      const today = moment();
-      const now = today.format()
-      const start = moment(now).startOf('day');
-      const end = moment(start).startOf('day');
+      // const today = moment();
+      // const now = today.format()
+      // const start = moment(now).startOf('day');
+      // const end = moment(start).startOf('day');
+      const current = new Date();
+      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
       
-      assetfetch(start,end);
+      assetfetch(date,date)
+
     },[])
     
   const handleRequestSort = (event, property) => {
@@ -148,7 +151,8 @@ export default function Assetundermanagementcrypto() {
   const isUserNotFound = filteredUsers.length === 0;
 
     const assetfetch = async (startdate,enddate)=>{
-      // console.log(startdate,enddate)
+      console.log(startdate,enddate)
+
         setbtcbalance('refreshing')
         setusdtbalance('refreshing')
         setrefresh(true);
@@ -219,9 +223,10 @@ export default function Assetundermanagementcrypto() {
       
 
       const search = ()=>{
-        const start = moment().startOf('day');
-        const end = moment(start).endOf('day')
-        assetfetch(startdate,enddate);
+        // const start = moment().startOf('day');
+        // const end = moment(start).endOf('day')
+        
+        assetfetch(moment(startdate),moment(enddate));
       }
       const reset = ()=>{
         setstartdate('');

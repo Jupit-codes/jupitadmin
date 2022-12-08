@@ -86,15 +86,22 @@ export default function Assetundermanagementfiat() {
     const [usdtbalance,setusdtbalance] = useState(0)
     const [nairabalance,setnairabalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
+    const todayNew = moment().startOf('day');
     const [startdate,setstartdate] = useState()
     const [enddate,setdate] = useState()
     const navigate = useNavigate();
 
     useEffect(()=>{
-      const start = moment().startOf('day')
-      const end = moment(start).endOf('day')
-
-      assetfetch(start,end);
+      // const today = moment();
+      // const now = today.format()
+      // const start = moment(now).startOf('day');
+      // const end = moment(start).endOf('day');
+      // console.log(start,end)
+      const current = new Date();
+      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      
+      assetfetch(date,date)
+      
     },[])
     
   const handleRequestSort = (event, property) => {
@@ -217,7 +224,8 @@ export default function Assetundermanagementfiat() {
       
 
       const search = ()=>{
-        assetfetch(startdate,enddate);
+        assetfetch(moment(startdate),moment(enddate));
+        
       }
       const reset = ()=>{
         setstartdate('');
