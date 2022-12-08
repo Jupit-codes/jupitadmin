@@ -151,7 +151,7 @@ export default function Assetundermanagementcrypto() {
   const isUserNotFound = filteredUsers.length === 0;
 
     const assetfetch = async (startdate,enddate)=>{
-      console.log(startdate,enddate)
+      // console.log(startdate,enddate)
 
         setbtcbalance('refreshing')
         setusdtbalance('refreshing')
@@ -169,7 +169,7 @@ export default function Assetundermanagementcrypto() {
         data:JSON.stringify({startdate,enddate})
       })
       .then((res)=>{
-       console.log(res.data)
+      //  console.log(res.data)
        setrefresh(false)
        setbtcbalance(res.data.BTC_BALANCE);
        setusdtbalance(res.data.USDT_BALANCE);
@@ -198,7 +198,7 @@ export default function Assetundermanagementcrypto() {
             icon: 'error',
             confirmButtonText: 'ok'
           });
-          console.log('err',err)
+          // console.log('err',err)
          
         }
         else{
