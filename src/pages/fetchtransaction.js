@@ -223,7 +223,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount,userid, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
+                        const { id,amount,userid,serial, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -246,8 +246,8 @@ export default function Transaction({handleData}){
                                 </Typography>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left">{userid}</TableCell>
-                            <TableCell align="left">{order_id}</TableCell>
+                            <TableCell align="left">{order_id} </TableCell>
+                            <TableCell align="left">{serial}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{marketprice}</TableCell>
