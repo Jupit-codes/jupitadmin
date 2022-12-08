@@ -157,8 +157,8 @@ export default function Assetundermanagementfiat() {
         setnairabalance('refreshing')
         
         setrefresh(true);
-        console.log("startdate",startdate);
-        console.log("enddate",enddate);
+        // console.log("startdate",startdate);
+        // console.log("enddate",enddate);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -171,7 +171,7 @@ export default function Assetundermanagementfiat() {
         data:JSON.stringify({startdate,enddate})
       })
       .then((res)=>{
-       console.log(res.data)
+      //  console.log(res.data)
        setrefresh(false)
        setnairabalance(res.data.NGN_BALANCE)
       
@@ -199,7 +199,7 @@ export default function Assetundermanagementfiat() {
             icon: 'error',
             confirmButtonText: 'ok'
           });
-          console.log('err',err)
+          // console.log('err',err)
          
         }
         else{
