@@ -35,16 +35,18 @@ import {
   
 const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
+    { id: 'userid', label: 'UserId', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
     { id: 'currency', label: 'Asset', alignRight: false },
+    { id: 'usd/btc', label: 'Asset Value', alignRight: false },
+    { id: 'usd value', label: 'USD rate/asset', alignRight: false },
     { id: 'usd value', label: 'USD value', alignRight: false },
-    { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
     { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
-    { id: 'from_address', label: 'From Address', alignRight: false },
-    { id: 'amount', label: 'Amount', alignRight: false },
+   
+    { id: 'status', label: 'status', alignRight: false },
     { id: 'fee', label: 'Fee', alignRight: false },
     { id: 'to_address', label: 'To_Address', alignRight: false },
-    { id: 'status', label: 'status', alignRight: false },
+    { id: 'from_address', label: 'From_Address', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -221,7 +223,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
+                        const { id,amount,userid, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -244,20 +246,22 @@ export default function Transaction({handleData}){
                                 </Typography>
                                 </Stack>
                             </TableCell>
+                            <TableCell align="left">{userid}</TableCell>
                             <TableCell align="left">{order_id}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{usdvalue}</TableCell>
-                            <TableCell align="left">{marketprice}</TableCell>
-                            <TableCell align="left">{rateInnaira}</TableCell>
-                            <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{fees}</TableCell>
-                            <TableCell align="left">{to_address}</TableCell>
+                            <TableCell align="left">{marketprice}</TableCell>
+                            <TableCell align="left">{parseFloat(amount * marketprice)}</TableCell>
+                            <TableCell align="left">{rateInnaira}</TableCell>
+
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}
                                 </Label>
                             </TableCell>
+                            <TableCell align="left">{fees}</TableCell>
+                            <TableCell align="left">{from_address}</TableCell>
+                            <TableCell align="left">{to_address}</TableCell>
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
