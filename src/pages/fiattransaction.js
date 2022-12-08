@@ -47,6 +47,8 @@ const TABLE_HEAD = [
     { id: 'amount', label: 'Amount', alignRight: false },
     { id: 'transaction_fee', label: 'Transaction Fee', alignRight: false },
     { id: 'status', label: 'Status', alignRight: false },
+    { id: 'type', label: 'Type', alignRight: false },
+    
     { id: 'updated', label: 'Date', alignRight: false },
   ];
   
@@ -76,7 +78,7 @@ const TABLE_HEAD = [
       return a[1] - b[1];
     });
     if (query) {
-      return filter(array, (_user) => _user.type.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      return filter(array, (_user) => _user.email.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     }
     return stabilizedThis.map((el) => el[0]);
   }
@@ -230,7 +232,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { _id,userid,amount, status,email ,updated,transaction_fee } = row;
+                        const { _id,userid,amount, status,email ,updated,transaction_fee,type } = row;
                         const isItemSelected = selected.indexOf(email) !== -1;
     
                         return (
@@ -245,14 +247,7 @@ export default function Transaction({handleData}){
                             <TableCell padding="checkbox">
                                 <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, email)} />
                             </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                {/* <Avatar alt={username} src={avatarUrl} /> */}
-                                <Typography variant="subtitle2" noWrap>
-                                    {email}
-                                </Typography>
-                                </Stack>
-                            </TableCell>
+                          
                             <TableCell align="left">{_id}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
                             <TableCell align="left">{email}</TableCell>
@@ -261,6 +256,11 @@ export default function Transaction({handleData}){
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}
+                                </Label>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Label variant="ghost" color={(type === 'Debit' && 'error') || 'success'}>
+                                {type}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">

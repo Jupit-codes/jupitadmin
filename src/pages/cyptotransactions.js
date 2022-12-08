@@ -45,9 +45,10 @@ const TABLE_HEAD = [
     { id: 'userid', label: 'Userid', alignRight: false },
     { id: 'from_address', label: 'Address', alignRight: false },
     { id: 'amount', label: 'Amount', alignRight: false },
-    { id: 'type', label: 'Type', alignRight: false },
+    
     { id: 'currency', label: 'Currency', alignRight: false },
     { id: 'transaction_fee', label: 'Transaction Fee', alignRight: false },
+    { id: 'type', label: 'Type', alignRight: false },
     { id: 'status', label: 'status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
@@ -249,22 +250,19 @@ export default function Transaction({handleData}){
                             <TableCell padding="checkbox">
                                 <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, userid)} />
                             </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                {/* <Avatar alt={username} src={avatarUrl} /> */}
-                                <Typography variant="subtitle2" noWrap>
-                                    {userid}
-                                </Typography>
-                                </Stack>
-                            </TableCell>
+                            
                             <TableCell align="left">{_id}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
                             <TableCell align="left">{address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{type}</TableCell>
+                            
                             <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{transaction_fee}</TableCell>
-                            
+                            <TableCell align="left">
+                                <Label variant="ghost" color={(type === 'Debit' && 'error') || 'success'}>
+                                {type}
+                                </Label>
+                            </TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}

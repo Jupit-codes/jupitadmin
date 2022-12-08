@@ -87,8 +87,8 @@ export default function Assetundermanagementfiat() {
     const [nairabalance,setnairabalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
     const todayNew = moment().startOf('day');
-    const [startdate,setstartdate] = useState()
-    const [enddate,setdate] = useState()
+    const [startdate,setstartdate] = useState("")
+    const [enddate,setdate] = useState("")
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -97,10 +97,10 @@ export default function Assetundermanagementfiat() {
       // const start = moment(now).startOf('day');
       // const end = moment(start).endOf('day');
       // console.log(start,end)
-      const current = new Date();
-      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      // const current = new Date();
+      // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
       
-      assetfetch(date,date)
+      assetfetch(startdate,enddate)
       
     },[])
     
@@ -289,10 +289,6 @@ export default function Assetundermanagementfiat() {
 
 
                     </Stack>
- 
-
-
-
             </LocalizationProvider>
             
         </Grid>

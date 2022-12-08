@@ -85,8 +85,8 @@ export default function Assetundermanagementcrypto() {
     const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
   
-    const [startdate,setstartdate] = useState()
-    const [enddate,setdate] = useState()
+    const [startdate,setstartdate] = useState("")
+    const [enddate,setdate] = useState("")
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -94,10 +94,10 @@ export default function Assetundermanagementcrypto() {
       // const now = today.format()
       // const start = moment(now).startOf('day');
       // const end = moment(start).startOf('day');
-      const current = new Date();
-      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      // const current = new Date();
+      // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
       
-      assetfetch(date,date)
+      assetfetch(startdate,enddate)
 
     },[])
     
