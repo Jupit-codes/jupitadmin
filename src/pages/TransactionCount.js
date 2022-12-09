@@ -91,8 +91,8 @@ export default function TransactionCount() {
     const [depositcount,setdepositcount] = useState(0)
     const [withdrawalcount,setwithdrawalcount] = useState(0)
     const [refresh,setrefresh] = useState(false)
-    const [startdate,setstartdate] = useState()
-    const [enddate,setdate] = useState()
+    const [startdate,setstartdate] = useState("")
+    const [enddate,setdate] = useState("")
     const [asset,setasset] = useState('BTC')
     const [testDate,setTestDate] = useState('')
     const navigate = useNavigate();
@@ -179,9 +179,9 @@ export default function TransactionCount() {
       }
 
       useEffect(()=>{
-        const start = moment().startOf('day');
-        const end = moment(start).endOf('day')
-        assetfetch(start,end);
+        // const start = moment().startOf('day');
+        // const end = moment(start).endOf('day')
+        assetfetch(startdate,enddate);
       },[])
 
       const search = ()=>{
