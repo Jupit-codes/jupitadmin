@@ -94,7 +94,7 @@ export default function Transaction({handleData}){
     const [rowsPerPage, setRowsPerPage] = useState(500);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
-    const [btc,setbtc]= useState(0)
+    const [btcnew,setbtcnew]= useState(0)
     const [usdt,setusdt]= useState(0)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -160,8 +160,11 @@ export default function Transaction({handleData}){
         })
         .then((res)=>{
       //    console.log(res.data)
+      console.log(res)
           setLoader(false)
-          setDATA(res.data)
+          setDATA(res.data.data)
+          setbtcnew(res.data.sumTotalBTC)
+          setusdt(res.data.sumTotalUSDT)
     
           
     
@@ -196,7 +199,7 @@ export default function Transaction({handleData}){
 
     useEffect(()=>{
       let isMounted = true
-        getTransactionData(isMounted)
+        setTimeout(()=>{getTransactionData(isMounted)},2000)
 
         return () => {
           isMounted = false;
@@ -208,7 +211,7 @@ export default function Transaction({handleData}){
         <>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btc} icon={'cryptocurrency:btc'}  />
+                        <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btcnew} icon={'cryptocurrency:btc'}  />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt} icon={'cryptocurrency:usdt'}  />
