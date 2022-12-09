@@ -212,7 +212,7 @@ export default function Transaction({handleData}){
                     </Grid>
                     
             </Grid>
-            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
+            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader} sumTotal={setnaira}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CSVLink } from "react-csv";
 
-const Index = ({filteredData,xhandle,mysetloader})=>{
+const Index = ({filteredData,xhandle,mysetloader,sumTotal})=>{
     const navigate = useNavigate();
     const [startdate,setstartdate] = useState();
     const [status,setstatus] = useState();
@@ -68,8 +68,9 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
             .then((res)=>{
                 // console.log(res.data);
                 mysetloader(false)
-                filteredData(res.data);
-                xhandle(res.data)
+                filteredData(res.data.data);
+                xhandle(res.data.data)
+                sumTotal(res.data.sumTotal)
            
             })
             .catch((err)=>{
