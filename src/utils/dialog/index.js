@@ -29,7 +29,7 @@ const showMessage = ()=>{
     
       await axios({
         method: "POST",
-        url: `https://myjupit.herokuapp.com/admin/handle/staff/login`,
+        url: `https://jupit.app/admin/handle/staff/login`,
         headers:{
             'Content-Type':'application/json',
             

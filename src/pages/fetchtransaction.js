@@ -36,6 +36,7 @@ import {
 const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
     { id: 'userid', label: 'UserId', alignRight: false },
+    { id: 'email', label: 'Email', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
     { id: 'currency', label: 'Asset', alignRight: false },
     { id: 'usd/btc', label: 'Asset Value', alignRight: false },
@@ -223,7 +224,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount,userid,serial, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
+                        const { id,amount,userid,email,serial, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -247,6 +248,7 @@ export default function Transaction({handleData}){
                                 </Stack>
                             </TableCell>
                             <TableCell align="left">{order_id} </TableCell>
+                            <TableCell align="left">{email} </TableCell>
                             <TableCell align="left">{serial}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
