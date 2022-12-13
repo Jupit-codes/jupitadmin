@@ -94,7 +94,7 @@ export default function Transaction({handleData}){
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
     const [naira,setnaira] = useState(0)
-    
+    const [Fee,setFee] = useState(0)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -158,11 +158,11 @@ export default function Transaction({handleData}){
           
         })
         .then((res)=>{
-      //    console.log(res.data)
+         console.log(res.data)
           setLoader(false)
           setDATA(res.data.data)
-          setnaira(res.data.sumTotal)
-    
+          setnaira(res.data.sumTransaction)
+          setFee(res.data.sumTransactionFee)
           
     
         })
@@ -208,7 +208,10 @@ export default function Transaction({handleData}){
         <>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total Naira" color="primary" total={naira} icon={'tabler:currency-naira'}   />
+                        <AppWidgetSummaryEdit title="Total Naira Position" color="primary" total={naira} icon={'tabler:currency-naira'}   />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Total Naira Fee" color="primary" total={Fee} icon={'tabler:currency-naira'}   />
                     </Grid>
                     
             </Grid>

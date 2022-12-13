@@ -210,11 +210,17 @@ export default function Transaction({handleData}){
         
         <>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={4} md={4}>
                         <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btcnew} icon={'cryptocurrency:btc'}  />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={4} md={4}>
+                        <AppWidgetSummaryEdit title="Total BTC Position" color="warning" total={btcnew} icon={'cryptocurrency:btc'}  />
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={4}>
                         <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt} icon={'cryptocurrency:usdt'}  />
+                    </Grid>
+                    <Grid item xs={12} sm={4} md={4}>
+                        <AppWidgetSummaryEdit title="Total USDT Position"  color="success" total={usdt} icon={'cryptocurrency:usdt'}  />
                     </Grid>
             </Grid>
             <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
