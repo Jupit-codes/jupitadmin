@@ -158,7 +158,7 @@ export default function Transaction({handleData}){
           
         })
         .then((res)=>{
-         console.log(res.data)
+        //  console.log(res.data)
           setLoader(false)
           setDATA(res.data.data)
           setnaira(res.data.sumTransaction)

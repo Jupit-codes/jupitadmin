@@ -95,7 +95,9 @@ export default function Transaction({handleData}){
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
     const [btcnew,setbtcnew]= useState(0)
-    const [usdt,setusdt]= useState(0)
+    const [btcfee,setbtcFee]= useState(0)
+    const [usdt,setUsdt]= useState(0)
+    const [usdtFee,setUsdtFee]= useState(0)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -160,11 +162,14 @@ export default function Transaction({handleData}){
         })
         .then((res)=>{
       //    console.log(res.data)
-      console.log(res)
+      console.log(res.data)
           setLoader(false)
           setDATA(res.data.data)
-          setbtcnew(res.data.sumTotalBTC)
-          setusdt(res.data.sumTotalUSDT)
+          setbtcnew(res.data.sumBTCTransaction)
+          setbtcFee(res.data.sumBTCTransactionFee)
+          setUsdt(res.data.sumUSDTTransactionFee)
+          setUsdtFee(res.data.sumUSDTTransactionFee)
+          
     
           
     
