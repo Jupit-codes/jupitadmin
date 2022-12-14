@@ -86,6 +86,10 @@ export default function Assetundermanagementcrypto() {
     const [refresh,setrefresh] = useState(false)
   
     const [startdate,setstartdate] = useState("")
+    const [BTCprice,setBTCprice] = useState(0)
+    const [USDTprice,setUSDTprice] = useState(0)
+    const [btcValue,setBtcValue] = useState('')
+    const [usdtValue,setUsdtValue] = useState('')
     const [enddate,setdate] = useState("")
     const navigate = useNavigate();
 
@@ -96,10 +100,44 @@ export default function Assetundermanagementcrypto() {
       // const end = moment(start).startOf('day');
       // const current = new Date();
       // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
+      crypomarketprice()
+      assetfetch(startdate,enddate);
       
-      assetfetch(startdate,enddate)
 
     },[])
+
+
+    async function crypomarketprice(){
+      await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
+          headers:{
+              'Content-Type':'application/json',
+             
+          }
+      })
+      .then(result=>{
+          console.log(result.data)
+         if(result.data){
+          const BTC = parseFloat(result.data[0].current_price) - 150;
+          const USDT = result.data[1].current_price
+          setBTCprice(BTC);
+          setUSDTprice(USDT)
+          
+         }
+         else{
+          setBTCprice(0);
+          setUSDTprice(0)
+  
+         }
+         
+         
+      })
+      .catch(err=>{
+          console.log(err)
+          // return [false]
+      })
+  
+      
+  }
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -173,8 +211,9 @@ export default function Assetundermanagementcrypto() {
        setrefresh(false)
        setbtcbalance(parseFloat(res.data.BTC_BALANCE).toFixed(8));
        setusdtbalance(parseFloat(res.data.USDT_BALANCE).toFixed(6));
-      
-  
+       console.log(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
+        setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
+        setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(USDTprice)).toFixed(2))
       })
       .catch((err)=>{
           
@@ -250,10 +289,10 @@ export default function Assetundermanagementcrypto() {
         <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total BTC" color="warning" total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total BTC" color="warning" livemarket={btcValue} total={btcbalance} icon={'cryptocurrency:btc'}   refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Total USDT"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Total USDT"  color="success"  livemarket={usdtValue} total={usdtbalance} icon={'cryptocurrency:usdt'}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDateFns}>

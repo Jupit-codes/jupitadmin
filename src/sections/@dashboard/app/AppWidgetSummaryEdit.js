@@ -104,7 +104,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       }}
       {...other}
     >
-    <Typography variant="h6">{livemarket}</Typography>
+    {/* <Typography variant="h6">${livemarket}</Typography> */}
       <IconWrapperStyle
         sx={{
           color: (theme) => theme.palette[color].dark,
@@ -119,7 +119,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       </IconWrapperStyle>
 
       <Typography variant="h4">{title === 'Naira Wallet Balancexx' ? fShortenNumber(total) : breaker(total)}</Typography>
-
+      <Typography >{livemarket && `USD: ${livemarket.toLocaleString('en-US')}`}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
