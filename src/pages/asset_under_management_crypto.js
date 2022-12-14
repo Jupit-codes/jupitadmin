@@ -171,8 +171,8 @@ export default function Assetundermanagementcrypto() {
       .then((res)=>{
       //  console.log(res.data)
        setrefresh(false)
-       setbtcbalance(res.data.BTC_BALANCE);
-       setusdtbalance(res.data.USDT_BALANCE);
+       setbtcbalance(parseFloat(res.data.BTC_BALANCE).toFixed(8));
+       setusdtbalance(parseFloat(res.data.USDT_BALANCE).toFixed(6));
       
   
       })

@@ -163,8 +163,8 @@ const banks = [
       setkyclevel3(res.data.kyc.level3[0].status);
       setjupitbtcbuyrate(res.data.rate[0].btc[0].buy);
       setjupitusdtbuyrate(res.data.rate[0].usdt[1].buy);
-      setbtcbalance(res.data.detail.btc_wallet[0].balance.$numberDecimal);
-      setusdtbalance(res.data.detail.usdt_wallet[0].balance.$numberDecimal);
+      setbtcbalance(parseFloat(res.data.detail.btc_wallet[0].balance.$numberDecimal).toFixed(8));
+      setusdtbalance(parseFloat(res.data.detail.usdt_wallet[0].balance.$numberDecimal).toFixed(6));
       setnairabalance(res.data.detail.naira_wallet[0].balance.$numberDecimal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setstatus(res.data.detail.Status)
       setusername(res.data.detail.username);

@@ -37,8 +37,9 @@ const TABLE_HEAD = [
     { id: 'type', label: 'Type', alignRight: false },
     { id: 'order_id', label: 'Order Id', alignRight: false },
     { id: 'currency', label: 'Asset', alignRight: false },
-    { id: 'usd value', label: 'USD value', alignRight: false },
+    { id: 'usd value', label: 'Asset Value', alignRight: false },
     { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
+    { id: 'usd value', label: 'USD value', alignRight: false },
     { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
     { id: 'from_address', label: 'From Address', alignRight: false },
     { id: 'amount', label: 'Amount', alignRight: false },
@@ -250,8 +251,9 @@ export default function UserTransaction({handleData,userid}){
                             </TableCell>
                             <TableCell align="left">{order_id}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{usdvalue}</TableCell>
+                            <TableCell align="left">{currency === "BTC" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(6) }</TableCell>
                             <TableCell align="left">{marketprice}</TableCell>
+                            <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
                             <TableCell align="left">{rateInnaira}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{amount}</TableCell>

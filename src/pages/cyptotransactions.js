@@ -165,10 +165,10 @@ export default function Transaction({handleData}){
       console.log(res.data)
           setLoader(false)
           setDATA(res.data.data)
-          setbtcnew(res.data.sumBTCTransaction)
-          setbtcFee(res.data.sumBTCTransactionFee)
-          setUsdt(res.data.sumUSDTTransactionFee)
-          setUsdtFee(res.data.sumUSDTTransactionFee)
+          setbtcnew(parseFloat(res.data.sumBTCTransaction).toFixed(8))
+          setbtcFee(parseFloat(res.data.sumBTCTransactionFee).toFixed(8))
+          setUsdt(parseFloat(res.data.sumUSDTTransactionFee).toFixed(6))
+          setUsdtFee(parseFloat(res.data.sumUSDTTransactionFee).toFixed(6))
           
     
           

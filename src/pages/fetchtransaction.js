@@ -43,7 +43,7 @@ const TABLE_HEAD = [
     { id: 'usd value', label: 'USD rate/asset', alignRight: false },
     { id: 'usd value', label: 'USD value', alignRight: false },
     { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
-   
+    { id: 'nairavalue', label: 'Amount', alignRight: false },
     { id: 'status', label: 'status', alignRight: false },
     { id: 'fee', label: 'Fee', alignRight: false },
     { id: 'to_address', label: 'To_Address', alignRight: false },
@@ -224,7 +224,7 @@ export default function Transaction({handleData}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount,userid,email,serial, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
+                        const { id,amount,userid,nairavalue,email,serial, order_id, from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -254,14 +254,14 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{marketprice}</TableCell>
                             <TableCell align="left">{parseFloat(amount * marketprice)}</TableCell>
-                            <TableCell align="left">{type === "Send" && rateInnaira}</TableCell>
-
+                            <TableCell align="left">{type === "Sell" && rateInnaira}</TableCell>
+                            <TableCell align="left">{type === "Sell" && nairavalue}</TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}
                                 </Label>
                             </TableCell>
-                            <TableCell align="left">{fees}</TableCell>
+                            <TableCell align="left">{type === "Send" || type === "Withdrawal" && fees}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{to_address}</TableCell>
                             <TableCell align="left">
