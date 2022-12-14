@@ -211,7 +211,7 @@ export default function Assetundermanagementcrypto() {
        setrefresh(false)
        setbtcbalance(parseFloat(res.data.BTC_BALANCE).toFixed(8));
        setusdtbalance(parseFloat(res.data.USDT_BALANCE).toFixed(6));
-       console.log(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
+      //  console.log(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
         setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
         setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(USDTprice)).toFixed(2))
       })
