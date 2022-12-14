@@ -34,7 +34,7 @@ export default function LoginForm({auth,authState}) {
     console.log(userid);
     await axios({
       method: "POST",
-      url: `https://myjupit.herokuapp.com/admin/check/login/approval/status`,
+      url: `https://jupit.app/admin/check/login/approval/status`,
       headers:{
           'Content-Type':'application/json',
           'Authorization':reactLocalStorage.get('token')
