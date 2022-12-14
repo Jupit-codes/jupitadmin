@@ -114,7 +114,7 @@ export default function Changepassword({update}) {
            setbtn('Staff Successfully Created');
            setdisablebtn(false)
            
-          //  alert(res.data.message);
+         
            Swal.fire({
               title: 'Message!',
               text: res.data.message,
