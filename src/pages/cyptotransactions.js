@@ -98,6 +98,10 @@ export default function Transaction({handleData}){
     const [btcfee,setbtcFee]= useState(0)
     const [usdt,setUsdt]= useState(0)
     const [usdtFee,setUsdtFee]= useState(0)
+    const [BTCprice,setBTCprice] = useState(0)
+    const [USDTprice,setUSDTprice] = useState(0)
+    const [btcValue,setBtcValue] = useState('')
+    const [usdtValue,setUsdtValue] = useState('')
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
