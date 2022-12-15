@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography,TextField, CardContent,Card,Button, CardHeader,IconButton, InputAdornment, } from '@mui/material';
 import { reactLocalStorage } from 'reactjs-localstorage';
-
+import AllRoles from './allroles'
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -109,7 +109,7 @@ const createadminrole = async ()=>{
     <Page title="CreateRole">
          
       <Container maxWidth="xl">
-      
+      <AllRoles/>
       <Grid item xs={12} md={6} lg={8}>
           <Card  style={{marginTop:10}}>
               <CardHeader title="Create Role"/>

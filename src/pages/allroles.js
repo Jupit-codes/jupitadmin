@@ -25,7 +25,7 @@ import {
   import axios from 'axios'
   import { reactLocalStorage } from 'reactjs-localstorage';
   import { useNavigate } from "react-router-dom";
-  import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+  import { UserListHead, UserListToolbar,EditRoleMenu} from '../sections/@dashboard/user';
   
   import SearchNotFound from '../components/SearchNotFound';
   import Label from '../components/Label';
@@ -34,17 +34,7 @@ import {
 
   
 const TABLE_HEAD = [
-    { id: 'type', label: 'Type', alignRight: false },
-    { id: 'order_id', label: 'Order Id', alignRight: false },
-    { id: 'currency', label: 'Asset', alignRight: false },
-    { id: 'usd value', label: 'Asset Value', alignRight: false },
-    { id: 'usd/btc', label: 'USD/ASSET', alignRight: false },
-    { id: 'usd value', label: 'USD value', alignRight: false },
-    { id: 'rateInnaira', label: 'Rate (In naira)', alignRight: false },
-    { id: 'from_address', label: 'From Address', alignRight: false },
-    { id: 'amount', label: 'Amount', alignRight: false },
-    { id: 'fee', label: 'Fee', alignRight: false },
-    { id: 'to_address', label: 'To_Address', alignRight: false },
+    { id: 'rolename', label: 'Role name', alignRight: false },
     { id: 'status', label: 'status', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
@@ -75,12 +65,12 @@ const TABLE_HEAD = [
       return a[1] - b[1];
     });
     if (query) {
-      return filter(array, (_user) => _user.type.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      return filter(array, (_user) => _user.rolename.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     }
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function UserTransaction({handleData,userid}){
+export default function AllRoles({handleData,userid}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -99,7 +89,7 @@ export default function UserTransaction({handleData,userid}){
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = DATA.map((n) => n.name);
+      const newSelecteds = DATA.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
@@ -144,56 +134,56 @@ export default function UserTransaction({handleData,userid}){
         const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
-        url:`${BaseUrl}/admin/get/all/transactions/individual`,
-        method:'POST',
+        url:`${BaseUrl}/admin/get/allroles`,
+        method:'GET',
         headers:{
           'Content-Type':'application/json',  
           'Authorization': reactLocalStorage.get('token')
-        },
-        data:JSON.stringify({userid})
+        }
         
       })
       .then((res)=>{
     //    console.log(res.data)
         setLoader(false)
-        setDATA(res.data)
+        setDATA(res.data.data)
+        
   
       
       })
       .catch((err)=>{
           
-            console.log(err.response);
+            console.log(err);
             setLoader(false)
-            if(err.response){
-              if(err.response.status === 403){
-              //   console.log(err.response.data.message);
-                Swal.fire({
-                  title: 'Message!',
-                  text: err.response.data.message,
-                  icon: 'error',
-                  confirmButtonText: 'ok'
-                });
-                navigate('/',{replace:true})
-                return false;
+            // if(err.response){
+            //   if(err.response.status === 403){
+            //   //   console.log(err.response.data.message);
+            //     Swal.fire({
+            //       title: 'Message!',
+            //       text: err.response.data.message,
+            //       icon: 'error',
+            //       confirmButtonText: 'ok'
+            //     });
+            //     navigate('/',{replace:true})
+            //     return false;
                 
-              }
+            //   }
     
-              Swal.fire({
-                title: 'Message!',
-                text: err.response.data,
-                icon: 'error',
-                confirmButtonText: 'ok'
-              });
+            //   Swal.fire({
+            //     title: 'Message!',
+            //     text: err.response.data,
+            //     icon: 'error',
+            //     confirmButtonText: 'ok'
+            //   });
              
-            }
-            else{
-              Swal.fire({
-                title: 'Message!',
-                text: 'No Connection',
-                icon: 'error',
-                confirmButtonText: 'ok'
-              });
-            }
+            // }
+            // else{
+            //   Swal.fire({
+            //     title: 'Message!',
+            //     text: 'No Connection',
+            //     icon: 'error',
+            //     confirmButtonText: 'ok'
+            //   });
+            // }
             
       })
     }
@@ -205,11 +195,11 @@ export default function UserTransaction({handleData,userid}){
     return (
         
         <>
-            <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader} userId={userid}/>
             <Card>
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
+
                 <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
@@ -226,8 +216,8 @@ export default function UserTransaction({handleData,userid}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, nairavalue,from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
-                        const isItemSelected = selected.indexOf(type) !== -1;
+                        const { _id,rolename, status,id,updated} = row;
+                        const isItemSelected = selected.indexOf(_id) !== -1;
     
                         return (
                             <TableRow
@@ -239,38 +229,25 @@ export default function UserTransaction({handleData,userid}){
                             aria-checked={isItemSelected}
                             >
                             <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
+                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, _id)} />
                             </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                {/* <Avatar alt={username} src={avatarUrl} /> */}
-                                <Typography variant="subtitle2" noWrap>
-                                    {type}
-                                </Typography>
-                                </Stack>
-                            </TableCell>
-                            <TableCell align="left">{order_id}</TableCell>
-                            <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{currency === "BTC" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(6) }</TableCell>
-                            <TableCell align="left">{marketprice}</TableCell>
-                            <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
-                            <TableCell align="left">{type==="Sell" && rateInnaira}</TableCell>
-                            <TableCell align="left">{from_address}</TableCell>
-                            <TableCell align="left">{type === "Sell" && nairavalue}</TableCell>
-                            <TableCell align="left">{type === "Send" && fees}</TableCell>
-                            <TableCell align="left">{to_address}</TableCell>
+                            
+                           
+                            <TableCell align="left">{rolename}</TableCell>
+                            
                             <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                                <Label variant="ghost" color={(status === 'inactive' && 'error') || 'success'}>
                                 {sentenceCase(status)}
                                 </Label>
                             </TableCell>
                             <TableCell align="left">
                                 {updated}
                             </TableCell>
-                            {/* <TableCell align="right">
+                            <TableCell align="right">
                                 
-                                <UserMoreMenu userid={_id} />
-                            </TableCell> */}
+                                <EditRoleMenu rowid={_id}  rolename={rolename}/>
+                                
+                            </TableCell>
                             </TableRow>
                         );
                         })}

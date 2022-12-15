@@ -56,6 +56,7 @@ const Index = ({filteredData,xhandle,mysetloader})=>{
       }
       const search = async ()=>{
         mysetloader(true)
+        console.log(startdate);
         const BaseUrl = process.env.REACT_APP_ADMIN_URL;
    
             await axios({
