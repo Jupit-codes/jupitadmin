@@ -38,36 +38,41 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName,selected }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName,selected,refresh,setRefresh }) {
   const deleteSelected = async()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL
-    await axios({
-      url:`${BaseUrl}/admin/delete/selected/roles`,
-      method:"POST",
-      headers:{
-        "Content-type":'application/json',
-        "Authorization":reactLocalStorage.get('token')
-      },
-      data:JSON.stringify({_ids:selected})
-
-    })
-    .then((res)=>{
-     
-      if(res.data.status){
-        Swal.fire({
-          title: 'Message!',
-          text: res.data.message,
-          icon: 'success',
-          confirmButtonText: 'ok'
-        });
+    if(selected.length > 0){
         
-        
-      }
+      await axios({
+        url:`${BaseUrl}/admin/delete/selected/roles`,
+        method:"POST",
+        headers:{
+          "Content-type":'application/json',
+          "Authorization":reactLocalStorage.get('token')
+        },
+        data:JSON.stringify({_ids:selected})
 
-    })
-    .catch((err)=>{
-      console.log("errorx",err.response);
-    })
+      })
+      .then((res)=>{
+      
+        if(res.data.status){
+          setRefresh(!refresh)
+          Swal.fire({
+            title: 'Message!',
+            text: res.data.message,
+            icon: 'success',
+            confirmButtonText: 'ok'
+          });
+          
+          
+        }
+
+      })
+      .catch((err)=>{
+        console.log("errorx",err.response);
+      })
+    
+    }
     
   }
 
