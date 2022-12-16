@@ -213,7 +213,7 @@ export default function AllRoles({reload}){
             {!loader && 
                 <>
 
-                <UserListToolbar numSelected={selected.length} selected={selected} filterName={filterName} onFilterName={handleFilterByName} refresh={refresh} setRefresh={setRefresh} />
+                <UserListToolbar numSelected={selected.length} selected={selected} filterName={filterName} onFilterName={handleFilterByName} refresh={refresh} setRefresh={setRefresh} setSelected={setSelected} />
 
                 <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }} >

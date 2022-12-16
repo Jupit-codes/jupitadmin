@@ -38,7 +38,7 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName,selected,refresh,setRefresh }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName,selected,refresh,setRefresh,setSelected }) {
   const deleteSelected = async()=>{
     const BaseUrl = process.env.REACT_APP_ADMIN_URL
     if(selected.length > 0){
@@ -57,6 +57,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
       
         if(res.data.status){
           setRefresh(!refresh)
+          setSelected([]);
           Swal.fire({
             title: 'Message!',
             text: res.data.message,
