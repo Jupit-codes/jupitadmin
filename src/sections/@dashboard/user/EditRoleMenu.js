@@ -4,21 +4,22 @@ import { Link as RouterLink, Navigate,useNavigate } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-import EditModal from '../../../utils/modal/editmodal'
+// import EditModal from '../../../utils/modal/editmodal'
+import EditModal from '../../../utils/modal/editRole'
 // ----------------------------------------------------------------------
 
-export default function EditRoleMenu({rowid,rolename}) {
+export default function EditRoleMenu({rowId,roleName,setRefresh, refresh}) {
   const ref = useRef(null);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [stateModal,setStateModal] = useState(false)
     const _handleUserProfile = ()=>{
-        console.log('Here')
+        setStateModal(true)
     }
   
   return (
     <>
-        {stateModal && <EditModal statemodal modifyOpen={setStateModal}/>}
+        {stateModal && <EditModal statemodal modifyOpen={setStateModal} rolename={roleName} rowid={rowId}  refresh={refresh} reloadData={setRefresh}/>}
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
       </IconButton>
@@ -40,11 +41,11 @@ export default function EditRoleMenu({rowid,rolename}) {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem> */}
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem onClick={()=>setStateModal(true)} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edit Role" primaryTypographyProps={{ variant: 'body2' }}  onClick={()=>_handleUserProfile()} />
+          <ListItemText primary="Edit Role" primaryTypographyProps={{ variant: 'body2' }}   />
         </MenuItem>
       </Menu>
     </>

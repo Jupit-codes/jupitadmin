@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 // material
+import { reactLocalStorage } from 'reactjs-localstorage';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import { styled } from '@mui/material/styles';
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@mui/material';
 // component
@@ -35,7 +38,39 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName,selected }) {
+  const deleteSelected = async()=>{
+    const BaseUrl = process.env.REACT_APP_ADMIN_URL
+    await axios({
+      url:`${BaseUrl}/admin/delete/selected/roles`,
+      method:"POST",
+      headers:{
+        "Content-type":'application/json',
+        "Authorization":reactLocalStorage.get('token')
+      },
+      data:JSON.stringify({_ids:selected})
+
+    })
+    .then((res)=>{
+     
+      if(res.data.status){
+        Swal.fire({
+          title: 'Message!',
+          text: res.data.message,
+          icon: 'success',
+          confirmButtonText: 'ok'
+        });
+        
+        
+      }
+
+    })
+    .catch((err)=>{
+      console.log("errorx",err.response);
+    })
+    
+  }
+
   return (
     <RootStyle
       sx={{
@@ -63,7 +98,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="Delete" onClick={()=>{deleteSelected()}}>
           <IconButton>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>

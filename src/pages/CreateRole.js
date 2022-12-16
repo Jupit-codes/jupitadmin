@@ -34,7 +34,7 @@ export default function Changepassword({update}) {
     const navigate = useNavigate()
 const [rolename,setrolename] = useState('');
 const [disablebtn,setdisablebtn] = useState(false)
-
+const [reload,setReload] = useState(false)
 const handlerole = (e)=>{
     setrolename(e.target.value)
 }
@@ -65,6 +65,7 @@ const createadminrole = async ()=>{
       console.log(res.data)
       setdisablebtn(false);
       setrolename('')
+      setReload(!reload);
       Swal.fire({
         title: 'Success Callback!',
         text: res.data,
@@ -109,7 +110,7 @@ const createadminrole = async ()=>{
     <Page title="CreateRole">
          
       <Container maxWidth="xl">
-      <AllRoles/>
+      <AllRoles  reload={reload}/>
       <Grid item xs={12} md={6} lg={8}>
           <Card  style={{marginTop:10}}>
               <CardHeader title="Create Role"/>

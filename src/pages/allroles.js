@@ -70,7 +70,8 @@ const TABLE_HEAD = [
     return stabilizedThis.map((el) => el[0]);
   }
 
-export default function AllRoles({handleData,userid}){
+export default function AllRoles({reload}){
+    
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
@@ -79,7 +80,16 @@ export default function AllRoles({handleData,userid}){
     const [filterName, setFilterName] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(100);
     const [selected, setSelected] = useState([]);
+    const [refresh ,setRefresh] = useState(false)
     const navigate = useNavigate();
+
+  
+
+    useEffect(()=>{
+            
+            getTransactionData();
+
+    },[refresh,reload])
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -188,9 +198,12 @@ export default function AllRoles({handleData,userid}){
       })
     }
 
+   
+
     useEffect(()=>{
         getTransactionData()
     },[])
+
 
     return (
         
@@ -200,7 +213,7 @@ export default function AllRoles({handleData,userid}){
             {!loader && 
                 <>
 
-                <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+                <UserListToolbar numSelected={selected.length} selected={selected} filterName={filterName} onFilterName={handleFilterByName} />
 
                 <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }} >
@@ -245,7 +258,7 @@ export default function AllRoles({handleData,userid}){
                             </TableCell>
                             <TableCell align="right">
                                 
-                                <EditRoleMenu rowid={_id}  rolename={rolename}/>
+                                <EditRoleMenu rowId={_id}  roleName={rolename} refresh={refresh} setRefresh={setRefresh}/>
                                 
                             </TableCell>
                             </TableRow>
