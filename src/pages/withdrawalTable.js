@@ -208,9 +208,9 @@ export default function WithdrawalTable({handleData}){
         <>
           <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>
             <Card>
-              <Pdf targetRef={ref} filename="withdrawal">
+              {/* <Pdf targetRef={ref} filename="withdrawal">
                 {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
-            </Pdf>
+            </Pdf> */}
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
