@@ -606,10 +606,13 @@ const banks = [
 
     },[refresh])
     const x = reactLocalStorage.getObject('admin').previledge;
+    const role = reactLocalStorage.getObject('admin').role;
     console.log(x)
     const _renderBalances = ()=>{
+     
       return x.map(d=>{
-        if(d.includes('Customer Balances') || d.includes('All')){
+        if(d.includes('Customer Balances')){
+         
           return  <>
                     <Grid item xs={12} sm={6} md={4}>
                       <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
@@ -622,6 +625,21 @@ const banks = [
                     </Grid>
                   </>
         }
+        if(d.includes('All') && role === "Super Admin" ){
+         
+          return  <>
+                    <Grid item xs={12} sm={6} md={4}>
+                      <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} refreshPage={setrefresh} livemarket={0.00}  refresh={refresh}/>
+                    </Grid>
+                  </>
+        }
+
         return null
         
         
@@ -631,7 +649,7 @@ const banks = [
 
       const _renderEditProfile = ()=>{
         return x.map(d=>{
-          if(d.includes('All')){
+          if(d.includes('All') && role=== "Super Admin" ){
             return  <>
                     <Button variant="outlined" disabled={disablebtn} component={RouterLink} to="#" onClick={(e)=>{handleEdit(e)}} startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
                             {editprofile}
@@ -648,13 +666,22 @@ const banks = [
     
     const _renderBlock = ()=>{
       return x.map(d=>{
-        if(d.includes('Account Block') || d.includes('All')){
+        if(d.includes('Account Block')){
           return  <>
                     <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
                         {status === "Active" ? "Deactivate Account":"Active Account"}
                     </Button>
                   </>
         }
+        if(d.includes('All') && role === "Super Admin"){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleActiveAccount(e,status)}}  component={RouterLink} to="#" color={status === "Active" ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                        {status === "Active" ? "Deactivate Account":"Active Account"}
+                    </Button>
+                  </>
+        }
+
+        
         return null
         
         
@@ -664,13 +691,22 @@ const banks = [
 
     const _renderSuspension = ()=>{
       return x.map(d=>{
-        if(d.includes('Account Suspension') || d.includes('All')){
+        if(d.includes('Account Suspension')){
           return  <>
                     <Button variant="contained" onClick={(e)=>{handleSuspension(e,suspensionstatus)}}  component={RouterLink} to="#" color={suspensionstatus ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
                         {suspensionstatus ? "Unsuspend Account":"Suspend Account"}
                       </Button>
                   </>
         }
+        if(d.includes('All') && role === "Super Admin"){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleSuspension(e,suspensionstatus)}}  component={RouterLink} to="#" color={suspensionstatus ? 'error' :'primary'} disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                        {suspensionstatus ? "Unsuspend Account":"Suspend Account"}
+                      </Button>
+                  </>
+        }
+
+       
         return null
         
         
@@ -679,7 +715,7 @@ const banks = [
 
     const _render2fa = ()=>{
       return x.map(d=>{
-        if(d.includes('Disable 2FA') || d.includes('All')){
+        if(d.includes('Disable 2FA')){
           return  <>
                     
                     <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
@@ -688,6 +724,18 @@ const banks = [
                     </Button>
                   </>
         }
+        if(d.includes('All') && role ==="Super Admin"){
+          return  <>
+                    <Button variant="outlined" component={RouterLink} to="#" color="error"  onClick={(e)=>{disabletwofactor(e)}} disabled={!twofactor || twofactbtn}   startIcon={<Iconify icon="arcticons:microsoftauthenticator" />}>
+                        {twofactor ? 'Disable 2FA':'2FA not activated'}
+                        
+                    </Button>
+                  </>
+        }
+
+
+
+        
         return null
         
         
@@ -696,13 +744,21 @@ const banks = [
 
     const _renderBlacklist = ()=>{
       return x.map(d=>{
-        if(d.includes('Blacklist') || d.includes('All')){
+        if(d.includes('Blacklist')){
           return  <>
                     <Button variant="contained" onClick={(e)=>{handleBlacklist(e,blackliststatus)}}  component={RouterLink} to="#" color={blackliststatus ? 'error' :'primary'}  disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
                       {blackliststatus ? "Remove Blacklist":"Blacklist Account"}
                       </Button>  
                   </>
         }
+        if(d.includes('All') && role === "Super Admin"){
+          return  <>
+                    <Button variant="contained" onClick={(e)=>{handleBlacklist(e,blackliststatus)}}  component={RouterLink} to="#" color={blackliststatus ? 'error' :'primary'}  disabled={useractivate_deactivate} startIcon={<Iconify icon="clarity:export-line" />}>
+                      {blackliststatus ? "Remove Blacklist":"Blacklist Account"}
+                      </Button>  
+                  </>
+        }
+
         return null
         
         
@@ -712,7 +768,7 @@ const banks = [
   const _renderTradelog = ()=>{
 
     return x.map(d=>{
-      if(d.includes('Trade Log') || d.includes('All')){
+      if(d.includes('Trade Log')){
         return  <>
                     <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
                       <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
@@ -737,6 +793,36 @@ const banks = [
               
                 </>
       }
+
+      if(d.includes('All') && role === "Super Admin"){
+        return  <>
+                    <Grid item xs={12} md={6} lg={8} sx={{mt:"2rem"}}>
+                      <Stack  direction="row" flexWrap="wrap" alignItems="center" justifyContent="space-between" xs={12} sm={6} md={4} sx={{ mb: 5 }}>
+                          <Typography variant="h4" gutterBottom mb={5}>
+                                Trade Logs (USDT/BTC)
+                          </Typography>
+
+                          <CSVLink data={DATA}>
+                              <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+                                Export To CsV
+                            </Button>
+                        </CSVLink>
+
+                      </Stack>
+                        
+                        
+                      {/* <UserTransaction userid={id} handleData = {setDATA}/> */}
+                      <UserTransaction handleData={setDATA} userid={id} />
+
+
+                    </Grid>
+              
+                </>
+      }
+
+
+
+      
       return null
       
       
@@ -775,12 +861,6 @@ const banks = [
               _renderBalances()
 
           }
-         
-
-        
-       
-           
-
             <Grid item xs={12} md={6} lg={8}>
             <Card style={{padding:20}}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
@@ -791,7 +871,7 @@ const banks = [
                       {_render2fa()}
                     </Typography>
                 </Stack>
-
+              
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
                     <Typography   gutterBottom>
                         <TextField
@@ -967,6 +1047,8 @@ const banks = [
                 </Card>
                 
             </Grid>
+
+            
             <Grid item xs={12} md={6} lg={4}>
             <Card style={{padding:20}}>
             

@@ -115,14 +115,14 @@ const navConfig = [
     path: '/dashboard/alldeposit',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,3],
-    previledges:['All','Deposit Log']
+    previledges:['All','All Deposit']
   },
   {
     title: 'All Withdrawal',
     path: '/dashboard/allwithdrawal',
     icon: getIcon('fa-solid:users-cog'),
     roles:[1,3],
-    previledges:['All','Withdrawal Log']
+    previledges:['All','All Withdrawal']
   },
   // {
   //   title: 'All Buy',
