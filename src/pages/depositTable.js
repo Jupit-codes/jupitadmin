@@ -78,7 +78,7 @@ const TABLE_HEAD = [
 export default function DepositTable({handleData}){
     const [loader,setLoader] = useState(false);
     const [DATA,setDATA] = useState([]);
-    const [orderBy, setOrderBy] = useState('_id');
+    const [orderBy, setOrderBy] = useState('');
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
