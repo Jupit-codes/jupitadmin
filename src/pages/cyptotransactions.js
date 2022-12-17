@@ -102,6 +102,8 @@ export default function Transaction({handleData}){
     const [USDTprice,setUSDTprice] = useState(0)
     const [btcValue,setBtcValue] = useState('')
     const [usdtValue,setUsdtValue] = useState('')
+    const [btcValueFee,setBtcValueFee] = useState('')
+    const [usdtValueFee,setUsdtValueFee] = useState('')
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -171,10 +173,13 @@ export default function Transaction({handleData}){
           setDATA(res.data.data)
           setbtcnew(parseFloat(res.data.sumBTCTransaction).toFixed(8))
           setbtcFee(parseFloat(res.data.sumBTCTransactionFee).toFixed(8))
-          setUsdt(parseFloat(res.data.sumUSDTTransactionFee).toFixed(6))
+          setUsdt(parseFloat(res.data.sumUSDTTransaction).toFixed(6))
           setUsdtFee(parseFloat(res.data.sumUSDTTransactionFee).toFixed(6))
           
-    
+          setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(BTCprice)).toFixed(2))
+          setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(USDTprice)).toFixed(2))
+          setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(BTCprice)).toFixed(2))
+          setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(USDTprice)).toFixed(2))
           
     
         })
@@ -206,14 +211,50 @@ export default function Transaction({handleData}){
         
     }
 
+    const crypomarketprice = async ()=>{
+      await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
+          headers:{
+              'Content-Type':'application/json',
+             
+          }
+      })
+      .then(result=>{
+          console.log(result.data)
+         if(result.data){
+          const BTC = parseFloat(result.data[0].current_price) - 150;
+          const USDT = result.data[1].current_price
+          setBTCprice(BTC);
+          setUSDTprice(USDT)
+          
+         }
+         else{
+          setBTCprice(0);
+          setUSDTprice(0)
+  
+         }
+         
+         
+      })
+      .catch(err=>{
+          console.log(err)
+          // return [false]
+      })
+
+    }
+
     useEffect(()=>{
       let isMounted = true
+        setTimeout(()=>{crypomarketprice()},2000)
         setTimeout(()=>{getTransactionData(isMounted)},2000)
-
+       
         return () => {
           isMounted = false;
           };
     },[])
+   
+
+   
+
 
     return (
         
@@ -223,10 +264,10 @@ export default function Transaction({handleData}){
                         <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btcfee} icon={'cryptocurrency:btc'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
-                        <AppWidgetSummaryEdit title="Total BTC Position" color="warning" total={btcnew} icon={'cryptocurrency:btc'}  />
+                        <AppWidgetSummaryEdit title="Total BTC Position" color="warning" total={btcnew} livemarket={btcValue} icon={'cryptocurrency:btc'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
-                        <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt} icon={'cryptocurrency:usdt'}  />
+                        <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt}  livemarket={usdtValue}icon={'cryptocurrency:usdt'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
                         <AppWidgetSummaryEdit title="Total USDT Position"  color="success" total={usdtFee} icon={'cryptocurrency:usdt'}  />

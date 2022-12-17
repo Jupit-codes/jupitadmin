@@ -107,7 +107,7 @@ export default function Assetundermanagementcrypto() {
     },[])
 
 
-    async function crypomarketprice(){
+    const crypomarketprice = async()=>{
       await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
           headers:{
               'Content-Type':'application/json',
@@ -212,7 +212,8 @@ export default function Assetundermanagementcrypto() {
        setbtcbalance(parseFloat(res.data.BTC_BALANCE).toFixed(8));
        setusdtbalance(parseFloat(res.data.USDT_BALANCE).toFixed(6));
       //  console.log(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
-        setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
+      console.log(BTCprice)  
+      setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
         setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(USDTprice)).toFixed(2))
       })
       .catch((err)=>{
