@@ -266,7 +266,7 @@ export default function Transaction({reload}){
                             </TableCell>
                             <TableCell align="right">
                                 
-                                <StaffMore userid={_id} update={setreloadStaff} loader = {setpleasewait} status={status} />
+                                <StaffMore userid={_id} update={setreloadStaff} loader = {setpleasewait} status={status} staffusername={username} rolename={role} />
                             </TableCell>
                             </TableRow>
                         );

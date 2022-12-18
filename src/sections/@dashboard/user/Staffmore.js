@@ -6,13 +6,15 @@ import swal from 'sweetalert';
 // component
 import { reactLocalStorage } from 'reactjs-localstorage';
 import axios from 'axios';
+import EditStaffRole from '../../../utils/modal/editStaffRole';
 import Iconify from '../../../components/Iconify';
 import EditModal from '../../../utils/modal/editmodal'
 
 
+
 // ----------------------------------------------------------------------
 
-export default function StaffMore({userid,update,status,loader}) {
+export default function StaffMore({userid,update,status,loader,staffusername,rolename}) {
   const ref = useRef(null);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -100,13 +102,18 @@ export default function StaffMore({userid,update,status,loader}) {
       } 
     });
 
-
-    
-    
   }
+
+  const handleRoleEdit = ()=>{
+    setStateModal(true)
+  }
+
+
+
+
   return (
     <>
-        {stateModal && <EditModal statemodal modifyOpen={setStateModal}/>}
+        {stateModal && <EditStaffRole statemodal modifyOpen={setStateModal} userid={userid}  loader={loader} update={update} staffusername={staffusername} rolename={rolename}/>}
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Iconify icon="eva:more-vertical-fill" width={20} height={20} />
       </IconButton>
@@ -134,6 +141,13 @@ export default function StaffMore({userid,update,status,loader}) {
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete Profile" primaryTypographyProps={{ variant: 'body2' }}  onClick={()=>handleDelete()} />
+        </MenuItem>
+
+        <MenuItem  sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="eva:edit-fill" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Staff Role/Priviledge" primaryTypographyProps={{ variant: 'body2' }}  onClick={()=>handleRoleEdit()} />
         </MenuItem>
       </Menu>
     </>
