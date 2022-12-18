@@ -11,10 +11,7 @@ import { fShortenNumber } from '../../../utils/formatNumber';
 import Iconify from '../../../components/Iconify';
 import Modal from '../../../utils/modal/editmodal'
 
-
-
 // ----------------------------------------------------------------------
-
 const IconWrapperStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   display: 'flex',
@@ -39,23 +36,17 @@ AppWidgetSummaryEdit.propTypes = {
 
 export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemarket,livemarketdata,jupitrate, total, icon, edit, withdrawal,userid, color = 'primary', sx, ...other }) {
 
-    const [openmodal,setOpenModal] = useState(false);
-    const [completed,setcompleted] = useState(null);
-    const [mode,setmode] = useState()
-    
-    const handleClick = (mode)=>{
-      setmode(mode);
-        setOpenModal(true);
-        
-    }
+  const [openmodal,setOpenModal] = useState(false);
+  const [completed,setcompleted] = useState(null);
+  const [mode,setmode] = useState()
   
-    
-
-    
-
-    const x = reactLocalStorage.getObject('admin').previledge;
-
-   const breaker =(total)=>{
+  const handleClick = (mode)=>{
+    setmode(mode);
+    setOpenModal(true);
+      
+  }
+  const x = reactLocalStorage.getObject('admin').previledge;
+  const breaker =(total)=>{
           return total ? total.toLocaleString('en-US'):'0'
    }
 
@@ -84,10 +75,6 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       
     })
 }
-
-
-   
-    
 
   return (
       <>
