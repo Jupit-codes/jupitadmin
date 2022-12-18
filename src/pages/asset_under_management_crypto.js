@@ -100,15 +100,14 @@ export default function Assetundermanagementcrypto() {
       // const end = moment(start).startOf('day');
       // const current = new Date();
       // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
-      crypomarketprice()
+      // crypomarketprice()
       assetfetch(startdate,enddate);
       
 
     },[])
 
-
-    const crypomarketprice = async()=>{
-      await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
+    const crypomarketprice = async ()=>{
+      const myresult = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
           headers:{
               'Content-Type':'application/json',
              
@@ -119,15 +118,16 @@ export default function Assetundermanagementcrypto() {
          if(result.data){
           const BTC = parseFloat(result.data[0].current_price) - 150;
           const USDT = result.data[1].current_price
-          setBTCprice(BTC);
-          setUSDTprice(USDT)
+          // setBTCprice(BTC);
+          // setUSDTprice(USDT);
+
+          return [true,BTC,USDT];
           
          }
-         else{
-          setBTCprice(0);
-          setUSDTprice(0)
+         
+          return [false,0,0]
   
-         }
+         
          
          
       })
@@ -135,9 +135,10 @@ export default function Assetundermanagementcrypto() {
           console.log(err)
           // return [false]
       })
-  
-      
-  }
+
+      return myresult;
+
+    }
     
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -206,15 +207,22 @@ export default function Assetundermanagementcrypto() {
         },
         data:JSON.stringify({startdate,enddate})
       })
-      .then((res)=>{
+      .then(async (res)=>{
       //  console.log(res.data)
+      const priceMarket = await crypomarketprice()
        setrefresh(false)
        setbtcbalance(parseFloat(res.data.BTC_BALANCE).toFixed(8));
        setusdtbalance(parseFloat(res.data.USDT_BALANCE).toFixed(6));
       //  console.log(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
-      console.log(BTCprice)  
-      setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(BTCprice)).toFixed(2))
-        setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(USDTprice)).toFixed(2))
+       if(priceMarket[0]){
+        setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(priceMarket[1])).toFixed(2))
+        setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(priceMarket[2])).toFixed(2))
+       }
+       else{
+        setBtcValue(parseFloat(parseFloat(res.data.BTC_BALANCE) * parseFloat(priceMarket[1])).toFixed(2))
+        setUsdtValue (parseFloat(parseFloat(res.data.USDT_BALANCE) * parseFloat(priceMarket[2])).toFixed(2))
+       }
+      
       })
       .catch((err)=>{
           

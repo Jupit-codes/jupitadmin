@@ -166,9 +166,13 @@ export default function Transaction({handleData}){
           },
           
         })
-        .then((res)=>{
+        .then(async(res)=>{
       //    console.log(res.data)
+
+      const priceMarket =  await crypomarketprice();
+      console.log('priceMarket',priceMarket)
       console.log(res.data)
+
           setLoader(false)
           setDATA(res.data.data)
           setbtcnew(parseFloat(res.data.sumBTCTransaction).toFixed(8))
@@ -176,10 +180,21 @@ export default function Transaction({handleData}){
           setUsdt(parseFloat(res.data.sumUSDTTransaction).toFixed(6))
           setUsdtFee(parseFloat(res.data.sumUSDTTransactionFee).toFixed(6))
           
-          setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(BTCprice)).toFixed(2))
-          setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(USDTprice)).toFixed(2))
-          setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(BTCprice)).toFixed(2))
-          setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(USDTprice)).toFixed(2))
+          console.log("BTCprice",BTCprice)
+          console.log("sumBTC",res.data.sumBTCTransaction)
+          if(priceMarket[0]){
+            setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+          }
+          else{
+            setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+          }
+          
           
     
         })
@@ -212,7 +227,7 @@ export default function Transaction({handleData}){
     }
 
     const crypomarketprice = async ()=>{
-      await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
+      const myresult = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
           headers:{
               'Content-Type':'application/json',
              
@@ -223,15 +238,16 @@ export default function Transaction({handleData}){
          if(result.data){
           const BTC = parseFloat(result.data[0].current_price) - 150;
           const USDT = result.data[1].current_price
-          setBTCprice(BTC);
-          setUSDTprice(USDT)
+          // setBTCprice(BTC);
+          // setUSDTprice(USDT);
+
+          return [true,BTC,USDT];
           
          }
-         else{
-          setBTCprice(0);
-          setUSDTprice(0)
+         
+          return [false,0,0]
   
-         }
+         
          
          
       })
@@ -240,12 +256,14 @@ export default function Transaction({handleData}){
           // return [false]
       })
 
+      return myresult;
+
     }
 
     useEffect(()=>{
       let isMounted = true
-        setTimeout(()=>{crypomarketprice()},2000)
-        setTimeout(()=>{getTransactionData(isMounted)},2000)
+        setTimeout(()=>{crypomarketprice()},1000)
+        setTimeout(()=>{getTransactionData(isMounted)},1000)
        
         return () => {
           isMounted = false;
