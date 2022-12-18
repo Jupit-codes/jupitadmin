@@ -104,7 +104,7 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
       }}
       {...other}
     >
-    {/* <Typography variant="h6">${livemarket}</Typography> */}
+    <Typography >{livemarketdata && `$ ${livemarketdata.toLocaleString('en-US')}`}</Typography>
       <IconWrapperStyle
         sx={{
           color: (theme) => theme.palette[color].dark,

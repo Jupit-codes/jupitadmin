@@ -156,8 +156,10 @@ const banks = [
       },
       data:JSON.stringify({id})
     })
-    .then((res)=>{
-      
+    .then(async(res)=>{
+      const priceMarket = await crypomarketprice();
+      console.log(priceMarket)
+    
       setkyclevel1(res.data.kyc.level1[0].status);
       setkyclevel2(res.data.kyc.level2[0].event_status);
       setkyclevel3(res.data.kyc.level3[0].status);
@@ -180,7 +182,13 @@ const banks = [
         setblackliststatus(res.data.blacklist);
         setsuspensionstatus(res.data.suspension);
       setbigLoader(false);
-
+      if(priceMarket[0]){
+        setbtcmarketprice(priceMarket[1])
+        setusdtmarketprice(priceMarket[2])
+        setbtcmarketpricedisplay(parseFloat(parseFloat(res.data.detail.btc_wallet[0].balance.$numberDecimal) * parseFloat(priceMarket[1])).toFixed(7));
+        setusdtmarketpricedisplay(parseFloat(parseFloat(res.data.detail.usdt_wallet[0].balance.$numberDecimal) * parseFloat(priceMarket[2])).toFixed(6));
+        
+      }
       banks.map((d)=>{
         
         if(d.code === res.data.bank.bank_code){
@@ -233,25 +241,59 @@ const banks = [
   }
 
   
-    const marketprice = ()=>{
-        axios.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,USDT&tsyms=USD',{
-        headers:{
-            'Content-Type':'application/json',
-            'Authorization':'Apikey fab6779bb25e937fa7ef922e132796d2c323635c431bc1f3185faf7b293633c5'
-        }
-    })
-    .then(res=>{
+    // const marketprice = ()=>{
+    //     axios.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,USDT&tsyms=USD',{
+    //     headers:{
+    //         'Content-Type':'application/json',
+    //         'Authorization':'Apikey fab6779bb25e937fa7ef922e132796d2c323635c431bc1f3185faf7b293633c5'
+    //     }
+    // })
+    // .then(res=>{
    
-      setmarketdata(res.data);
-      setbtcmarketprice(res.data.RAW.BTC.USD.PRICE);
-      setbtcmarketpricedisplay(res.data.DISPLAY.BTC.USD.PRICE);
-      setusdtmarketprice(res.data.RAW.USDT.USD.PRICE);
-      setusdtmarketpricedisplay(res.data.DISPLAY.USDT.USD.PRICE);
+    //   setmarketdata(res.data);
+    //   setbtcmarketprice(res.data.RAW.BTC.USD.PRICE);
+    //   setbtcmarketpricedisplay(res.data.DISPLAY.BTC.USD.PRICE);
+    //   setusdtmarketprice(res.data.RAW.USDT.USD.PRICE);
+    //   setusdtmarketpricedisplay(res.data.DISPLAY.USDT.USD.PRICE);
     
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+    // })
+    // .catch(err=>{
+    //   console.log(err)
+    // })
+    // }
+
+    const crypomarketprice = async ()=>{
+      const myresult = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether,bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false',{
+          headers:{
+              'Content-Type':'application/json',
+             
+          }
+      })
+      .then(result=>{
+          console.log(result.data)
+         if(result.data){
+          const BTC = parseFloat(result.data[0].current_price) - 150;
+          const USDT = result.data[1].current_price
+          // setBTCprice(BTC);
+          // setUSDTprice(USDT);
+
+          return [true,BTC,USDT];
+          
+         }
+         
+          return [false,0,0]
+  
+         
+         
+         
+      })
+      .catch(err=>{
+          console.log(err)
+          // return [false]
+      })
+
+      return myresult;
+
     }
 
     const disabletwofactor = async(e)=>{
@@ -621,7 +663,7 @@ const banks = [
                         <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} refreshPage={setrefresh} livemarket={0.00}  refresh={refresh}/>
+                        <AppWidgetSummaryEdit title="Naira Wallet Balance" total={nairabalance} icon={'tabler:currency-naira'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} refreshPage={setrefresh}   refresh={refresh}/>
                     </Grid>
                   </>
         }
@@ -629,7 +671,7 @@ const banks = [
          
           return  <>
                     <Grid item xs={12} sm={6} md={4}>
-                      <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
+                      <AppWidgetSummaryEdit title="BTC Wallet Balance" color="warning" total={btcbalance} l icon={'cryptocurrency:btc'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id} livemarket={btcmarketpricedisplay} livemarketdata={btcmarketprice} jupitrate={jupitbtcbuyrate}  refreshPage={setrefresh} refresh={refresh}/>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <AppWidgetSummaryEdit title="USDT Wallet Balance"  color="success" total={usdtbalance} icon={'cryptocurrency:usdt'} withdrawal={'carbon:subtract-alt'} edit={'carbon:alarm-add'} userid={id}  livemarket={usdtmarketpricedisplay} livemarketdata={usdtmarketprice} jupitrate={jupitusdtbuyrate} refreshPage={setrefresh}  refresh={refresh}/>
@@ -832,10 +874,6 @@ const banks = [
   }
 
 
-    useEffect(()=>{
-       
-        setTimeout(()=>{marketprice()},2000)
-    },[])
 
     const handleback =()=>{
       window.location=`/dashboard/user`
