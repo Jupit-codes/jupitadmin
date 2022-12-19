@@ -186,7 +186,7 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
 
    const getStaffPreviledge = async ()=>{
     setRoler(true)
-    
+    console.log("userid",userid)
     const BaseUrl = process.env.REACT_APP_ADMIN_URL  
     await axios({
     
@@ -261,11 +261,13 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
 
 
 const handleResource = (e)=>{
-     
+ 
     if(e.target.checked){
+      
       if(!previledges.includes(e.target.value)){
         previledges.push(e.target.value)
       }
+      
     }
     else if(!e.target.checked){
       console.log('Unchecked');
@@ -286,39 +288,51 @@ const handleResource = (e)=>{
    
   }
 
+  const handleChecked = (value)=>{
+      if(previledges.includes(value)){
+        return true
+      }
+      
+      return false
+  }
+
 const _renderPreviledges = ()=>{
-   console.log("availablePreviledge",availablePreviledge)
-   console.log("previledges",previledges)
+   
+   console.log("previledges",console)
    return availablePreviledge &&  availablePreviledge.map((d,index)=>{
-                         
-              return   previledges && previledges.length > 0 && previledges.includes(d.value) || previledges.includes('ALL')  ? <>
+                        
+                 return previledges && previledges.length > 0 && previledges.includes(d.value) && <>
                             <Checkbox 
                                 key={index}
-                                value={d.value}
                                 onChange={handleResource}
+                                value={d.value || ''}
                                 inputProps={{ 'aria-label': 'controlled' }}
-                                color="success" 
-                                checked
-
+                                color="success"
+                                checked={handleChecked(d.value)}
                                 /> <span>{d.title}</span>
                         </>
-                        :
-                        <>
-                                <Checkbox 
-                                key={index}
-                                value={d.value}
-                                onChange={handleResource}
-                                inputProps={{ 'aria-label': 'controlled' }}
-                                color="success" 
-                                
-                                /> <span>{d.title}</span>
-                        
-                        </>
-                            
-                                
-                                                  
+                      
+                                                                    
     })
    
+}
+
+const _rendernewPreviledges = ()=>{
+  
+  return availablePreviledge &&  availablePreviledge.map((d,index)=>{
+                       
+                return previledges && previledges.length > 0 && !previledges.includes(d.value) && <>
+                           <Checkbox 
+                               key={index}
+                               onChange={handleResource}
+                               value={d.value || ''}
+                               inputProps={{ 'aria-label': 'controlled' }}
+                               color="primary" 
+                               /> <span>{d.title}</span>
+                       </>
+                                                                   
+   })
+  
 }
 
  
@@ -375,6 +389,7 @@ const _renderPreviledges = ()=>{
             <Typography>
                 {roler && 'Loading Priviledges'}
                 {!roler && mount && _renderPreviledges()}
+                {!roler && mount && _rendernewPreviledges()}
             </Typography>
 
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
