@@ -43,7 +43,6 @@ export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemar
   const handleClick = (mode)=>{
     setmode(mode);
     setOpenModal(true);
-      
   }
   const x = reactLocalStorage.getObject('admin').previledge;
   const breaker =(total)=>{

@@ -46,7 +46,7 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
     },
     {
 
-        title:"Total transaction",
+        title:"Total transaction Count",
         value:"Transaction Count"
     },
     {
@@ -57,7 +57,8 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
     {
         title:"Customer Transaction Balances",
         value:"Customer Balances"
-    }, 
+    },
+
     {
         title:"Trade Log",
         value:"Trade Log"
@@ -65,7 +66,60 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
     {
         title:"All Deposit",
         value:"All Deposit"
+    },
+    {
+        title:"Disable 2FA",
+        value:"Disable 2FA"
+    },
+    {
+        title:"Account Suspension",
+        value:"Account Suspension"
+    },
+    {
+        title:"Account Blockage",
+        value:"Account Blockage"
+    },
+    {
+        title:"Blacklist",
+        value:"Blacklist"
+    },
+    {
+        title:"Transaction Log",
+        value:"Transaction Log"
+    },
+    {
+        title:"All Withdrawal",
+        value:"All Withdrawal"
+    },
+    {
+        title:"Initialise Rate",
+        value:"Initialise Rate"
+    },
+    {
+        title:"Asset Undermanagement Crypto",
+        value:"Asset Undermanagement Crypto"
+    },
+    {
+        title:"Asset Undermanagement Fiat",
+        value:"Asset Undermanagement Fiat"
+    },
+    {
+        title:"Manual Deposit",
+        value:"Manual Deposit"
+    },
+    {
+        title:"Manual Withdrawal",
+        value:"Manual Withdrawal"
+    },
+    {
+        title:"Crypto Ledger",
+        value:"Crypto Ledger"
+    },
+    {
+        title:"Fiat Ledger",
+        value:"Fiat Ledger"
     }
+
 ]  
   useEffect(()=>{
         setTimeout(()=>{
@@ -233,10 +287,11 @@ const handleResource = (e)=>{
   }
 
 const _renderPreviledges = ()=>{
-   
+   console.log("availablePreviledge",availablePreviledge)
+   console.log("previledges",previledges)
    return availablePreviledge &&  availablePreviledge.map((d,index)=>{
                          
-              return   previledges && previledges.length > 0 && previledges.includes(d.value) ? <>
+              return   previledges && previledges.length > 0 && previledges.includes(d.value) || previledges.includes('ALL')  ? <>
                             <Checkbox 
                                 key={index}
                                 value={d.value}
