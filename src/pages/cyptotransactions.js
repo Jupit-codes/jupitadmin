@@ -185,14 +185,14 @@ export default function Transaction({handleData}){
           if(priceMarket[0]){
             setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
             setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(priceMarket[2])).toFixed(2))
-            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
-            setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransactionFee) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValueFee(parseFloat(parseFloat(res.data.sumUSDTTransactionFee) * parseFloat(priceMarket[2])).toFixed(2))
           }
           else{
             setBtcValue(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
             setUsdtValue (parseFloat(parseFloat(res.data.sumUSDTTransaction) * parseFloat(priceMarket[2])).toFixed(2))
-            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[1])).toFixed(2))
-            setUsdtValueFee(parseFloat(parseFloat(res.data.sumBTCTransaction) * parseFloat(priceMarket[2])).toFixed(2))
+            setBtcValueFee(parseFloat(parseFloat(res.data.sumBTCTransactionFee) * parseFloat(priceMarket[1])).toFixed(2))
+            setUsdtValueFee(parseFloat(parseFloat(res.data.sumUSDTTransactionFee) * parseFloat(priceMarket[2])).toFixed(2))
           }
           
           
@@ -279,16 +279,16 @@ export default function Transaction({handleData}){
         <>
             <Grid container spacing={3}>
                     <Grid item xs={12} sm={4} md={4}>
-                        <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btcfee} icon={'cryptocurrency:btc'}  />
+                        <AppWidgetSummaryEdit title="Total BTC Transaction Fee" color="warning" total={btcfee} livemarket={btcValueFee} icon={'cryptocurrency:btc'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
                         <AppWidgetSummaryEdit title="Total BTC Position" color="warning" total={btcnew} livemarket={btcValue} icon={'cryptocurrency:btc'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
-                        <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt}  livemarket={usdtValue}icon={'cryptocurrency:usdt'}  />
+                        <AppWidgetSummaryEdit title="Total USDT Transaction Fee"  color="success" total={usdt}   livemarket={usdtValueFee} icon={'cryptocurrency:usdt'}  />
                     </Grid>
                     <Grid item xs={12} sm={4} md={4}>
-                        <AppWidgetSummaryEdit title="Total USDT Position"  color="success" total={usdtFee} icon={'cryptocurrency:usdt'}  />
+                        <AppWidgetSummaryEdit title="Total USDT Position"  color="success" total={usdtFee} livemarket={usdtValue}  icon={'cryptocurrency:usdt'}  />
                     </Grid>
             </Grid>
             <Filter filteredData={setDATA} xhandle={handleData}  mysetloader={setLoader}/>

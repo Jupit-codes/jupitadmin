@@ -199,6 +199,7 @@ export default function Transaction({handleData}){
           isMounted = false;
           };
     },[])
+  
 
     return (
         
@@ -252,10 +253,10 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{serial}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{marketprice}</TableCell>
-                            <TableCell align="left">{parseFloat(amount * marketprice)}</TableCell>
+                            <TableCell align="left">{marketprice.toLocaleString()}</TableCell>
+                            <TableCell align="left">{parseFloat(amount * marketprice).toLocaleString('en-US')}</TableCell>
                             <TableCell align="left">{type === "Sell" && rateInnaira}</TableCell>
-                            <TableCell align="left">{type === "Sell" && nairavalue}</TableCell>
+                            <TableCell align="left">{type === "Sell" &&  nairavalue.toLocaleString('en-US')}</TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}

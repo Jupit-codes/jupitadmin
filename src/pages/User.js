@@ -108,7 +108,7 @@ export default function User() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(500);
   const [failedRequest,setfailedRequest] = useState(false)
 
   const getAllUsers =  ()=>{
@@ -357,7 +357,7 @@ export default function User() {
              </Scrollbar>
    
              <TablePagination
-               rowsPerPageOptions={[50, 100, 200]}
+               rowsPerPageOptions={[500, 1000, 2000]}
                component="div"
                count={DATA.length}
                rowsPerPage={rowsPerPage}

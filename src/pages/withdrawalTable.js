@@ -257,7 +257,7 @@ export default function WithdrawalTable({handleData}){
                             <TableCell align="left">{account_number}</TableCell>
                             <TableCell align="left">{account_name}</TableCell>
                             <TableCell align="left">{bank_code}</TableCell>
-                            <TableCell align="left">{amount}</TableCell>
+                            <TableCell align="left">{amount.toLocaleString('en-US')}</TableCell>
                     
                             <TableCell align="left">
                                 <Label variant="ghost" color='success'>
@@ -294,7 +294,7 @@ export default function WithdrawalTable({handleData}){
                 </Scrollbar>
     
                 <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[500, 1000, 2000]}
                 component="div"
                 count={DATA.length}
                 rowsPerPage={rowsPerPage}
