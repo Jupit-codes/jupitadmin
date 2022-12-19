@@ -248,7 +248,7 @@ export default function DepositTable({handleData}){
                             </TableCell>
                             <TableCell align="left">{account_number}</TableCell>
                             <TableCell align="left">{reference}</TableCell>
-                            <TableCell align="left">{amount}</TableCell>
+                            <TableCell align="left">{amount.toLocaleString('en-US')}</TableCell>
                             
                            
                             
