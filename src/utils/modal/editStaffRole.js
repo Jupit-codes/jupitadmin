@@ -215,6 +215,43 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
       })
   
    }
+
+
+ const Submit = async ()=>{
+  console.log(selectedRole)
+  const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+        await axios({
+        
+            url:`${BaseUrl}/admin/staff/edit`,
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',  
+              'Authorization': reactLocalStorage.get('token')
+            },
+            data:JSON.stringify({previledges,userid,selectedRole})
+          })
+          .then((res)=>{
+           console.log(res.data);
+          
+          
+           Swal.fire({
+              title: 'Message!',
+              text: res.data.message,
+              icon: 'success',
+              confirmButtonText: 'ok'
+            });
+           
+      
+          })
+          .catch((err)=>{
+              
+              if(err.response){
+                  alert(err.response.data)
+              }
+                console.log(err.response)
+          })
+ } 
+   
   
  
   const handleClose = () => modifyOpen(!statemodal);
@@ -308,7 +345,7 @@ const _renderPreviledges = ()=>{
                                 value={d.value || ''}
                                 inputProps={{ 'aria-label': 'controlled' }}
                                 color="success"
-                                checked={handleChecked(d.value)}
+                                defaultChecked
                                 /> <span>{d.title}</span>
                         </>
                       
