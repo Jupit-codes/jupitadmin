@@ -218,7 +218,9 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
 
 
  const Submit = async ()=>{
-  console.log(selectedRole)
+
+  
+
   const BaseUrl = process.env.REACT_APP_ADMIN_URL  
         await axios({
         
@@ -228,7 +230,7 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
               'Content-Type':'application/json',  
               'Authorization': reactLocalStorage.get('token')
             },
-            data:JSON.stringify({previledges,userid,selectedRole})
+            data:JSON.stringify({previledges,userid,role:selectedRole})
           })
           .then((res)=>{
            console.log(res.data);
@@ -431,7 +433,7 @@ const _rendernewPreviledges = ()=>{
 
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               
-            <Button variant="outlined" disableElevation style={{marginTop:10}} disabled={disablebtn} >Submit</Button>
+            <Button variant="outlined" disableElevation style={{marginTop:10}} disabled={disablebtn} onClick={()=>Submit()} >Submit</Button>
         </Typography>
         </Box>
       </Modal>
