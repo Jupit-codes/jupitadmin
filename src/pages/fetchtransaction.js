@@ -50,7 +50,8 @@ const TABLE_HEAD = [
     { id: 'from_address', label: 'From_Address', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
-  
+
+
   // ----------------------------------------------------------------------
   
   function descendingComparator(a, b, orderBy) {
@@ -199,6 +200,14 @@ export default function Transaction({handleData}){
           isMounted = false;
           };
     },[])
+
+    const checkSell = (type,rateInnaira)=>{
+
+      if(type === "Sell"){
+        return 	<>&#8358; {rateInnaira}</>
+      }
+      
+    }
   
 
     return (
@@ -255,8 +264,8 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{amount}</TableCell>
                             <TableCell align="left">{marketprice.toLocaleString()}</TableCell>
                             <TableCell align="left">{parseFloat(amount * marketprice).toLocaleString('en-US')}</TableCell>
-                            <TableCell align="left">{type === "Sell" && rateInnaira}</TableCell>
-                            <TableCell align="left">{type === "Sell" &&  nairavalue.toLocaleString('en-US')}</TableCell>
+                            <TableCell align="left" width="100"> {checkSell(type,rateInnaira)}</TableCell>
+                            <TableCell align="left">{checkSell(type,nairavalue)}</TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                                 {status}
