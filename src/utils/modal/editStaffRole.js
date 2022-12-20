@@ -222,6 +222,7 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
   
 
   const BaseUrl = process.env.REACT_APP_ADMIN_URL  
+  setdisablebtn(true)
         await axios({
         
             url:`${BaseUrl}/admin/staff/edit`,
@@ -234,19 +235,19 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
           })
           .then((res)=>{
            console.log(res.data);
-          
-          
+           setdisablebtn(false)
            Swal.fire({
               title: 'Message!',
               text: res.data.message,
               icon: 'success',
               confirmButtonText: 'ok'
             });
+            modifyOpen(!statemodal);
            
       
           })
           .catch((err)=>{
-              
+            setdisablebtn(false)
               if(err.response){
                   alert(err.response.data)
               }
