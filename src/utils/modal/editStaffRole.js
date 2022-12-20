@@ -236,6 +236,7 @@ export default function EditStaffRole({userid,staffusername,update,loader,modify
           .then((res)=>{
            console.log(res.data);
            setdisablebtn(false)
+           update(true)
            Swal.fire({
               title: 'Message!',
               text: res.data.message,
