@@ -203,6 +203,12 @@ export default function Transaction({handleData}){
           };
     },[])
 
+    const addComma = (num)=>{
+      
+      return  <> 	&#8358;{ num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</>;
+        
+    }
+
     return (
         
         <>
@@ -255,7 +261,7 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{_id}</TableCell>
                             <TableCell align="left">{userid}</TableCell>
                             <TableCell align="left">{email}</TableCell>
-                            <TableCell align="left">{amount}</TableCell>
+                            <TableCell align="left">{addComma(amount)}</TableCell>
                             <TableCell align="left">{transaction_fee}</TableCell>
                             <TableCell align="left">
                                 <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>

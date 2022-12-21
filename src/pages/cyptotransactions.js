@@ -119,6 +119,12 @@ export default function Transaction({handleData}){
     setSelected([]);
   };
 
+  const addComma = (num)=>{
+      
+    return  <> 	&#8358;{ num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</>;
+      
+  }
+
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
