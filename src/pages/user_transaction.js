@@ -90,7 +90,9 @@ export default function UserTransaction({handleData,userid}){
     const [rowsPerPage, setRowsPerPage] = useState(100);
     const [selected, setSelected] = useState([]);
     const navigate = useNavigate();
-    
+  useEffect(()=>{
+      setTimeout(()=>{getTransactionData()},1000)
+  },[])
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -197,10 +199,12 @@ export default function UserTransaction({handleData,userid}){
             
       })
     }
-
-    useEffect(()=>{
-        getTransactionData()
-    },[])
+    const addComma = (num)=>{
+      
+      return   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        
+    }
+   
 
     return (
         
@@ -210,7 +214,7 @@ export default function UserTransaction({handleData,userid}){
             {loader && <div className='myloader'>loading data...</div>}
             {!loader && 
                 <>
-                <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+                {/* <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} /> */}
 
                 <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }} >
@@ -232,7 +236,7 @@ export default function UserTransaction({handleData,userid}){
                         return (
                             <TableRow
                             hover
-                            key={id}
+                            key={_id}
                             tabIndex={-1}
                             role="checkbox"
                             selected={isItemSelected}
@@ -251,10 +255,13 @@ export default function UserTransaction({handleData,userid}){
                             </TableCell>
                             <TableCell align="left">{order_id}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{currency === "BTC" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(6) }</TableCell>
+                            <TableCell align="left">
+                              {currency === "BTC" && parseFloat(amount).toFixed(8) }
+                              {currency === "USDT" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(2) }
+                              </TableCell>
                             <TableCell align="left">{marketprice}</TableCell>
                             <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
-                            <TableCell align="left">{type==="Sell" && rateInnaira}</TableCell>
+                            <TableCell align="left">{type === "Sell" && rateInnaira}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
                             <TableCell align="left">{type === "Sell" && nairavalue}</TableCell>
                             <TableCell align="left">{type === "Send" && fees}</TableCell>
@@ -295,7 +302,7 @@ export default function UserTransaction({handleData,userid}){
                 </Scrollbar>
     
                 <TablePagination
-                rowsPerPageOptions={[250, 400, 500]}
+                rowsPerPageOptions={[500, 1000, 2000]}
                 component="div"
                 count={DATA.length}
                 rowsPerPage={rowsPerPage}
