@@ -89,7 +89,7 @@ console.log('path',path)
             {children.map((item) => {
               const { title, path,previledges } = item;
               const isActiveSub = active(path);
-              return previledges.map((d)=>{
+              return previledges && previledges.map((d)=>{
                 if(x.includes(d)){
                   return (
                     <ListItemStyle
@@ -163,6 +163,7 @@ export default function NavSection({ navConfig, ...other }) {
         
       return item.previledges.map((d)=>{
         if(x.includes(d)){
+          console.log(d)
           return <NavItem key={item.title} item={item} active={match} />
         }
         return true;
