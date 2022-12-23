@@ -376,6 +376,27 @@ const _rendernewPreviledges = ()=>{
   
 }
 
+
+
+
+const _renderAllPreviledges = ()=>{
+  
+  return availablePreviledge &&  availablePreviledge.map((d,index)=>{
+                       
+                return previledges && previledges.length === 0  && <>
+                           <Checkbox 
+                               key={index}
+                               onChange={handleResource}
+                               value={d.value || ''}
+                               inputProps={{ 'aria-label': 'controlled' }}
+                               color="primary" 
+                               /> <span>{d.title}</span>
+                       </>
+                                                                   
+   })
+  
+}
+
  
   
   return (
@@ -431,6 +452,7 @@ const _rendernewPreviledges = ()=>{
                 {roler && 'Loading Priviledges'}
                 {!roler && mount && _renderPreviledges()}
                 {!roler && mount && _rendernewPreviledges()}
+                {!roler && mount && _renderAllPreviledges()}
             </Typography>
 
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
