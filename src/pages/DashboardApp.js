@@ -43,6 +43,7 @@ export default function DashboardApp(state) {
   console.log(state)
 
   const renderComponent = ()=>{
+    console.log('roleid',reactLocalStorage.getObject('admin').roleid)
     switch (reactLocalStorage.getObject('admin').roleid){
       case 1:
         return <SuperAdminDashboard/>

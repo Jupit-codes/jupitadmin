@@ -40,14 +40,13 @@ NavItem.propTypes = {
 };
 
 function NavItem({ item, active }) {
-  console.log('myItems',item)
+ 
   const theme = useTheme();
 
   const isActiveRoot = active(item.path);
 
   const { title, path, icon, info, children } = item;
-console.log('children',children)
-console.log('path',path)
+
   const [open, setOpen] = useState(isActiveRoot);
 
   const handleOpen = () => {
@@ -157,13 +156,13 @@ export default function NavSection({ navConfig, ...other }) {
   
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
   const x = reactLocalStorage.getObject('admin').previledge;
-  console.log(x)
+ 
   const renderSideBar = ()=>{
     return navConfig.map((item)=>{
         
       return item.previledges.map((d)=>{
         if(x.includes(d)){
-          console.log(d)
+      
           return <NavItem key={item.title} item={item} active={match} />
         }
         return true;

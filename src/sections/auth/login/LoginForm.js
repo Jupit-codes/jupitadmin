@@ -61,9 +61,9 @@ export default function LoginForm({auth,authState}) {
     else if(res.data[0].status === "approved"){
       auth(false);
      
-      reactLocalStorage.set('token',token);
+          reactLocalStorage.set('token',token);
           reactLocalStorage.setObject('admin',data) ;
-
+      console.log('data',data)
           if(data.changepassword){
             navigate("/dashboard/app", { replace: true});
           }
