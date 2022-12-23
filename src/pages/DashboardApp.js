@@ -47,14 +47,13 @@ export default function DashboardApp(state) {
     switch (reactLocalStorage.getObject('admin').roleid){
       case 1:
         return <SuperAdminDashboard/>
-        
-      case 2:
+      case "Operations Manager":
         return <OperationManagerDashboard/>
-      case 3:
+      case "Finance Officer":
         return <FinanceDashboard/>
-      case 4:
+      case "Quality Assurance ":
         return <QualityAssurance/>
-      case 5:
+      case "Customer Service":
         return <Customercare/>
       case 6:
           return <Giftcardagent/>
