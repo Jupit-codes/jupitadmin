@@ -204,6 +204,15 @@ export default function UserTransaction({handleData,userid}){
       return   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         
     }
+
+    const addSymbol = (amount,currency)=>{
+      if(currency === "Naira"){
+          return <>&#8358; {amount}</>
+      }
+      
+            return <>&#x24;{amount}</>
+      
+    }
    
 
     return (
@@ -230,7 +239,7 @@ export default function UserTransaction({handleData,userid}){
                     />
                     <TableBody>
                         { DATA && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { id,amount, order_id, nairavalue,from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
+                        const { amount, order_id, nairavalue,from_address , to_address, status, type, currency,_id,updated,fees,rateInnaira,usdvalue,marketprice } = row;
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
@@ -259,11 +268,14 @@ export default function UserTransaction({handleData,userid}){
                               {currency === "BTC" && parseFloat(amount).toFixed(8) }
                               {currency === "USDT" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(2) }
                               </TableCell>
-                            <TableCell align="left">{marketprice}</TableCell>
+                            <TableCell align="left">{addSymbol(parseFloat(marketprice).toLocaleString('en-US'),'Dollar')}</TableCell>
                             <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
-                            <TableCell align="left">{type === "Sell" && rateInnaira}</TableCell>
+                            <TableCell align="left">{type === "Sell"  && rateInnaira}</TableCell>
                             <TableCell align="left">{from_address}</TableCell>
-                            <TableCell align="left">{type === "Sell" && nairavalue}</TableCell>
+                            <TableCell align="left">
+                              {type === "Sell" && addSymbol(parseFloat(nairavalue).toLocaleString('en-US'),'Naira')}
+                              {type === "Withdrawal" && addSymbol(parseFloat(amount).toLocaleString('en-US'),'Naira')}
+                            </TableCell>
                             <TableCell align="left">{type === "Send" && fees}</TableCell>
                             <TableCell align="left">{to_address}</TableCell>
                             <TableCell align="left">
