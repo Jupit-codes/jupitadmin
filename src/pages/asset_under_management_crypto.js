@@ -85,12 +85,14 @@ export default function Assetundermanagementcrypto() {
     const [usdtbalance,setusdtbalance] = useState(0)
     const [refresh,setrefresh] = useState(false)
   
-    const [startdate,setstartdate] = useState("")
+    const [startdate,setstartdate] = useState("2022-12-01")
     const [BTCprice,setBTCprice] = useState(0)
     const [USDTprice,setUSDTprice] = useState(0)
     const [btcValue,setBtcValue] = useState('')
     const [usdtValue,setUsdtValue] = useState('')
-    const [enddate,setdate] = useState("")
+    const today = moment();
+    const now = today.format()
+    const [enddate,setdate] = useState(moment(now).startOf('day'))
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -101,6 +103,7 @@ export default function Assetundermanagementcrypto() {
       // const current = new Date();
       // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
       // crypomarketprice()
+      console.log(enddate)
       assetfetch(startdate,enddate);
       
 

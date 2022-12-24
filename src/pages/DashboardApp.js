@@ -45,7 +45,7 @@ export default function DashboardApp(state) {
   const renderComponent = ()=>{
     console.log('roleid',reactLocalStorage.getObject('admin').roleid)
     switch (reactLocalStorage.getObject('admin').role){
-      case 1:
+      case "Super Admin":
         return <SuperAdminDashboard/>
       case "Operations Manager":
         return <OperationManagerDashboard/>

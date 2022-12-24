@@ -145,7 +145,7 @@ const navConfig = [
       {
         title:'Transaction Count',
         path:'/dashboard/total/transaction/count',
-        previledges:['All','Transaction Log']
+        previledges:['All','Transaction Count']
       },
       
   ],
@@ -159,19 +159,23 @@ const navConfig = [
     children:[
       {
         title:'Create Role',
-        path:'/dashboard/create/admin/role'
+        path:'/dashboard/create/admin/role',
+        previledges:['All']
       },
       {
         title:'Create Staff',
-        path:'/dashboard/create/admin/staff'
+        path:'/dashboard/create/admin/staff',
+        previledges:['All']
       },
       {
         title:'Staff Management',
-        path:'/dashboard/get/all/staffs'
+        path:'/dashboard/get/all/staffs',
+        previledges:['All']
       },
       {
         title:'Staff Authorization',
-        path:''
+        path:'',
+        previledges:['All']
       },
       
   ],

@@ -81,7 +81,7 @@ export default function Transaction({reload}){
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(500);
     const [selected, setSelected] = useState([]);
     const [reloadStaff,setreloadStaff] = useState(false);
     const [pleasewait,setpleasewait] = useState(false)
@@ -292,7 +292,7 @@ export default function Transaction({reload}){
                 </Scrollbar>
     
                 <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[500, 1000, 1500]}
                 component="div"
                 count={DATA.length}
                 rowsPerPage={rowsPerPage}

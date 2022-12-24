@@ -86,7 +86,7 @@ export default function WithdrawalTable({handleData}){
     const [order, setOrder] = useState('asc');
     const [page, setPage] = useState(0);
     const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(500);
   const [selected, setSelected] = useState([]);
   const navigate = useNavigate()
     
