@@ -103,7 +103,7 @@ export default function Assetundermanagementcrypto() {
       // const current = new Date();
       // const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`;
       // crypomarketprice()
-      console.log(enddate)
+      // console.log(enddate)
       assetfetch(startdate,enddate);
       
 
