@@ -268,7 +268,7 @@ export default function Transaction({handleData}){
                             <TableCell align="left">{serial}</TableCell>
                             <TableCell align="left">{currency}</TableCell>
                             <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{addComma(marketprice)}</TableCell>
+                            <TableCell align="left">{marketprice && addComma(marketprice)}</TableCell>
                             <TableCell align="left">{parseFloat(amount * marketprice).toLocaleString('en-US')}</TableCell>
                             <TableCell align="left" width="100"> {checkSell(type,rateInnaira)}</TableCell>
                             <TableCell align="left">{checkSell(type,nairavalue)}</TableCell>
