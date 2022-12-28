@@ -155,7 +155,7 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
     if(parseFloat(marketrate)){
       const {value} = e.target
       if(value){
-        const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
+        const formattedValue = parseFloat(value) > 1 ? (Number(value.replace(/\D/g, '')) || '').toLocaleString(): value;
         setValue(formattedValue)
         const newjupitrate = parseFloat(jupitrate);
         const newmarketrate = parseFloat(marketrate);
