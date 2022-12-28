@@ -46,8 +46,8 @@ const TABLE_HEAD = [
     { id: 'nairavalue', label: 'Amount', alignRight: false },
     { id: 'status', label: 'status', alignRight: false },
     { id: 'fee', label: 'Fee', alignRight: false },
-    { id: 'to_address', label: 'To_Address', alignRight: false },
     { id: 'from_address', label: 'From_Address', alignRight: false },
+    { id: 'to_address', label: 'To_Address', alignRight: false },
     { id: 'updated', label: 'Date', alignRight: false },
   ];
 
