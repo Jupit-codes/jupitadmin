@@ -35,7 +35,8 @@ AppWidgetSummaryEdit.propTypes = {
 };
 
 export default function AppWidgetSummaryEdit({ title,refreshPage,refresh,livemarket,livemarketdata,jupitrate, total, icon, edit, withdrawal,userid, color = 'primary', sx, ...other }) {
-
+console.log('livemarket',livemarket)
+console.log('livemarketdata',livemarketdata)
   const [openmodal,setOpenModal] = useState(false);
   const [completed,setcompleted] = useState(null);
   const [mode,setmode] = useState()

@@ -4,6 +4,7 @@ import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { CSVLink } from "react-csv";
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { Link as RouterLink, Navigate,useNavigate,useOutletContext } from 'react-router-dom';
 // material
@@ -271,9 +272,12 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="clarity:export-line" />}>
-            Export To Excel
-          </Button>
+          
+          <CSVLink data={DATA}>
+            <Button variant="contained" startIcon={<Iconify icon="clarity:export-line" />}>
+              Export To Excel
+            </Button>
+          </CSVLink>
         </Stack>
 
         <Card>

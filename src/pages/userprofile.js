@@ -158,7 +158,7 @@ const banks = [
     })
     .then(async(res)=>{
       const priceMarket = await crypomarketprice();
-      console.log(priceMarket)
+      console.log("price",priceMarket)
     
       setkyclevel1(res.data.kyc.level1[0].status);
       setkyclevel2(res.data.kyc.level2[0].event_status);
@@ -182,13 +182,16 @@ const banks = [
         setblackliststatus(res.data.blacklist);
         setsuspensionstatus(res.data.suspension);
       setbigLoader(false);
+      console.log('i am here skipped')
       if(priceMarket[0]){
+        console.log('i am here')
         setbtcmarketprice(priceMarket[1])
         setusdtmarketprice(priceMarket[2])
         setbtcmarketpricedisplay(parseFloat(parseFloat(res.data.detail.btc_wallet[0].balance.$numberDecimal) * parseFloat(priceMarket[1])).toFixed(7));
         setusdtmarketpricedisplay(parseFloat(parseFloat(res.data.detail.usdt_wallet[0].balance.$numberDecimal) * parseFloat(priceMarket[2])).toFixed(6));
         
       }
+
       banks.map((d)=>{
         
         if(d.code === res.data.bank.bank_code){
