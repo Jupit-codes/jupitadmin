@@ -244,6 +244,7 @@ export default function Transaction({handleData}){
                         const isItemSelected = selected.indexOf(type) !== -1;
     
                         return (
+                          
                             <TableRow
                             hover
                             key={id}
@@ -252,41 +253,43 @@ export default function Transaction({handleData}){
                             selected={isItemSelected}
                             aria-checked={isItemSelected}
                             >
-                            <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
-                            </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                {/* <Avatar alt={username} src={avatarUrl} /> */}
-                                <Typography variant="subtitle2" noWrap>
-                                    {type}
-                                </Typography>
-                                </Stack>
-                            </TableCell>
-                            <TableCell align="left">{order_id} </TableCell>
-                            <TableCell align="left">{email} </TableCell>
-                            <TableCell align="left">{serial}</TableCell>
-                            <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">{amount}</TableCell>
-                            <TableCell align="left">{marketprice && addComma(marketprice)}</TableCell>
-                            <TableCell align="left">{parseFloat(amount * marketprice).toLocaleString('en-US')}</TableCell>
-                            <TableCell align="left" width="100"> {checkSell(type,rateInnaira)}</TableCell>
-                            <TableCell align="left">{checkSell(type,nairavalue)}</TableCell>
-                            <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                                {status}
-                                </Label>
-                            </TableCell>
-                            <TableCell align="left">{type === "Send" || type === "Withdrawal" && fees}</TableCell>
-                            <TableCell align="left">{from_address}</TableCell>
-                            <TableCell align="left">{to_address}</TableCell>
-                            <TableCell align="left">
-                                {updated}
-                            </TableCell>
-                            {/* <TableCell align="right">
-                                
-                                <UserMoreMenu userid={_id} />
-                            </TableCell> */}
+                              {
+                                type === "Receive" &&  order_id !=="0000" && 
+                                <>
+                                  <TableCell padding="checkbox">
+                                    <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
+                                </TableCell>
+                                <TableCell component="th" scope="row" padding="none">
+                                    <Stack direction="row" alignItems="center" spacing={2}>
+                                    {/* <Avatar alt={username} src={avatarUrl} /> */}
+                                    <Typography variant="subtitle2" noWrap>
+                                        {type}
+                                    </Typography>
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="left">{order_id} </TableCell>
+                                <TableCell align="left">{email} </TableCell>
+                                <TableCell align="left">{serial}</TableCell>
+                                <TableCell align="left">{currency}</TableCell>
+                                <TableCell align="left">{amount}</TableCell>
+                                <TableCell align="left">{marketprice && addComma(marketprice)}</TableCell>
+                                <TableCell align="left">{parseFloat(amount * marketprice).toLocaleString('en-US')}</TableCell>
+                                <TableCell align="left" width="100"> {checkSell(type,rateInnaira)}</TableCell>
+                                <TableCell align="left">{checkSell(type,nairavalue)}</TableCell>
+                                <TableCell align="left">
+                                    <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                                    {status}
+                                    </Label>
+                                </TableCell>
+                                <TableCell align="left">{type === "Send" || type === "Withdrawal" && fees}</TableCell>
+                                <TableCell align="left">{from_address}</TableCell>
+                                <TableCell align="left">{to_address}</TableCell>
+                                <TableCell align="left">
+                                    {updated}
+                                </TableCell>
+                           </>
+                              }
+                            
                             </TableRow>
                         );
                         })}
