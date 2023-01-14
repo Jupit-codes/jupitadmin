@@ -212,7 +212,7 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
     }
     else{
       Swal.fire({
-        title: 'Merket Rate Error!',
+        title: 'Market Rate Error!',
         text: 'Market Rate Not Available',
         icon: 'success',
         confirmButtonText: 'ok'
@@ -225,7 +225,15 @@ export default function BasicModal({mode,statemodal,modifyOpen,modalTitle,userid
 
   const handeChangeN =(e)=>{
     const {value} = e.target
+
+
     if(value){
+
+      // const val = Math.round(Number(value) *100) / 100;
+      // const parts = val.toString().split(".");
+      //  const num = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? `.${parts[1]}` : "");
+      // console.log('num',num)
+
       const formattedValue = (Number(value.replace(/\D/g, '')) || '').toLocaleString();
       setValue(formattedValue)
     }
