@@ -254,7 +254,7 @@ export default function Transaction({handleData}){
                             aria-checked={isItemSelected}
                             >
                               {
-                            order_id != "0000" && 
+                            order_id !== "0000" && 
 
                             <>
                             <TableCell padding="checkbox">
