@@ -251,45 +251,49 @@ export default function UserTransaction({handleData,userid}){
                             selected={isItemSelected}
                             aria-checked={isItemSelected}
                             >
-                            <TableCell padding="checkbox">
-                                <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
-                            </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                {/* <Avatar alt={username} src={avatarUrl} /> */}
-                                <Typography variant="subtitle2" noWrap>
-                                    {type}
-                                </Typography>
-                                </Stack>
-                            </TableCell>
-                            <TableCell align="left">{order_id}</TableCell>
-                            <TableCell align="left">{currency}</TableCell>
-                            <TableCell align="left">
-                              {currency === "BTC" && parseFloat(amount).toFixed(8) }
-                              {currency === "USDT" ? parseFloat(amount).toFixed(8) : parseFloat(amount).toFixed(2) }
-                              </TableCell>
-                            <TableCell align="left">{addSymbol(parseFloat(marketprice).toLocaleString('en-US'),'Dollar')}</TableCell>
-                            <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
-                            <TableCell align="left">{type === "Sell"  && rateInnaira}</TableCell>
-                            <TableCell align="left">{from_address}</TableCell>
-                            <TableCell align="left">
-                              {type === "Sell" && addSymbol(parseFloat(nairavalue).toLocaleString('en-US'),'Naira')}
-                              {type === "Withdrawal" && addSymbol(parseFloat(amount).toLocaleString('en-US'),'Naira')}
-                            </TableCell>
-                            <TableCell align="left">{type === "Send" && fees}</TableCell>
-                            <TableCell align="left">{to_address}</TableCell>
-                            <TableCell align="left">
-                                <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                                {sentenceCase(status)}
-                                </Label>
-                            </TableCell>
-                            <TableCell align="left">
-                                {updated}
-                            </TableCell>
-                            {/* <TableCell align="right">
-                                
-                                <UserMoreMenu userid={_id} />
-                            </TableCell> */}
+                              {order_id !== "0000" &&
+                              <>
+                              
+                                  <TableCell padding="checkbox">
+                                      <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, type)} />
+                                  </TableCell>
+                                  <TableCell component="th" scope="row" padding="none">
+                                      <Stack direction="row" alignItems="center" spacing={2}>
+                                      {/* <Avatar alt={username} src={avatarUrl} /> */}
+                                      <Typography variant="subtitle2" noWrap>
+                                          {type}
+                                      </Typography>
+                                      </Stack>
+                                  </TableCell>
+                                  <TableCell align="left">{order_id}</TableCell>
+                                  <TableCell align="left">{currency}</TableCell>
+                                  <TableCell align="left">
+                                    {currency === "BTC" && parseFloat(amount).toFixed(8) }
+                                    {currency === "USDT" && parseFloat(amount).toFixed(6) }
+                                    {currency === "Naira" && addSymbol(parseFloat(amount).toLocaleString('en-US'),'Naira') }
+                                    </TableCell>
+                                  <TableCell align="left">{addSymbol(parseFloat(marketprice).toLocaleString('en-US'),'Dollar')}</TableCell>
+                                  <TableCell align="left">{currency === "BTC" ? parseFloat(marketprice * amount).toFixed(8) : parseFloat(marketprice * amount).toFixed(6) }</TableCell>
+                                  <TableCell align="left">{type === "Sell"  && rateInnaira}</TableCell>
+                                  <TableCell align="left">{from_address}</TableCell>
+                                  <TableCell align="left">
+                                    {type === "Sell" && addSymbol(parseFloat(nairavalue).toLocaleString('en-US'),'Naira')}
+                                    {type === "Withdrawal" && addSymbol(parseFloat(amount).toLocaleString('en-US'),'Naira')}
+                                  </TableCell>
+                                  <TableCell align="left">{type === "Send" && fees}</TableCell>
+                                  <TableCell align="left">{to_address}</TableCell>
+                                  <TableCell align="left">
+                                      <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                                      {sentenceCase(status)}
+                                      </Label>
+                                  </TableCell>
+                                  <TableCell align="left">
+                                      {updated}
+                                  </TableCell>
+                              </>
+                           
+                              }
+                            
                             </TableRow>
                         );
                         })}
